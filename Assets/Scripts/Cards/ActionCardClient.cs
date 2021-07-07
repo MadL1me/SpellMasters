@@ -5,18 +5,20 @@ namespace MagicCardGame
 {
     public abstract class ActionCardClient
     {
+        public abstract int CardId { get; }
         public abstract int EnergyCost { get; }
-       
-        public abstract void CastCard(INetworkGamePlayer networkGamePlayer);
+        public abstract void CastCard(INetworkPlayer networkPlayer);
 
         public static ActionCardClient CreateCardFromNetwork(NetDataReader dataReader)
         {
             switch (dataReader.GetByte())
             {
                 case 0:
-                    return new MoveCardClient();
+                    return new MoveLeftCardClient();
                 case 1:
-                    return null;
+                    return new MoveRightCardClient();
+                case 2:
+                    return new MoveUpCardClient();
             }
 
             return null;
