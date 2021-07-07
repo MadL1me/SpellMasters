@@ -16,6 +16,7 @@ namespace MagicCardGame.Network
         private NetManager _clientManager;
         private EventBasedNetListener _listener;
         private NetDataWriter _dataWriter;
+        private NetworkPlayerStats _playerStats;
         
         public void Start()
         {
@@ -51,6 +52,12 @@ namespace MagicCardGame.Network
         }
     }
 
+    public class NetworkPlayerStats 
+    {
+        public int Health;
+        public int Energy;
+    }
+    
     public struct NetTransform : INetSerializable
     {
         public float X;
@@ -64,11 +71,11 @@ namespace MagicCardGame.Network
             Z = z;
         }
 
-        public NetTransform(Transform transform)
+        public NetTransform(Vector3 position)
         {
-            X = transform.position.x;
-            Y = transform.position.y;
-            Z = transform.position.z;
+            X = position.x;
+            Y = position.y;
+            Z = position.z;
         }
 
         public void Serialize(NetDataWriter writer)
