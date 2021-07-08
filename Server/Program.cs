@@ -6,7 +6,7 @@ namespace Server
     {
         static void Main(string[] args)
         {
-            var server = new GameServer(3056);
+            var server = new GameSimulationServer(3056);
             server.Run();
         }
     }

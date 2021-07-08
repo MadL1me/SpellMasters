@@ -1,7 +1,5 @@
-﻿using System;
-using Core.Cards;
-using LiteNetLib;
-using LiteNetLib.Utils;
+﻿using Core.Cards;
+using Core.Utils;
 
 namespace Core.Player
 {
@@ -34,7 +32,6 @@ namespace Core.Player
     {
         public NetworkPlayerStats PlayerInitialStats { get; }
         public NetworkPlayerStats PlayerCurrentStats { get; }
-
         public NetVector2 CharacterPosition { get; }
         
         public NetworkPlayerCharacter(NetworkPlayerStats playerInitialStats)
@@ -57,10 +54,5 @@ namespace Core.Player
                 Energy = Energy
             };
         }
-    }
-
-    public interface ICloneable<TObject> where TObject : class
-    {
-        TObject Clone();
     }
 }

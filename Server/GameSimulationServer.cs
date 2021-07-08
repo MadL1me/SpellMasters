@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Core.Player;
 using LiteNetLib;
 using LiteNetLib.Utils;
+using MagicCardGame.Network;
 
 namespace Server
 {
-    public class GameServer
+    public class GameSimulationServer
     {
         public bool IsRunning { get; private set; }
         public int Port { get; }
@@ -15,13 +17,15 @@ namespace Server
         private NetManager _netManager;
         private EventBasedNetListener _listener;
 
-        public GameServer(int port)
+        private Dictionary<NetPeer, INetworkPlayer> _peerToPlayer = new();
+        private Dictionary<INetworkPlayer, NetPeer> _playerToPeer = new();
+        
+        public GameSimulationServer(int port)
         {
             Port = port;
 
             _listener = new EventBasedNetListener();
             _netManager = new NetManager(_listener);
-            _netManager.Start(port);
 
             _listener.ConnectionRequestEvent += OnConnectionRequest;
             _listener.PeerConnectedEvent += OnPeerConnected;
@@ -30,6 +34,9 @@ namespace Server
         private void OnPeerConnected(NetPeer peer)
         {
             Console.WriteLine("We got connection: {0}", peer.EndPoint);
+            var newPlayer = new NetworkPlayerServer();
+            _peerToPlayer.Add(peer, newPlayer);
+            _playerToPeer.Add(newPlayer, peer);
         }
 
         private void OnConnectionRequest(ConnectionRequest request)

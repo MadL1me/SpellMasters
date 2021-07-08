@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.Player;
+using Core.Utils;
 
 namespace Core.Cards
 {
@@ -32,28 +33,5 @@ namespace Core.Cards
     {
         protected override NetVector2 MoveVector => NetVector2.Up;
         protected MoveUpCard(ActionCardConfig config) : base(config) { }
-    }
-
-    public struct NetVector2
-    {
-        public float X;
-        public float Y;
-
-        public NetVector2(float x, float y)
-        {
-            X = x;
-            Y = y;
-        }
-
-        public static float Distance(NetVector2 vector, NetVector2 secondVector)
-        {
-            return (float)Math.Sqrt(Math.Pow(vector.X - secondVector.X, 2) + Math.Pow(vector.Y - secondVector.Y, 2));
-        }
-
-        public static readonly NetVector2 Left = new NetVector2(-1,0);
-        public static readonly NetVector2 Up = new NetVector2(0,1);
-        public static readonly NetVector2 Right = new NetVector2(1,0);
-        public static readonly NetVector2 Down = new NetVector2(0,-1);
-        public static readonly NetVector2 Zero = new NetVector2(0,0);
     }
 }
