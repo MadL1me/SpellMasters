@@ -34,8 +34,9 @@
     </PropertyGroup>
     <ItemGroup>
       <Compile Include="Cards\ActionCard.cs" />
-      <Compile Include="Cards\AttackCards.cs" />
+      <Compile Include="Cards\DamageCards\DamageActionCard.cs" />
       <Compile Include="Cards\MoveCards.cs" />
+      <Compile Include="Player\BattleEnvironment.cs" />
       <Compile Include="Player\NetworkPlayer.cs" />
     </ItemGroup>
     <ItemGroup>
@@ -48,6 +49,9 @@
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Utils" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

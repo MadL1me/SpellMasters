@@ -11,6 +11,7 @@ namespace Core.Player
         void Move(NetVector2 vector);
         void CastCardAcrossNetwork(int CardId);
         void Update();
+        void GetDamageAcrossNetwork(float damage);
     }
     
     public abstract class NetworkPlayer : INetworkPlayer
@@ -19,6 +20,11 @@ namespace Core.Player
         public abstract void Move(NetVector2 vector);
         public abstract void CastCardAcrossNetwork(int CardId);
         public abstract void Update();
+        public void GetDamageAcrossNetwork(float damage)
+        {
+            PlayerCharacter.PlayerCurrentStats.Health -= damage;
+        }
+
         public abstract void InitPlayerCharacterFromNetwork();
 
         protected ActionCardsQueueController _playerQueueController;
@@ -27,8 +33,9 @@ namespace Core.Player
     public abstract class NetworkPlayerCharacter
     {
         public NetworkPlayerStats PlayerInitialStats { get; }
-        
         public NetworkPlayerStats PlayerCurrentStats { get; }
+
+        public NetVector2 CharacterPosition { get; }
         
         public NetworkPlayerCharacter(NetworkPlayerStats playerInitialStats)
         {
@@ -39,8 +46,8 @@ namespace Core.Player
 
     public class NetworkPlayerStats : ICloneable<NetworkPlayerStats> 
     {
-        public int Health;
-        public int Energy;
+        public float Health { get; set; }
+        public int Energy { get; set; }
 
         public NetworkPlayerStats Clone()
         {

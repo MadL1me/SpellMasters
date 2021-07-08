@@ -9,7 +9,7 @@ namespace Core.Cards
         public int CardId => _cardConfig.CardId;
         public int EnergyCost => _cardConfig.EnergyCost;
 
-        public virtual void CastCard(INetworkPlayer networkPlayer)
+        public virtual void CastCard(INetworkPlayer networkPlayer, BattleEnvironment environment)
         {
             networkPlayer.CastCardAcrossNetwork(CardId);
         }
@@ -31,11 +31,6 @@ namespace Core.Cards
         public IEnumerable<ActionCard> CardsInHand { get; }
         
         public IEnumerable<ActionCard> NextDropCards { get; }
-
-        public void PlayCardAt()
-        {
-            
-        }
     }
 
     //Flyweight config for ActionCards

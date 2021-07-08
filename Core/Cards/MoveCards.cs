@@ -1,4 +1,5 @@
-﻿using Core.Player;
+﻿using System;
+using Core.Player;
 
 namespace Core.Cards
 {
@@ -6,10 +7,10 @@ namespace Core.Cards
     {
         protected abstract NetVector2 MoveVector { get; }
 
-        public override void CastCard(INetworkPlayer networkPlayer)
+        public override void CastCard(INetworkPlayer networkPlayer, BattleEnvironment environment)
         {
             networkPlayer.Move(MoveVector);
-            base.CastCard(networkPlayer);
+            base.CastCard(networkPlayer, environment);
         }
 
         protected MoveCard(ActionCardConfig config) : base(config) { }
@@ -42,6 +43,11 @@ namespace Core.Cards
         {
             X = x;
             Y = y;
+        }
+
+        public static float Distance(NetVector2 vector, NetVector2 secondVector)
+        {
+            return (float)Math.Sqrt(Math.Pow(vector.X - secondVector.X, 2) + Math.Pow(vector.Y - secondVector.Y, 2));
         }
 
         public static readonly NetVector2 Left = new NetVector2(-1,0);
