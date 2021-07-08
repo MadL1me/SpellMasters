@@ -1,0 +1,16 @@
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\bin\Debug\net5.0\Server.exe
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\bin\Debug\net5.0\Server.deps.json
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\bin\Debug\net5.0\Server.runtimeconfig.json
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\bin\Debug\net5.0\Server.runtimeconfig.dev.json
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\bin\Debug\net5.0\Server.dll
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\bin\Debug\net5.0\ref\Server.dll
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\bin\Debug\net5.0\Server.pdb
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\obj\Debug\net5.0\Server.csprojAssemblyReference.cache
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\obj\Debug\net5.0\Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\obj\Debug\net5.0\Server.AssemblyInfoInputs.cache
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\obj\Debug\net5.0\Server.AssemblyInfo.cs
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\obj\Debug\net5.0\Server.csproj.CoreCompileInputs.cache
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\obj\Debug\net5.0\Server.dll
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\obj\Debug\net5.0\ref\Server.dll
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\obj\Debug\net5.0\Server.pdb
+C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Server\obj\Debug\net5.0\Server.genruntimeconfig.cache
