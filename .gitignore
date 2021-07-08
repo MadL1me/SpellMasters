@@ -1,4 +1,5 @@
 ﻿.idea
-Core/obj
-Core/obj
+packages
+**/obj
+**/bin
 .vs
