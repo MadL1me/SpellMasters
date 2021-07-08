@@ -1,60 +1,58 @@
-﻿using System;
-using Core.Cards;
+﻿using Core.Cards;
 using Core.Player;
 using DG.Tweening;
 using LiteNetLib;
 using LiteNetLib.Utils;
 using UnityEngine;
+using NetworkPlayer = Core.Player.NetworkPlayer;
 
 namespace MagicCardGame.Network
 {
-    public class NetworkPlayerClient : MonoBehaviour, INetworkPlayer
+    public class NetworkPlayerClient : NetworkPlayer
     {
-        public bool IsLocal => _isLocal;
-
-        [SerializeField] private bool _isLocal;
+        public bool IsLocal { get; set; }
 
         private NetPeer _server;
         private NetManager _clientManager;
         private EventBasedNetListener _listener;
         private NetDataWriter _dataWriter;
         private NetworkPlayerStats _playerStats;
+        private NetworkPlayerClientView _view;
         
-        public void Start()
+        public NetworkPlayerClient(NetworkPlayerClientView view, bool isLocal)
         {
-           _listener = new EventBasedNetListener();
-           _clientManager = new NetManager(_listener);
-           _dataWriter = new NetDataWriter();
+            IsLocal = isLocal;
+            _view = view;
+            _listener = new EventBasedNetListener();
+            _clientManager = new NetManager(_listener);
+            _dataWriter = new NetDataWriter();
         }
 
-        public void MoveCards()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update()
+        public override void Update()
         {
             //for testing purposes
-            if (!_isLocal)
+            if (!IsLocal)
                 return;
             
             if (Input.GetKeyDown(KeyCode.LeftArrow))
-                new MoveLeftCardClient().CastCard(this);
+                new MoveLeftCardClient(new ActionCardConfig(0, 0)).CastCard(this);
             if (Input.GetKeyDown(KeyCode.RightArrow))
-                new MoveRightCardClient().CastCard(this);
+                new MoveRightCardClient(new ActionCardConfig(1, 0)).CastCard(this);
             if (Input.GetKeyDown(KeyCode.UpArrow))
-                new MoveUpCardClient().CastCard(this);
-        }
-        
-        public void Move(NetVector2 vector)
-        {
-            var unityVector = new Vector2(vector.X, vector.Y);
-            transform.DOMove(new Vector2(
-                transform.position.x + unityVector.x, 
-                transform.position.y + unityVector.y),0.5f);
+                new MoveUpCardClient(new ActionCardConfig(2, 0)).CastCard(this);
         }
 
-        public void SendCardCastToServer(int CardId)
+        public override void InitPlayerCharacterFromNetwork()
+        {
+            
+        }
+
+        public override void Move(NetVector2 vector)
+        {
+            _view.Move(new Vector2(vector.X, vector.Y));
+        }
+
+        public override void CastCardAcrossNetwork(int CardId)
         {
             _dataWriter.Put(CardId);
             _server?.Send(_dataWriter, DeliveryMethod.ReliableOrdered);

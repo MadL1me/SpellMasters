@@ -1,7 +1,0 @@
-C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Unity-Client\Assets\Libraries\Dll\Core.dll
-C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Unity-Client\Assets\Libraries\Dll\Core.pdb
-C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Core\obj\Debug\Core.csprojAssemblyReference.cache
-C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Core\obj\Debug\Core.csproj.CoreCompileInputs.cache
-C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Core\obj\Debug\Core.csproj.CopyComplete
-C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Core\obj\Debug\Core.dll
-C:\Users\sn0wy\Desktop\Projects\Unity-Collab\Magic-Card-Game\Core\obj\Debug\Core.pdb

@@ -4,34 +4,33 @@ namespace Core.Cards
 {
     public abstract class MoveCard : ActionCard
     {
-        public override int EnergyCost => 0;
         protected abstract NetVector2 MoveVector { get; }
 
-        public abstract override void CastCard(INetworkPlayer networkPlayer);
+        public override void CastCard(INetworkPlayer networkPlayer)
+        {
+            networkPlayer.Move(MoveVector);
+            base.CastCard(networkPlayer);
+        }
+
+        protected MoveCard(ActionCardConfig config) : base(config) { }
     }
 
     public abstract class MoveLeftCard : MoveCard
     {
-        public override int CardId => 0;
-        public override int EnergyCost => 0;
-        public abstract override void CastCard(INetworkPlayer networkPlayer);
         protected override NetVector2 MoveVector => NetVector2.Left;
+        protected MoveLeftCard(ActionCardConfig config) : base(config) { }
     }
     
     public abstract class MoveRightCard : MoveCard
     {
-        public override int CardId => 1;
-        public override int EnergyCost => 0;
-        public abstract override void CastCard(INetworkPlayer networkPlayer);
         protected override NetVector2 MoveVector => NetVector2.Right;
+        protected MoveRightCard(ActionCardConfig config) : base(config) { }
     }
     
     public abstract class MoveUpCard : MoveCard
     {
-        public override int CardId => 2;
-        public override int EnergyCost => 0;
-        public abstract override void CastCard(INetworkPlayer networkPlayer);
         protected override NetVector2 MoveVector => NetVector2.Up;
+        protected MoveUpCard(ActionCardConfig config) : base(config) { }
     }
 
     public struct NetVector2

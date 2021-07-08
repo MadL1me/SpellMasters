@@ -1,29 +1,57 @@
-﻿using Core.Player;
+﻿using System.Collections.Generic;
+using Core.Player;
 using LiteNetLib.Utils;
 
 namespace Core.Cards
 {
     public abstract class ActionCard
     {
-        public abstract int CardId { get; }
-        public abstract int EnergyCost { get; }
-        public abstract void CastCard(INetworkPlayer networkPlayer);
+        public int CardId => _cardConfig.CardId;
+        public int EnergyCost => _cardConfig.EnergyCost;
 
-        public static ActionCard CreateCardFromNetwork(NetDataReader dataReader)
+        public virtual void CastCard(INetworkPlayer networkPlayer)
         {
-            /*
-            switch (dataReader.GetByte())
-            {
-                case 0:
-                    return new MoveLeftCard();
-                case 1:
-                    return new MoveRightCard();
-                case 2:
-                    return new MoveUpCardClient();
-            }
-            */
+            networkPlayer.CastCardAcrossNetwork(CardId);
+        }
 
-            return null;
+        protected ActionCardConfig _cardConfig;
+
+        public ActionCard(ActionCardConfig config)
+        {
+            _cardConfig = config;
+        }
+    }
+
+    public class ActionCardsQueueController 
+    {
+        public INetworkPlayer Player { get; }
+        
+        public IDictionary<float, ActionCard> PlayedCardsAtTime { get; }
+        
+        public IEnumerable<ActionCard> CardsInHand { get; }
+        
+        public IEnumerable<ActionCard> NextDropCards { get; }
+
+        public void PlayCardAt()
+        {
+            
+        }
+    }
+
+    //Flyweight config for ActionCards
+    public class ActionCardConfig
+    {
+        public readonly int CardId;
+        public readonly int EnergyCost;
+        public readonly string CardDescription;
+        public readonly string CardName;
+
+        public ActionCardConfig(int cardId, int energyCost = 5, string cardDescription = "", string cardName = "")
+        {
+            CardId = cardId;
+            EnergyCost = energyCost;
+            CardDescription = cardDescription;
+            CardName = cardName;
         }
     }
 }

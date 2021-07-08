@@ -11,6 +11,7 @@
         <AssemblyName>Core</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,8 +34,8 @@
     </PropertyGroup>
     <ItemGroup>
       <Compile Include="Cards\ActionCard.cs" />
+      <Compile Include="Cards\AttackCards.cs" />
       <Compile Include="Cards\MoveCards.cs" />
-      <Compile Include="Player\NetworkManager.cs" />
       <Compile Include="Player\NetworkPlayer.cs" />
     </ItemGroup>
     <ItemGroup>
@@ -42,6 +43,8 @@
         <HintPath>..\packages\LiteNetLib.0.9.5\lib\net35\LiteNetLib.dll</HintPath>
         <Private>True</Private>
       </Reference>
+      <Reference Include="System" />
+      <Reference Include="System.Core" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

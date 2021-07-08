@@ -8,25 +8,16 @@ namespace MagicCardGame
 {
     public class MoveLeftCardClient : MoveLeftCard
     {
-        public override void CastCard(INetworkPlayer networkPlayer)
-        {
-            networkPlayer.Move(MoveVector);
-        }
+        public MoveLeftCardClient(ActionCardConfig config) : base(config) { }
     }
     
     public class MoveRightCardClient : MoveRightCard
     {
-         public override void CastCard(INetworkPlayer networkPlayer)
-         {
-             networkPlayer.Move(MoveVector);
-         }
+        public MoveRightCardClient(ActionCardConfig config) : base(config) { }
     }
     
     public class MoveUpCardClient : MoveUpCard
     {
-        public override void CastCard(INetworkPlayer networkPlayer)
-        {
-            networkPlayer.Move(MoveVector);
-        }
+        public MoveUpCardClient(ActionCardConfig config) : base(config) { }
     }
 }
