@@ -4,6 +4,16 @@
     "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Server\\Server.csproj": {}
   },
   "projects": {
+    "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Core\\Core.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Core\\Core.csproj",
+        "projectName": "Core",
+        "projectPath": "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Core\\Core.csproj"
+      },
+      "frameworks": {
+        "net472": {}
+      }
+    },
     "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Server\\Server.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -27,7 +37,11 @@
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Core\\Core.csproj": {
+                "projectPath": "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Core\\Core.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
