@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using Core.Player;
 using LiteNetLib;
-using LiteNetLib.Utils;
-using MagicCardGame.Network;
 
 namespace Server
 {

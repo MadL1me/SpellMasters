@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Core.Utils
+﻿namespace Core.Utils
 {
     public interface ICloneable<TObject> where TObject : class
     {

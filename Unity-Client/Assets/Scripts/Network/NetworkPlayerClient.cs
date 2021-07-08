@@ -1,7 +1,6 @@
 ﻿using Core.Cards;
 using Core.Player;
 using Core.Utils;
-using DG.Tweening;
 using LiteNetLib;
 using LiteNetLib.Utils;
 using UnityEngine;
