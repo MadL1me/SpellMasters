@@ -34,6 +34,7 @@
     <ItemGroup>
       <Compile Include="Cards\ActionCard.cs" />
       <Compile Include="Cards\MoveCards.cs" />
+      <Compile Include="Player\NetworkManager.cs" />
       <Compile Include="Player\NetworkPlayer.cs" />
     </ItemGroup>
     <ItemGroup>

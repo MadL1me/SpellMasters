@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     "net5.0": {
+      "Assembly-CSharp/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/Assembly-CSharp.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Assembly-CSharp.dll": {}
+        }
+      },
       "Core/1.0.0": {
         "type": "project",
         "compile": {
@@ -14,6 +23,11 @@
     }
   },
   "libraries": {
+    "Assembly-CSharp/1.0.0": {
+      "type": "project",
+      "path": "../Unity-Client/Assembly-CSharp.csproj",
+      "msbuildProject": "../Unity-Client/Assembly-CSharp.csproj"
+    },
     "Core/1.0.0": {
       "type": "project",
       "path": "../Core/Core.csproj",
@@ -22,6 +36,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "Assembly-CSharp >= 1.0.0",
       "Core >= 1.0.0"
     ]
   },
@@ -54,6 +69,9 @@
           "projectReferences": {
             "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Core\\Core.csproj": {
               "projectPath": "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Core\\Core.csproj"
+            },
+            "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Unity-Client\\Assembly-CSharp.csproj": {
+              "projectPath": "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Unity-Client\\Assembly-CSharp.csproj"
             }
           }
         }

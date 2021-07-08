@@ -40,6 +40,9 @@
             "projectReferences": {
               "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Core\\Core.csproj": {
                 "projectPath": "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Core\\Core.csproj"
+              },
+              "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Unity-Client\\Assembly-CSharp.csproj": {
+                "projectPath": "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Unity-Client\\Assembly-CSharp.csproj"
               }
             }
           }
@@ -70,6 +73,16 @@
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
         }
+      }
+    },
+    "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Unity-Client\\Assembly-CSharp.csproj": {
+      "restore": {
+        "projectUniqueName": "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Unity-Client\\Assembly-CSharp.csproj",
+        "projectName": "Assembly-CSharp",
+        "projectPath": "C:\\Users\\sn0wy\\Desktop\\Projects\\Unity-Collab\\Magic-Card-Game\\Unity-Client\\Assembly-CSharp.csproj"
+      },
+      "frameworks": {
+        "net471": {}
       }
     }
   }
