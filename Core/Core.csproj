@@ -1,7 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <OutputPath>..\Unity-Client\Assets\Libraries\Dll</OutputPath>
         <TargetFramework>netstandard2.1</TargetFramework>
     </PropertyGroup>
-
 </Project>

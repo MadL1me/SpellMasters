@@ -10,7 +10,7 @@
 
         public float MinLimit;
         public float MaxLimit;
-        public float RegenerationSpeed; // stamina per second
+        public float RegenerationSpeed;
         private float _available;
 
         public Stamina(float minLimit = 0, float maxLimit = 100, float regenerationSpeed = 10)
