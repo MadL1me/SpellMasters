@@ -6,7 +6,7 @@ namespace MagicCardGame
 {
     public class CardHolder : MonoBehaviour
     {
-        //public Deck BindedDeck;
+        public Deck BindedDeck;
 
         public int Capacity = 5;
         protected CardSlot[] Slots { get; set; }
@@ -62,6 +62,11 @@ namespace MagicCardGame
             //sanity check
             if (!wasFound)
                 throw new KeyNotFoundException("Clicked card is not presented in Holder");
+
+            //Slots[cardIndex].Card.CardType.CastCard();
+            ///RemoveCardByIndex(cardIndex);
+            CardElement cardForReplacement = BindedDeck.AskForCard();
+            PutCard(cardForReplacement, cardIndex);
 
 
         }

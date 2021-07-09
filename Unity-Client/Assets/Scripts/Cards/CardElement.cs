@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using Core.Cards;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace MagicCardGame
 {
-    public class CardElement : MonoBehaviour
+    public class CardElement : MonoBehaviour, IPointerClickHandler
     {
         public float SlideSpeed = 200;
 
@@ -22,8 +24,22 @@ namespace MagicCardGame
             Rect = gameObject.GetComponent<RectTransform>();
         }
 
+        public static CardElement CreateFromActionCard(ActionCard cardData)
+        {
+            Sprite image = Resources.Load($"RawSprites/{cardData.CardName}.png");
+            if (image == null)
+                throw new NullReferenceException("Can't find related resourse");
+
+            GameObject cardElementObject =  Instantiate(CardUIHandler.Hr.CardElementPrefab);
+            CardElement component = cardElementObject.GetComponent<CardElement>();
+            component.Image = image;
+            component.CardType = cardData;
+
+            return component;
+        }
+
         //s-sempai clicked on me!!!!
-        public void wasClicked()
+        public void OnPointerClick(PointerEventData eventData)
         {
             ParentHolder.CardWasClicked(this);
         }

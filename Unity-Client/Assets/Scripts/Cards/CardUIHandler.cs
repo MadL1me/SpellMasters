@@ -7,6 +7,7 @@ namespace MagicCardGame
     public class CardUIHandler : MonoBehaviour
     {
         public CardHolder MainHolder;
+        public GameObject CardElementPrefab;
 
         public static CardUIHandler Hr { get; set; }
 

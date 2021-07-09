@@ -5,19 +5,20 @@ namespace Core.Cards
 {
     public abstract class ActionCard
     {
-        public int CardId => _cardConfig.CardId;
-        public int EnergyCost => _cardConfig.EnergyCost;
+        public string CardName => СardConfig.CardName;
+        public int CardId => СardConfig.CardId;
+        public int EnergyCost => СardConfig.EnergyCost;
 
         public virtual void CastCard(INetworkPlayer networkPlayer, BattleEnvironment environment)
         {
             networkPlayer.CastCardAcrossNetwork(CardId);
         }
 
-        protected ActionCardConfig _cardConfig;
+        protected ActionCardConfig СardConfig;
 
         public ActionCard(ActionCardConfig config)
         {
-            _cardConfig = config;
+            СardConfig = config;
         }
     }
 
