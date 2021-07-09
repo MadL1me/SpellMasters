@@ -36,6 +36,7 @@
       <Compile Include="Cards\ActionCard.cs" />
       <Compile Include="Cards\DamageCards\DamageActionCard.cs" />
       <Compile Include="Cards\MoveCards.cs" />
+      <Compile Include="GameLogic\Stamina.cs" />
       <Compile Include="Player\BattleEnvironment.cs" />
       <Compile Include="Player\NetworkPlayer.cs" />
       <Compile Include="Utils\ICloneable.cs" />
