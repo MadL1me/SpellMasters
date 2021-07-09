@@ -1,7 +1,5 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
-using NetworkPlayer = Core.Player.NetworkPlayer;
 
 namespace MagicCardGame.Network
 {

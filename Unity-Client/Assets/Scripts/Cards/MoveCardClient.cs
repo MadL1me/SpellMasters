@@ -1,8 +1,4 @@
 ﻿using Core.Cards;
-using Core.Player;
-using LiteNetLib.Utils;
-using MagicCardGame.Network;
-using UnityEngine;
 
 namespace MagicCardGame
 {

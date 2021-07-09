@@ -1,5 +1,4 @@
-﻿using System;
-using Core.Player;
+﻿using Core.Player;
 using Core.Utils;
 
 namespace Core.Cards
