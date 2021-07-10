@@ -6,8 +6,10 @@ namespace MagicCardGame
 {
     public class CardHolder : MonoBehaviour
     {
-        public Deck BindedDeck;
+        [SerializeField]
+        protected Deck BindedDeck;
 
+        [SerializeField]
         public int Capacity = 5;
         protected CardSlot[] Slots { get; set; }
 
@@ -22,6 +24,13 @@ namespace MagicCardGame
         {
             Rect = GetComponent<RectTransform>();
             InitSlots();
+            FirstFilling();
+        }
+
+        private void FirstFilling()
+        {
+            for (int i = 0; i < Slots.Length; i++)
+                PutCard(BindedDeck.AskForCard(), i);
         }
 
         private Vector2 CalculateCardSlotOffset(int index)
@@ -64,7 +73,7 @@ namespace MagicCardGame
                 throw new KeyNotFoundException("Clicked card is not presented in Holder");
 
             //Slots[cardIndex].Card.CardType.CastCard();
-            ///RemoveCardByIndex(cardIndex);
+            RemoveCardByIndex(cardIndex);
             CardElement cardForReplacement = BindedDeck.AskForCard();
             PutCard(cardForReplacement, cardIndex);
 
@@ -79,8 +88,14 @@ namespace MagicCardGame
             Vector2 newPosition = Slots[index].transform.position;
 
             Slots[index].PutCard(card);
+            Slots[index].Card.ParentHolder = this;
 
             card.Slide(newPosition - (Vector2)card.transform.position);
+        }
+
+        public void RemoveCardByIndex(int index)
+        {
+            Slots[index].RemoveCard();
         }
     }
 }

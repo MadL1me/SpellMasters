@@ -6,7 +6,10 @@ namespace MagicCardGame
 {
     public class CardUIHandler : MonoBehaviour
     {
+        [SerializeField]
         public CardHolder MainHolder;
+
+        [SerializeField]
         public GameObject CardElementPrefab;
 
         public static CardUIHandler Hr { get; set; }

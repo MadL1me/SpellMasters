@@ -5,19 +5,21 @@ using Core.Cards;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace MagicCardGame
 {
     public class CardElement : MonoBehaviour, IPointerClickHandler
     {
-        public float SlideSpeed = 200;
+        [SerializeField]
+        protected float SlideSpeed = 200;
 
         public ActionCard CardType { get; protected set; }
         public CardHolder ParentHolder { get; set; }
         public Sprite Image { get; set; }
         public RectTransform Rect { get; set; }
 
-        protected bool test = false;
+        protected bool Test = false;
 
         void Start()
         {
@@ -26,13 +28,16 @@ namespace MagicCardGame
 
         public static CardElement CreateFromActionCard(ActionCard cardData)
         {
-            Sprite image = /*Resources.Load($"RawSprites/{cardData.CardName}.png");*/null;
+            Sprite image = Resources.Load<Sprite>($"RawSprites/{cardData.CardName}");
             if (image == null)
                 throw new NullReferenceException("Can't find related resourse");
 
             GameObject cardElementObject =  Instantiate(CardUIHandler.Hr.CardElementPrefab);
             CardElement component = cardElementObject.GetComponent<CardElement>();
+
             component.Image = image;
+            Image imageComponent = cardElementObject.GetComponentInChildren<Image>();
+            imageComponent.sprite = image;
             component.CardType = cardData;
 
             return component;
@@ -52,11 +57,11 @@ namespace MagicCardGame
 
         void Update()
         {
-            if(!test)
+            /*if(!Test)
             {
                 CardUIHandler.Hr.MainHolder.PutCard(this, 1);
-                test = true;
-            }
+                Test = true;
+            }*/
         }
     }
 }

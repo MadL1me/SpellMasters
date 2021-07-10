@@ -3,7 +3,7 @@ using Core.Player;
 
 namespace Core.Cards
 {
-    public abstract class ActionCard
+    public class ActionCard
     {
         public string CardName => СardConfig.CardName;
         public int CardId => СardConfig.CardId;

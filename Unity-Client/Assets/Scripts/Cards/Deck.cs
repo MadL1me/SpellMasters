@@ -22,8 +22,9 @@ namespace MagicCardGame
         {
             //Not implented due lack of networking support at this moment
             ActionCardConfig testConfig = new ActionCardConfig(1, 10, "testCard", "WaterAttack");
+            ActionCard card = new ActionCard(testConfig);
 
-            throw new NotImplementedException();
+            return card;
         }
 
         // Update is called once per frame

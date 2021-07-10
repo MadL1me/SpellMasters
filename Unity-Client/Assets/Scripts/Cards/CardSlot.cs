@@ -32,5 +32,11 @@ namespace MagicCardGame
             card.transform.parent = transform;
             Card = card;
         }
+
+        public void RemoveCard()
+        {
+            Destroy(Card.gameObject);
+            Card = null;
+        }
     }
 }
