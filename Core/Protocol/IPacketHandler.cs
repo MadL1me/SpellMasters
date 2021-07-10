@@ -4,8 +4,8 @@ namespace Core.Protocol
 {
     public interface IPacketHandler
     {
-        public ICollection<ushort> HandledPacketIds { get; }
+        ICollection<ushort> HandledPacketIds { get; }
 
-        public void HandlePacket(IPacket packet);
+        void HandlePacket(IPacket packet);
     }
 }

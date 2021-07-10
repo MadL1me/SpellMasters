@@ -4,11 +4,10 @@ namespace Core.Entities
 {
     public interface IReplicatedEntity
     {
-        public int TypeId { get;  }
-        public EntityType Type => EntityType.GetTypeById(TypeId);
+        int TypeId { get;  }
         
-        public NetVector2 Position { get; }
-        public string DisplayName { get; }
-        public long Health { get; }
+        NetVector2 Position { get; }
+        string DisplayName { get; }
+        long Health { get; }
     }
 }

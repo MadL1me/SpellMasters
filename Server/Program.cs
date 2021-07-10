@@ -12,7 +12,7 @@ namespace Server
             //var server = new GameSimulationServer(3056);
             //server.Run();
             var writer = new OctetWriter();
-            writer.WriteVarFixed(-323323.323F);
+            writer.WriteVarInt(-323323);
             
             var bytes = writer.ToArray();
             Console.WriteLine(string.Join(" ", bytes.Select(x => x.ToString("X2"))));
@@ -20,7 +20,7 @@ namespace Server
             var ms = new MemoryStream(bytes);
             var reader = new OctetReader(ms);
 
-            Console.WriteLine(reader.ReadVarFixed32());
+            Console.WriteLine(reader.ReadVarInt32());
         }
     }
 }

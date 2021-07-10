@@ -2,17 +2,11 @@
 {
     public interface IPacket
     {
-        public ushort PacketId { get; }
-        public bool UseEncryption { get; }
+        ushort PacketId { get; }
+        bool UseEncryption { get; }
 
-        protected void WriteDataOctets(OctetWriter writer);
+        void WriteDataOctets(OctetWriter writer);
 
-        public byte[] GetDataOctets()
-        {
-            var writer = new OctetWriter();
-            writer.WriteUInt16(PacketId);
-            WriteDataOctets(writer);
-            return writer.ToArray();
-        }
+        byte[] GetDataOctets();
     }
 }

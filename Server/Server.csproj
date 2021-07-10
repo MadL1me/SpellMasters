@@ -7,7 +7,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Core\Core.csproj" />
-      <ProjectReference Include="..\Unity-Client\Assembly-CSharp.csproj" />
     </ItemGroup>
 
 </Project>

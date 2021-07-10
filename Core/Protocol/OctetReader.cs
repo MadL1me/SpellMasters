@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Core.Protocol
@@ -9,13 +10,13 @@ namespace Core.Protocol
         private static byte[] _stringXorKey = { 0xAE, 0x05, 0x83, 0x2F, 0x77  };
         
         private Stream _s;
+        private byte[] _buf;
 
         public OctetReader(Stream stream)
         {
             _s = stream;
+            _buf = new byte[8];
         }
-
-        public void ReadBytes(Span<byte> span) => _s.Read(span);
 
         public byte[] ReadBytes(int count)
         {
@@ -28,23 +29,20 @@ namespace Core.Protocol
 
         public ushort ReadUInt16()
         {
-            Span<byte> bytes = stackalloc byte[2];
-            _s.Read(bytes);
-            return BitConverter.ToUInt16(bytes);
+            _s.Read(_buf, 0, 2);
+            return BitConverter.ToUInt16(_buf, 0);
         }
         
         public uint ReadUInt32()
         {
-            Span<byte> bytes = stackalloc byte[4];
-            _s.Read(bytes);
-            return BitConverter.ToUInt32(bytes);
+            _s.Read(_buf, 0, 4);
+            return BitConverter.ToUInt32(_buf, 0);
         }
         
         public ulong ReadUInt64()
         {
-            Span<byte> bytes = stackalloc byte[8];
-            _s.Read(bytes);
-            return BitConverter.ToUInt64(bytes);
+            _s.Read(_buf, 0, 8);
+            return BitConverter.ToUInt64(_buf, 0);
         }
 
         public sbyte ReadInt8()
@@ -55,37 +53,32 @@ namespace Core.Protocol
 
         public short ReadInt16()
         {
-            Span<byte> bytes = stackalloc byte[2];
-            _s.Read(bytes);
-            return BitConverter.ToInt16(bytes);
+            _s.Read(_buf, 0, 2);
+            return BitConverter.ToInt16(_buf, 0);
         }
         
         public int ReadInt32()
         {
-            Span<byte> bytes = stackalloc byte[4];
-            _s.Read(bytes);
-            return BitConverter.ToInt32(bytes);
+            _s.Read(_buf, 0, 4);
+            return BitConverter.ToInt32(_buf, 0);
         }
         
         public long ReadInt64()
         {
-            Span<byte> bytes = stackalloc byte[8];
-            _s.Read(bytes);
-            return BitConverter.ToInt64(bytes);
+            _s.Read(_buf, 0, 8);
+            return BitConverter.ToInt64(_buf, 0);
         }
 
         public float ReadReal32()
         {
-            Span<byte> bytes = stackalloc byte[4];
-            _s.Read(bytes);
-            return BitConverter.ToSingle(bytes);
+            _s.Read(_buf, 0, 4);
+            return BitConverter.ToSingle(_buf, 0);
         }
         
         public double ReadReal64()
         {
-            Span<byte> bytes = stackalloc byte[8];
-            _s.Read(bytes);
-            return BitConverter.ToDouble(bytes);
+            _s.Read(_buf, 0, 8);
+            return BitConverter.ToDouble(_buf, 8);
         }
 
         public ulong ReadUVarInt64()
@@ -139,9 +132,9 @@ namespace Core.Protocol
         
         public double ReadUVarFixed64(int prec = 4) => ReadUVarInt64() / Math.Pow(10, prec);
         
-        public float ReadVarFixed32(int prec = 4) => ReadVarInt64() / MathF.Pow(10, prec);
+        public float ReadVarFixed32(int prec = 4) => (float) (ReadVarInt64() / Math.Pow(10, prec));
         
-        public float ReadUVarFixed32(int prec = 4) => ReadUVarInt64() / MathF.Pow(10, prec);
+        public float ReadUVarFixed32(int prec = 4) => (float) (ReadUVarInt64() / Math.Pow(10, prec));
 
         public bool ReadBool() => _s.ReadByte() == 0xFF;
 
@@ -150,7 +143,7 @@ namespace Core.Protocol
             var count = ReadUVarInt32();
             var bytes = ReadBytes((int) count);
             
-            var newXorKey = _stringXorKey.AsSpan();
+            var newXorKey = _stringXorKey.ToArray();
             
             for (var i = 0; i < newXorKey.Length; i++)
                 newXorKey[i] = unchecked((byte)(newXorKey[i] * count));

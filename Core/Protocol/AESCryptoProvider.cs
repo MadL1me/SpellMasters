@@ -36,23 +36,25 @@ namespace Core.Protocol
         
         public byte[] EncryptByteBuffer(byte[] buffer)
         {
-            using var ms = new MemoryStream();
-            using var crypto = new CryptoStream(ms, _enc, CryptoStreamMode.Write);
-            
-            crypto.Write(buffer);
+            using (var ms = new MemoryStream())
+            using (var crypto = new CryptoStream(ms, _enc, CryptoStreamMode.Write))
+            {
+                crypto.Write(buffer, 0, buffer.Length);
 
-            return ms.ToArray();
+                return ms.ToArray();
+            }
         }
 
         public byte[] DecryptByteBuffer(byte[] buffer)
         {
-            using var ms = new MemoryStream(buffer);
-            using var crypto = new CryptoStream(ms, _dec, CryptoStreamMode.Read);
+            using (var ms = new MemoryStream(buffer))
+            using (var crypto = new CryptoStream(ms, _dec, CryptoStreamMode.Read))
+            using (var newMs = new MemoryStream())
+            {
+                crypto.CopyTo(newMs);
 
-            using var newMs = new MemoryStream();
-            crypto.CopyTo(newMs);
-
-            return newMs.ToArray();
+                return newMs.ToArray();
+            }
         }
     }
 }

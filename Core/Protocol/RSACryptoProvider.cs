@@ -5,23 +5,35 @@ namespace Core.Protocol
     public class RSACryptoProvider : ICryptoProvider
     {
         private RSA _rsa;
+        private static byte[] _exponent = { 1, 0, 1 };
         
-        public byte[] PublicKey { get; }
+        public byte[] Modulus { get; }
 
-        public RSACryptoProvider(byte[] publicKey)
+        public RSACryptoProvider(byte[] modulus)
         {
-            PublicKey = publicKey;
+            Modulus = modulus;
 
-            _rsa = RSA.Create(2048);
+            _rsa = RSA.Create();
             
-            _rsa.ImportRSAPublicKey(PublicKey, out _);
+            _rsa.ImportParameters(new RSAParameters
+            {
+                Modulus = modulus,
+                Exponent = _exponent
+            });
         }
         
         public RSACryptoProvider()
         {
-            _rsa = RSA.Create(2048);
+            _rsa = RSA.Create();
+            
+            _rsa.ImportParameters(new RSAParameters
+            {
+                Exponent = _exponent
+            });
 
-            PublicKey = _rsa.ExportRSAPublicKey();
+            var param = _rsa.ExportParameters(false);
+
+            Modulus = param.Modulus;
         }
 
         public byte[] EncryptByteBuffer(byte[] buffer)
