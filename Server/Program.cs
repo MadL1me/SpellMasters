@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Core.Protocol;
 
 namespace Server
@@ -9,18 +10,20 @@ namespace Server
     {
         static void Main(string[] args)
         {
-            //var server = new GameSimulationServer(3056);
-            //server.Run();
-            var writer = new OctetWriter();
-            writer.WriteVarInt(-323323);
+            var data = Encoding.ASCII.GetBytes("Hello world");
+
+            var aes = new AESCryptoProvider();
             
-            var bytes = writer.ToArray();
-            Console.WriteLine(string.Join(" ", bytes.Select(x => x.ToString("X2"))));
+            RSACryptoProvider.GenerateKeyPair(2048, out var publicKey, out var privateKey);
+            
+            var serverRsa = new RSACryptoProvider(privateKey, true);
 
-            var ms = new MemoryStream(bytes);
-            var reader = new OctetReader(ms);
+            var clientRsa = new RSACryptoProvider(publicKey, false);
+            var encData = clientRsa.EncryptByteBuffer(data);
 
-            Console.WriteLine(reader.ReadVarInt32());
+            var unencData = serverRsa.DecryptByteBuffer(encData);
+
+            Console.WriteLine(Encoding.ASCII.GetString(unencData));
         }
     }
 }
