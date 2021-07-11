@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Core.Protocol;
 using LiteNetLib;
@@ -51,12 +52,14 @@ namespace Server.Protocol
         {
             if (_net.ConnectedPeersCount < MaxConstantPeers)
             {
-                Console.WriteLine($"Accepted {request.RemoteEndPoint}");
-                request.AcceptIfKey(ServerAuthKey);
+                if (request.AcceptIfKey(ServerAuthKey) != null)
+                    Console.WriteLine($"Accepted {request.RemoteEndPoint}");
+                else
+                    Console.WriteLine($"Rejected {request.RemoteEndPoint} due to wrong client key");
             }
             else
             {
-                Console.WriteLine($"Rejected {request.RemoteEndPoint} due to wrong client key");
+                Console.WriteLine($"Rejected {request.RemoteEndPoint} due to max connected peers reached");
                 request.Reject();
             }
         }
@@ -69,7 +72,7 @@ namespace Server.Protocol
 
         private void HandlePeerDisconnected(NetPeer peer, DisconnectInfo info)
         {
-            
+            _registry.TryDeregisterClient(peer.Id);
         }
 
         private void HandleNetworkReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod delivery)
@@ -78,11 +81,13 @@ namespace Server.Protocol
 
             if (client == null)
                 return;
-            
-            var data = reader.RawData;
+
+            var data = reader.GetRemainingBytes();
             
             if (client.Encryption != null)
                 data = client.Encryption.DecryptByteBuffer(data);
+
+            Console.WriteLine("Received " + string.Join(" ", data.Select(x => x.ToString("X2"))));
             
             using var stream = new MemoryStream(data);
             var octetReader = new OctetReader(stream);

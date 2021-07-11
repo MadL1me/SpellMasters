@@ -36,6 +36,12 @@ namespace Server
             client.DisconnectSocket(errorCode);
         }
 
+        public void TryDeregisterClient(int id)
+        {
+            if (_clients.ContainsKey(id))
+                _clients.Remove(id);
+        }
+
         public ClientWrapper GetClientById(int id)
         {
             if (_clients.TryGetValue(id, out var client))

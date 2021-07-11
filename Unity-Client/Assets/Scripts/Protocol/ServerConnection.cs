@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Core.Protocol;
 using LiteNetLib;
+using UnityEngine;
 
 namespace MagicCardGame.Assets.Scripts.Protocol
 {
@@ -39,10 +41,12 @@ namespace MagicCardGame.Assets.Scripts.Protocol
 
         private void HandleNetworkReceive(NetPeer peer, NetPacketReader reader, DeliveryMethod delivery)
         {
-            var data = reader.RawData;
+            var data = reader.GetRemainingBytes();
 
             if (_crypto != null)
                 data = _crypto.DecryptByteBuffer(data);
+            
+            Debug.Log("Received " + string.Join(" ", data.Select(x => x.ToString("X2"))));
             
             using var stream = new MemoryStream(data);
             var octetReader = new OctetReader(stream);
@@ -58,10 +62,12 @@ namespace MagicCardGame.Assets.Scripts.Protocol
             _handlerBus.HandlePacket(this, packet);
         }
 
-        public void Connect(string hostName, int port)
+        public bool Connect(string hostName, int port)
         {
             _net.Start();
             _server = _net.Connect(hostName, port, ServerAuthKey);
+
+            return _server != null;
         }
         
         public void SendPacket(IPacket packet)
@@ -73,6 +79,8 @@ namespace MagicCardGame.Assets.Scripts.Protocol
 
             if (packet.UseEncryption)
                 data = _crypto.EncryptByteBuffer(data);
+            
+            Debug.Log("Sending " + string.Join(" ", data.Select(x => x.ToString("X2"))));
             
             _server.Send(data, DeliveryMethod.ReliableOrdered);
         }

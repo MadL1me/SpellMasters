@@ -1,13 +1,18 @@
 ﻿namespace MagicCardGame.Assets.Scripts.Protocol
 {
-    public static class Network
+    public static class NetworkProvider
     {
         public static ServerConnection Connection { get; private set; }
 
-        public static void Connect(string hostName, int port)
+        public static bool Connect(string hostName, int port)
         {
             Connection = new ServerConnection(new ClientPacketBus());
-            Connection.Connect(hostName, port);
+
+            if (Connection.Connect(hostName, port))
+                return true;
+
+            Connection = null;
+            return false;
         }
 
         public static void Poll()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Core.Protocol;
 using Core.Protocol.Packets;
 using LiteNetLib;
@@ -50,6 +51,8 @@ namespace Server.Protocol
 
             if (packet.UseEncryption)
                 data = Encryption.EncryptByteBuffer(data);
+            
+            Console.WriteLine("Sending " + string.Join(" ", data.Select(x => x.ToString("X2"))));
             
             _peer.Send(data, DeliveryMethod.ReliableOrdered);
         }
