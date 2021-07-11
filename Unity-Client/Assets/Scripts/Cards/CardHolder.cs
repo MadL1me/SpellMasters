@@ -15,12 +15,12 @@ namespace MagicCardGame
 
         public RectTransform Rect { get; set; }
 
-        void Awake()
+        private void Awake()
         {
             Slots = new CardSlot[Capacity];
         }
 
-        void Start()
+        private void Start()
         {
             Rect = GetComponent<RectTransform>();
             InitSlots();
@@ -29,37 +29,37 @@ namespace MagicCardGame
 
         private void FirstFilling()
         {
-            for (int i = 0; i < Slots.Length; i++)
+            for (var i = 0; i < Slots.Length; i++)
                 PutCard(BindedDeck.AskForCard(), i);
         }
 
         private Vector2 CalculateCardSlotOffset(int index)
         {
-            Vector2 cardSlotSize = new Vector2(Rect.sizeDelta.x / Capacity, Rect.sizeDelta.y);
-            Vector2 cardPosition = new Vector2();
+            var cardSlotSize = new Vector2(Rect.sizeDelta.x / Capacity, Rect.sizeDelta.y);
+            var cardPosition = new Vector2();
 
             cardPosition.x = cardSlotSize.x * index + cardSlotSize.x / 2;
             cardPosition.y = transform.position.y;
 
-            Vector2 positonRelativeToCenter = (Vector2)transform.position - Rect.sizeDelta / 2 + cardPosition;
-            return positonRelativeToCenter;
+            var positionRelativeToCenter = (Vector2)transform.position - Rect.sizeDelta / 2 + cardPosition;
+            return positionRelativeToCenter;
         }
 
         protected void InitSlots()
         {
-            for(int i = 0; i < Capacity; i++)
+            for(var i = 0; i < Capacity; i++)
             {
-                GameObject slotGameObject = CardSlot.Create(this, CalculateCardSlotOffset(i));
+                var slotGameObject = CardSlot.Create(this, CalculateCardSlotOffset(i));
                 Slots[i] = slotGameObject.GetComponent<CardSlot>();
             }
         }
 
         public void CardWasClicked(CardElement clickedCard)
         {
-            bool wasFound = false;
-            int cardIndex = -1;
+            var wasFound = false;
+            var cardIndex = -1;
 
-            for (int i = 0; i < Slots.Length; i++)
+            for (var i = 0; i < Slots.Length; i++)
             {
                 if (Slots[i].Card == clickedCard)
                 {
@@ -74,7 +74,7 @@ namespace MagicCardGame
 
             //Slots[cardIndex].Card.CardType.CastCard();
             RemoveCardByIndex(cardIndex);
-            CardElement cardForReplacement = BindedDeck.AskForCard();
+            var cardForReplacement = BindedDeck.AskForCard();
             PutCard(cardForReplacement, cardIndex);
 
 

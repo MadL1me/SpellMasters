@@ -21,22 +21,22 @@ namespace MagicCardGame
 
         protected bool Test = false;
 
-        void Start()
+        private void Start()
         {
             Rect = gameObject.GetComponent<RectTransform>();
         }
 
         public static CardElement CreateFromActionCard(ActionCard cardData)
         {
-            Sprite image = Resources.Load<Sprite>($"RawSprites/{cardData.CardName}");
+            var image = Resources.Load<Sprite>($"RawSprites/{cardData.CardName}");
             if (image == null)
-                throw new NullReferenceException("Can't find related resourse");
+                throw new NullReferenceException("Can't find related resource");
 
-            GameObject cardElementObject =  Instantiate(CardUIHandler.Hr.CardElementPrefab);
-            CardElement component = cardElementObject.GetComponent<CardElement>();
+            var cardElementObject =  Instantiate(CardUIHandler.Hr.CardElementPrefab);
+            var component = cardElementObject.GetComponent<CardElement>();
 
             component.Image = image;
-            Image imageComponent = cardElementObject.GetComponentInChildren<Image>();
+            var imageComponent = cardElementObject.GetComponentInChildren<Image>();
             imageComponent.sprite = image;
             component.CardType = cardData;
 
@@ -51,11 +51,11 @@ namespace MagicCardGame
 
         public void Slide(Vector2 vector)
         {
-            float duration = vector.magnitude / SlideSpeed;
+            var duration = vector.magnitude / SlideSpeed;
             transform.DOMove((Vector2)transform.position + vector, duration);
         }
 
-        void Update()
+        private void Update()
         {
             /*if(!Test)
             {

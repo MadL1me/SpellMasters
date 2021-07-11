@@ -11,8 +11,8 @@ namespace MagicCardGame
 
         public CardElement AskForCard()
         {
-            ActionCard askedCardType = QueryCardFromServerDeck();
-            CardElement card = CardElement.CreateFromActionCard(askedCardType);
+            var askedCardType = QueryCardFromServerDeck();
+            var card = CardElement.CreateFromActionCard(askedCardType);
             card.transform.position = transform.position;
 
             return card;
@@ -20,17 +20,11 @@ namespace MagicCardGame
 
         protected ActionCard QueryCardFromServerDeck()
         {
-            //Not implented due lack of networking support at this moment
-            ActionCardConfig testConfig = new ActionCardConfig(1, 10, "testCard", "WaterAttack");
-            ActionCard card = new ActionCard(testConfig);
+            //Not implemented due lack of networking support at this moment
+            var testConfig = new ActionCardConfig(1, 10, "testCard", "WaterAttack");
+            var card = new ActionCard(testConfig);
 
             return card;
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
         }
     }
 }

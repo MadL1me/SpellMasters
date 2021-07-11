@@ -14,7 +14,7 @@ namespace MagicCardGame
 
         public static CardUIHandler Hr { get; set; }
 
-        void Awake()
+        private void Awake()
         {
             if (Hr != null)
                 DestroyImmediate(gameObject);
