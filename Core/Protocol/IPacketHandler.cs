@@ -2,10 +2,10 @@
 
 namespace Core.Protocol
 {
-    public interface IPacketHandler
+    public interface IPacketHandler<TSender>
     {
         ICollection<ushort> HandledPacketIds { get; }
 
-        void HandlePacket(IPacket packet);
+        void HandlePacket(TSender sender, IPacket packet);
     }
 }

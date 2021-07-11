@@ -3,21 +3,24 @@
     public class C2SClientInfo : S2CPacketBase
     {
         public override ushort PacketId => 0x0010;
-        public override bool UseEncryption => false;
+        public override bool UseEncryption => true;
 
-        public ushort EncryptionProtocolVersion { get; set; } = 1;
-        public EncryptionAlgorithm EncryptionAlgorithm { get; set; } = EncryptionAlgorithm.RsaAes;
+        public uint ClientVersion { get; set; }
+        public uint ProtocolVersion { get; set; }
+        public byte[] DeviceId { get; set; }
 
         protected override void WriteDataOctets(OctetWriter writer)
         {
-            writer.WriteUVarInt(EncryptionProtocolVersion);
-            writer.WriteUVarInt((ushort) EncryptionAlgorithm);
+            writer.WriteUVarInt(ClientVersion);
+            writer.WriteUVarInt(ProtocolVersion);
+            writer.WriteBytes(DeviceId);
         }
 
         protected override void ReadDataOctets(OctetReader reader)
         {
-            EncryptionProtocolVersion = reader.ReadUVarInt16();
-            EncryptionAlgorithm = (EncryptionAlgorithm) reader.ReadUVarInt16();
+            ClientVersion = reader.ReadUVarInt32();
+            ProtocolVersion = reader.ReadUVarInt32();
+            DeviceId = reader.ReadBytes(16);
         }
     }
 }

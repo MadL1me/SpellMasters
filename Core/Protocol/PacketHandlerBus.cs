@@ -2,28 +2,28 @@
 
 namespace Core.Protocol
 {
-    public class PacketHandlerBus
+    public class PacketHandlerBus<TSender>
     {
-        private List<IPacketHandler> _handlers;
+        private List<IPacketHandler<TSender>> _handlers;
 
         public PacketHandlerBus()
         {
-            _handlers = new List<IPacketHandler>();
+            _handlers = new List<IPacketHandler<TSender>>();
         }
 
-        public void RegisterHandler(IPacketHandler handler)
+        public void RegisterHandler(IPacketHandler<TSender> handler)
         {
             _handlers.Add(handler);
         }
 
-        public void HandlePacket(IPacket packet)
+        public void HandlePacket(TSender sender, IPacket packet)
         {
             foreach (var handler in _handlers)
             {
                 if (!handler.HandledPacketIds.Contains(packet.PacketId))
                     continue;
                 
-                handler.HandlePacket(packet);
+                handler.HandlePacket(sender, packet);
                 break;
             }
         }

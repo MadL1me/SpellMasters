@@ -10,6 +10,9 @@ namespace Core.Protocol
         static BasePacket()
         {
             RegisterPacketType<S2CEncryptionRequest>();
+            RegisterPacketType<S2CSymmetricKeyResponse>();
+            RegisterPacketType<C2SClientInfo>();
+            RegisterPacketType<C2SPublicKeyExchange>();
         }
         
         public abstract ushort PacketId { get; }
