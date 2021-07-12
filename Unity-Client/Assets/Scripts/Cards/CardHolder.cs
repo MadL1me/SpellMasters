@@ -6,11 +6,9 @@ namespace MagicCardGame
 {
     public class CardHolder : MonoBehaviour
     {
-        [SerializeField]
-        protected Deck BindedDeck;
+        [SerializeField] protected Deck BindedDeck;
 
-        [SerializeField]
-        public int Capacity = 5;
+        [SerializeField] public int Capacity = 5;
         protected CardSlot[] Slots { get; set; }
 
         public RectTransform Rect { get; set; }
@@ -41,13 +39,13 @@ namespace MagicCardGame
             cardPosition.x = cardSlotSize.x * index + cardSlotSize.x / 2;
             cardPosition.y = transform.position.y;
 
-            var positionRelativeToCenter = (Vector2)transform.position - Rect.sizeDelta / 2 + cardPosition;
+            var positionRelativeToCenter = (Vector2) transform.position - Rect.sizeDelta / 2 + cardPosition;
             return positionRelativeToCenter;
         }
 
         protected void InitSlots()
         {
-            for(var i = 0; i < Capacity; i++)
+            for (var i = 0; i < Capacity; i++)
             {
                 var slotGameObject = CardSlot.Create(this, CalculateCardSlotOffset(i));
                 Slots[i] = slotGameObject.GetComponent<CardSlot>();
@@ -76,8 +74,6 @@ namespace MagicCardGame
             RemoveCardByIndex(cardIndex);
             var cardForReplacement = BindedDeck.AskForCard();
             PutCard(cardForReplacement, cardIndex);
-
-
         }
 
         public void PutCard(CardElement card, int index)
@@ -90,7 +86,7 @@ namespace MagicCardGame
             Slots[index].PutCard(card);
             Slots[index].Card.ParentHolder = this;
 
-            card.Slide(newPosition - (Vector2)card.transform.position);
+            card.Slide(newPosition - (Vector2) card.transform.position, Mathf.Sqrt(Capacity - index));
         }
 
         public void RemoveCardByIndex(int index)

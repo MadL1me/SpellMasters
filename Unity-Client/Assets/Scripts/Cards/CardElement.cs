@@ -47,9 +47,9 @@ namespace MagicCardGame
             ParentHolder.CardWasClicked(this);
         }
 
-        public void Slide(Vector2 vector)
+        public void Slide(Vector2 vector, float speed)
         {
-            var duration = vector.magnitude / SlideSpeed;
+            var duration = vector.magnitude / SlideSpeed * speed;
             transform.DOMove((Vector2)transform.position + vector, duration);
         }
 
