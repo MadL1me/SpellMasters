@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using MagicCardGame.Assets.Scripts.Protocol;
@@ -8,7 +9,7 @@ namespace MagicCardGame
     public class NetworkManager : MonoBehaviour
     {
         private double _lastUpdate;
-        
+
         private void Update()
         {
             if (Time.timeSinceLevelLoadAsDouble - 0.015 > _lastUpdate)

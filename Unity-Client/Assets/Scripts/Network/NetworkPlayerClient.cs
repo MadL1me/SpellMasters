@@ -3,6 +3,7 @@ using Core.Player;
 using Core.Utils;
 using LiteNetLib;
 using LiteNetLib.Utils;
+using MagicCardGame.Assets.Scripts.Protocol;
 using UnityEngine;
 using NetworkPlayer = Core.Player.NetworkPlayer;
 
@@ -11,21 +12,12 @@ namespace MagicCardGame.Network
     public class NetworkPlayerClient : NetworkPlayer
     {
         public bool IsLocal { get; set; }
-
-        private NetPeer _server;
-        private NetManager _clientManager;
-        private EventBasedNetListener _listener;
-        private NetDataWriter _dataWriter;
-        private NetworkPlayerStats _playerStats;
         private NetworkPlayerClientView _view;
         
         public NetworkPlayerClient(NetworkPlayerClientView view, bool isLocal)
         {
             IsLocal = isLocal;
             _view = view;
-            _listener = new EventBasedNetListener();
-            _clientManager = new NetManager(_listener);
-            _dataWriter = new NetDataWriter();
         }
 
         public override void Update()
@@ -54,9 +46,7 @@ namespace MagicCardGame.Network
 
         public override void CastCardAcrossNetwork(int CardId)
         {
-            _dataWriter.Put(CardId);
-            _server?.Send(_dataWriter, DeliveryMethod.ReliableOrdered);
-            _dataWriter.Reset();
+            // Send packet with new 
         }
     }
 }

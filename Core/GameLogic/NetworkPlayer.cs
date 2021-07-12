@@ -40,6 +40,8 @@ namespace Core.Player
         public NetVector2 Position => Collider.Center;
         public BoxCollider Collider { get; }
         
+        public List<EntityEffect> PlayerEffects { get; }
+        
         public NetworkPlayerCharacter(NetworkPlayerStats playerInitialStats)
         {
             PlayerInitialStats = playerInitialStats;

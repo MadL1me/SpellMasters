@@ -1,23 +1,23 @@
-﻿namespace Core.GameLogic.Buffs
+﻿using Core.Player;
+
+namespace Core.GameLogic.Buffs
 {
-    public class WetBuff : Buff
+    public class WetEntityEffect : EntityEffect
 
     {
-        public override string GetSpriteName() => "FireballAttack";
-
-        public override void Use(Entity entity)
+        public override void UseOnEntity(NetworkPlayerCharacter entity)
         {
             var appendBuff = false;
-            foreach (var buff in entity.Buffs)
+            foreach (var buff in entity.PlayerEffects)
             {
                 switch (buff)
                 {
-                    case FireBuff fireBuff:
+                    case FireEntityEffect fireBuff:
                         // some vaporise effect
                         buff.Duration = 0;
                         Duration = 0;
                         break;
-                    case WetBuff wetBuff:
+                    case WetEntityEffect wetBuff:
                         buff.Duration += Duration;
                         break;
                     default:
@@ -27,12 +27,7 @@
             }
 
             if (appendBuff)
-                entity.Buffs.Add(this);
-        }
-
-        public override void Update(Entity entity, float deltaTime)
-        {
-            Duration -= deltaTime;
+                entity.PlayerEffects.Add(this);
         }
     }
 }
