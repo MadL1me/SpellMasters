@@ -32,8 +32,7 @@ namespace Core.Cards
         
         public IEnumerable<ActionCard> NextDropCards { get; }
     }
-
-    //Flyweight config for ActionCards
+    
     public class ActionCardConfig
     {
         public readonly int CardId;

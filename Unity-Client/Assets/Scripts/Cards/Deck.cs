@@ -8,7 +8,6 @@ namespace MagicCardGame
 {
     public class Deck : MonoBehaviour
     {
-
         public CardElement AskForCard()
         {
             var askedCardType = QueryCardFromServerDeck();

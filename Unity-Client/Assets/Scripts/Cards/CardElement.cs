@@ -13,7 +13,6 @@ namespace MagicCardGame
     {
         [SerializeField]
         protected float SlideSpeed = 200;
-
         public ActionCard CardType { get; protected set; }
         public CardHolder ParentHolder { get; set; }
         public Sprite Image { get; set; }
@@ -43,7 +42,6 @@ namespace MagicCardGame
             return component;
         }
 
-        //s-sempai clicked on me!!!!
         public void OnPointerClick(PointerEventData eventData)
         {
             ParentHolder.CardWasClicked(this);

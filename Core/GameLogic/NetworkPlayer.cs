@@ -1,4 +1,8 @@
-﻿using Core.Cards;
+﻿using System.Collections.Generic;
+using Core.Cards;
+using Core.Collision;
+using Core.Entities;
+using Core.GameLogic;
 using Core.Utils;
 
 namespace Core.Player
@@ -28,30 +32,34 @@ namespace Core.Player
         protected ActionCardsQueueController _playerQueueController;
     }
 
-    public abstract class NetworkPlayerCharacter
+    public abstract class NetworkPlayerCharacter : INetworkObject
     {
+        public int TypeId { get; }
         public NetworkPlayerStats PlayerInitialStats { get; }
         public NetworkPlayerStats PlayerCurrentStats { get; }
-        public NetVector2 CharacterPosition { get; }
+        public NetVector2 Position => Collider.Center;
+        public BoxCollider Collider { get; }
         
         public NetworkPlayerCharacter(NetworkPlayerStats playerInitialStats)
         {
             PlayerInitialStats = playerInitialStats;
             PlayerCurrentStats = PlayerInitialStats.Clone();
+            Collider = new BoxCollider(new NetVector2(5,10)
+                ,new NetVector2(0,0), this);
         }
     }
 
     public class NetworkPlayerStats : ICloneable<NetworkPlayerStats> 
     {
         public float Health { get; set; }
-        public int Energy { get; set; }
+        public Stamina Energy { get; set; }
 
         public NetworkPlayerStats Clone()
         {
             return new NetworkPlayerStats
             {
                 Health = Health,
-                Energy = Energy
+                Energy = Energy.Clone()
             };
         }
     }

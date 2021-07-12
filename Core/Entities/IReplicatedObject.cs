@@ -2,11 +2,8 @@
 
 namespace Core.Entities
 {
-    public interface IReplicatedEntity
+    public interface IReplicatedObject : INetworkObject
     {
-        int TypeId { get;  }
-        
-        NetVector2 Position { get; }
         string DisplayName { get; }
         long Health { get; }
     }

@@ -1,6 +1,9 @@
-﻿namespace Core.GameLogic
+﻿using System;
+using Core.Utils;
+
+namespace Core.GameLogic
 {
-    public class Stamina
+    public class Stamina : ICloneable<Stamina>
     {
         public float MinLimit;
         public float MaxLimit;
@@ -35,5 +38,7 @@
             Available += deltaTime * RegenerationSpeed;
             return Available;
         }
+
+        public Stamina Clone() => new Stamina(MinLimit, MaxLimit, RegenerationSpeed);
     }
 }

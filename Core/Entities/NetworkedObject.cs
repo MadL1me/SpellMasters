@@ -2,7 +2,7 @@
 
 namespace Core.Entities
 {
-    public abstract class NetworkedEntity : IReplicatedEntity
+    public abstract class NetworkedObject : IReplicatedObject
     {
         public int TypeId { get; protected set; }
         public EntityType Type => EntityType.GetTypeById(TypeId);
@@ -11,7 +11,7 @@ namespace Core.Entities
         public string DisplayName { get; protected set; }
         public long Health { get; protected set; }
 
-        protected NetworkedEntity(int id)
+        protected NetworkedObject(int id)
         {
             TypeId = id;
         }

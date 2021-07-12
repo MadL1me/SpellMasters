@@ -24,9 +24,9 @@ namespace Core.Cards.DamageCards
 
         public override void CastCard(INetworkPlayer networkPlayer, BattleEnvironment environment)
         {
-            var closestCharacter = environment.GetClosestCharacterExcept(networkPlayer.PlayerCharacter.CharacterPosition, networkPlayer);
-            if (NetVector2.Distance(networkPlayer.PlayerCharacter.CharacterPosition,
-                networkPlayer.PlayerCharacter.CharacterPosition) <= AttackDistance)
+            var closestCharacter = environment.GetClosestCharacterExcept(networkPlayer.PlayerCharacter.Position, networkPlayer);
+            if (NetVector2.Distance(networkPlayer.PlayerCharacter.Position,
+                networkPlayer.PlayerCharacter.Position) <= AttackDistance)
             {
                 closestCharacter.GetDamageAcrossNetwork(Damage);
             }
