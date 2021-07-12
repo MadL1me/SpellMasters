@@ -18,6 +18,12 @@ namespace Core.Utils
             return (float)Math.Sqrt(Math.Pow(vector.X - secondVector.X, 2) + Math.Pow(vector.Y - secondVector.Y, 2));
         }
 
+        public static bool operator ==(NetVector2 first, NetVector2 second) =>
+            first.X == second.X && first.Y == second.Y;
+
+        public static bool operator !=(NetVector2 first, NetVector2 second) => !(first == second);
+        
+
         public static readonly NetVector2 Left = new NetVector2(-1,0);
         public static readonly NetVector2 Up = new NetVector2(0,1);
         public static readonly NetVector2 Right = new NetVector2(1,0);

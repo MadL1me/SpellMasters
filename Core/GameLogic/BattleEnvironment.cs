@@ -1,4 +1,5 @@
-﻿using Core.Cards.Projectiles;
+﻿using System.Collections.Generic;
+using Core.Cards.Projectiles;
 using Core.Entities;
 using Core.Utils;
 
@@ -9,7 +10,7 @@ namespace Core.Player
         public INetworkPlayer[] NetworkPlayers { get; protected set; }
        
         public NetworkedObject[] NetworkedObjects { get; protected set; }
-        public Projectile[] Projectiles { get; protected set; }
+        public List<Projectile> Projectiles { get; protected set; }
         
         public void Update(float deltaTime)
         {
@@ -18,9 +19,9 @@ namespace Core.Player
 
         protected void CheckCollisions()
         {
-            for (int i = 0; i < Projectiles.Length; i++)
+            for (int i = 0; i < Projectiles.Count; i++)
             {
-                for (int j = 0; i < Projectiles.Length; j++)
+                for (int j = 0; i < Projectiles.Count; j++)
                 {
                     if (i==j)
                         continue;
@@ -29,7 +30,7 @@ namespace Core.Player
                 }                
             }
 
-            for (int i = 0; i < Projectiles.Length; i++)
+            for (int i = 0; i < Projectiles.Count; i++)
             {
                 for (int j = 0; j < NetworkPlayers.Length; j++)
                 {
