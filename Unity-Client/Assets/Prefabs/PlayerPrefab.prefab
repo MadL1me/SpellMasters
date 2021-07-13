@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4417790326070433473}
   - component: {fileID: 4435071459191497074}
   m_Layer: 0
-  m_Name: IlushkinzPlayerPrefab
+  m_Name: PlayerPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

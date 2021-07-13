@@ -6,10 +6,11 @@ namespace MagicCardGame.Network
     public class NetworkPlayerClientView : MonoBehaviour
     {
         private NetworkPlayerClient _networkPlayer;
+        [SerializeField] private bool _isLocal;
         
         private void Start()
         {
-            _networkPlayer = new NetworkPlayerClient(this, true);
+            _networkPlayer = new NetworkPlayerClient(this, _isLocal);
         }
 
         public void Update()

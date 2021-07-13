@@ -21,7 +21,7 @@ namespace MagicCardGame
             slotObject.transform.position = position;
 
             component.ParentHolder = holder;
-            component.Rect.sizeDelta = new Vector2(holder.Rect.sizeDelta.x / holder.Capacity, holder.Rect.sizeDelta.y);
+            component.Rect.sizeDelta = new Vector2(holder.Rect.sizeDelta.x / holder.Capacity, 0);
 
             return slotObject;
         }

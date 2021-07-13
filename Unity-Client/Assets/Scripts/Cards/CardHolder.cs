@@ -33,11 +33,11 @@ namespace MagicCardGame
 
         private Vector2 CalculateCardSlotOffset(int index)
         {
-            var cardSlotSize = new Vector2(Rect.sizeDelta.x / Capacity, Rect.sizeDelta.y);
+            var cardSlotSize = new Vector2(Rect.sizeDelta.x / Capacity, 0);
             var cardPosition = new Vector2();
 
             cardPosition.x = cardSlotSize.x * index + cardSlotSize.x / 2;
-            cardPosition.y = transform.position.y;
+            cardPosition.y = 0;
 
             var positionRelativeToCenter = (Vector2) transform.position - Rect.sizeDelta / 2 + cardPosition;
             return positionRelativeToCenter;
