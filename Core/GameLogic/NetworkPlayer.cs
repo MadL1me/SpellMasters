@@ -32,14 +32,13 @@ namespace Core.Player
         protected ActionCardsQueueController _playerQueueController;
     }
 
-    public abstract class NetworkPlayerCharacter : INetworkObject
+    public class NetworkPlayerCharacter : INetworkObject
     {
         public int TypeId { get; }
         public NetworkPlayerStats PlayerInitialStats { get; }
         public NetworkPlayerStats PlayerCurrentStats { get; }
         public NetVector2 Position => Collider.Center;
         public BoxCollider Collider { get; }
-        
         public List<EntityEffect> PlayerEffects { get; }
         
         public NetworkPlayerCharacter(NetworkPlayerStats playerInitialStats)
@@ -49,19 +48,26 @@ namespace Core.Player
             Collider = new BoxCollider(new NetVector2(5,10)
                 ,new NetVector2(0,0), this);
         }
+        
+        public void SetPosition(NetVector2 position)
+        {
+            Collider.Center = position;
+        }
     }
 
     public class NetworkPlayerStats : ICloneable<NetworkPlayerStats> 
     {
         public float Health { get; set; }
         public Stamina Energy { get; set; }
-
+        public string DisplayName { get; set; }
+        
         public NetworkPlayerStats Clone()
         {
             return new NetworkPlayerStats
             {
                 Health = Health,
-                Energy = Energy.Clone()
+                Energy = Energy.Clone(),
+                DisplayName = DisplayName
             };
         }
     }

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{DEA5E2FD-5899-4632-997C-80FE6B028E33}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity-Libraries", "Unity-Client\Unity-Libraries.csproj", "{A36269B6-D7DF-E30E-D697-6AB4628D5952}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DEA5E2FD-5899-4632-997C-80FE6B028E33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEA5E2FD-5899-4632-997C-80FE6B028E33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEA5E2FD-5899-4632-997C-80FE6B028E33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A36269B6-D7DF-E30E-D697-6AB4628D5952}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A36269B6-D7DF-E30E-D697-6AB4628D5952}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A36269B6-D7DF-E30E-D697-6AB4628D5952}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A36269B6-D7DF-E30E-D697-6AB4628D5952}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

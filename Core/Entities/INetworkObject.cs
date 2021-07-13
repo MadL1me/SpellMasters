@@ -6,5 +6,6 @@ namespace Core.Entities
     {
         int TypeId { get; }
         NetVector2 Position { get; }
+        void SetPosition(NetVector2 position);
     }
 }

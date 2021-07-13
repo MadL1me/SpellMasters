@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Cards.Projectiles;
+using Core.Collision;
 using Core.Entities;
 using Core.Utils;
 
@@ -10,35 +11,15 @@ namespace Core.Player
         public INetworkPlayer[] NetworkPlayers { get; protected set; }
        
         public NetworkedObject[] NetworkedObjects { get; protected set; }
+        
         public List<Projectile> Projectiles { get; protected set; }
+        public PhysicsEngine PhysicsEngine { get; protected set; }
         
         public void Update(float deltaTime)
         {
-            CheckCollisions();
+            PhysicsEngine.Update(deltaTime);
         }
 
-        protected void CheckCollisions()
-        {
-            for (int i = 0; i < Projectiles.Count; i++)
-            {
-                for (int j = 0; i < Projectiles.Count; j++)
-                {
-                    if (i==j)
-                        continue;
-
-                    Projectiles[i].Collider.IsColliding(Projectiles[j].Collider);
-                }                
-            }
-
-            for (int i = 0; i < Projectiles.Count; i++)
-            {
-                for (int j = 0; j < NetworkPlayers.Length; j++)
-                {
-                    Projectiles[i].Collider.IsColliding(NetworkPlayers[i].PlayerCharacter.Collider);
-                }
-            }
-        }
-        
         public INetworkPlayer GetClosestCharacter(NetVector2 position)
         {
             var minDistance = float.MaxValue;

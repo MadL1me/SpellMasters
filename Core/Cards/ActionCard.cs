@@ -25,12 +25,23 @@ namespace Core.Cards
     public class ActionCardsQueueController 
     {
         public INetworkPlayer Player { get; }
+
+        public ActionCard[] CardsInHand { get; } 
+
+        public Queue<ActionCard> NextDropCards { get; } = new Queue<ActionCard>();
         
-        public IDictionary<float, ActionCard> PlayedCardsAtTime { get; }
+        public Dictionary<float, ActionCard> PlayedCardsAtTime { get; } = new Dictionary<float, ActionCard>();
         
-        public IEnumerable<ActionCard> CardsInHand { get; }
-        
-        public IEnumerable<ActionCard> NextDropCards { get; }
+        public ActionCardsQueueController(INetworkPlayer player, int cardsCount)
+        {
+            Player = player;
+            CardsInHand = new ActionCard[cardsCount];
+        }
+
+        public ActionCard GetCardAtPosition(int position)
+        {
+            return null;
+        }
     }
     
     public class ActionCardConfig

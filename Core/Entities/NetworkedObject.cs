@@ -15,5 +15,10 @@ namespace Core.Entities
         {
             TypeId = id;
         }
+        
+        public void SetPosition(NetVector2 position)
+        {
+            Position = position;
+        }
     }
 }

@@ -25,6 +25,11 @@ namespace Core.Cards.Projectiles
             Config = config;
         }
 
+        public void SetPosition(NetVector2 position)
+        {
+            Collider.Center = position;
+        }
+        
         public virtual void Update(float deltaTime)
         {
             Lifetime += deltaTime;
