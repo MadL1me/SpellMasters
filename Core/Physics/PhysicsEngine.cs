@@ -4,9 +4,8 @@ namespace Core.Collision
 {
     public class PhysicsEngine
     {
-        public List<GravityComponent> GravityObjects { get; protected set; }
-        
-        public List<BoxCollider> Colliders { get; protected set;}
+        public List<GravityComponent> GravityObjects { get; protected set; } = new List<GravityComponent>();
+        public List<BoxCollider> Colliders { get; protected set; } = new List<BoxCollider>();
         
         public void Update(float deltaTime)
         {

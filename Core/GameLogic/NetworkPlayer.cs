@@ -8,8 +8,10 @@ using Core.Utils;
 namespace Core.Player
 {
     public interface INetworkPlayer
-    {
+    { 
+        int PlayerId { get; }
         NetworkPlayerCharacter PlayerCharacter { get; }
+        ActionCardsQueueController CardsQueueController { get; }
         void Move(NetVector2 vector);
         void CastCardAcrossNetwork(int CardId);
         void Update();
@@ -18,7 +20,9 @@ namespace Core.Player
     
     public abstract class NetworkPlayer : INetworkPlayer
     {
+        public int PlayerId { get; }
         public NetworkPlayerCharacter PlayerCharacter { get; }
+        public ActionCardsQueueController CardsQueueController { get; }
         public abstract void Move(NetVector2 vector);
         public abstract void CastCardAcrossNetwork(int CardId);
         public abstract void Update();
@@ -27,9 +31,13 @@ namespace Core.Player
             PlayerCharacter.PlayerCurrentStats.Health -= damage;
         }
 
+        public NetworkPlayer()
+        {
+            PlayerCharacter = new NetworkPlayerCharacter(new NetworkPlayerStats());
+            CardsQueueController = new ActionCardsQueueController(this, 5);
+        }
+        
         public abstract void InitPlayerCharacterFromNetwork();
-
-        protected ActionCardsQueueController _playerQueueController;
     }
 
     public class NetworkPlayerCharacter : INetworkObject
@@ -56,18 +64,18 @@ namespace Core.Player
         }
     }
 
-    public class NetworkPlayerStats : ICloneable<NetworkPlayerStats> 
+    public class NetworkPlayerStats : ICloneable<NetworkPlayerStats>
     {
-        public float Health { get; set; }
-        public Stamina Energy { get; set; }
-        public string DisplayName { get; set; }
+        public float Health { get; set; } = 100;
+        public Stamina Stamina { get; set; } = new Stamina();
+        public string DisplayName { get; set; } = "DefaultName";
         
         public NetworkPlayerStats Clone()
         {
             return new NetworkPlayerStats
             {
                 Health = Health,
-                Energy = Energy.Clone(),
+                Stamina = Stamina.Clone(),
                 DisplayName = DisplayName
             };
         }

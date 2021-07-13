@@ -4,18 +4,18 @@ using UnityEngine;
 namespace MagicCardGame.Network
 {
     public class NetworkPlayerClientView : MonoBehaviour
-    {
-        private NetworkPlayerClient _networkPlayer;
+    {  
+        public NetworkPlayerClient NetworkPlayer { get; protected set; }
         [SerializeField] private bool _isLocal;
         
-        private void Start()
+        private void Awake()
         {
-            _networkPlayer = new NetworkPlayerClient(this, _isLocal);
+            NetworkPlayer = new NetworkPlayerClient(this, _isLocal);
         }
 
         public void Update()
         {
-            _networkPlayer?.Update();
+            NetworkPlayer?.Update();
         }
 
         public void InitPlayerFromNetwork()

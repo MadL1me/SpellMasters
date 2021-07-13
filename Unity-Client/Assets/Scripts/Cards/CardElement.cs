@@ -31,7 +31,7 @@ namespace MagicCardGame
             if (image == null)
                 throw new NullReferenceException("Can't find related resource");
 
-            var cardElementObject =  Instantiate(CardUIHandler.Hr.CardElementPrefab);
+            var cardElementObject = Instantiate(CardUIHandler.Hr.CardElementPrefab);
             var component = cardElementObject.GetComponent<CardElement>();
 
             component.Image = image;

@@ -10,13 +10,11 @@ namespace Core.GameLogic
         public float RegenerationSpeed;
         private float _available;
         
-        
         public float Available
         {
             get => _available;
             set => _available = value > MaxLimit ? MaxLimit : value < MinLimit ? MinLimit : value;
         }
-
 
         public Stamina(float minLimit = 0, float maxLimit = 100, float regenerationSpeed = 10)
         {
@@ -39,6 +37,11 @@ namespace Core.GameLogic
             return Available;
         }
 
+        public static implicit operator float(Stamina stamina)
+        {
+            return stamina.Available;
+        }
+        
         public Stamina Clone() => new Stamina(MinLimit, MaxLimit, RegenerationSpeed);
     }
 }

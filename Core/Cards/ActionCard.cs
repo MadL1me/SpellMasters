@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Entities;
 using Core.Player;
 
 namespace Core.Cards
@@ -8,7 +10,7 @@ namespace Core.Cards
     {
         public string CardName => СardConfig.CardName;
         public int CardId => СardConfig.CardId;
-        public int EnergyCost => СardConfig.EnergyCost;
+        public int StaminaCost => СardConfig.EnergyCost;
 
         protected ActionCardConfig СardConfig;
 
@@ -28,10 +30,8 @@ namespace Core.Cards
     {
         public INetworkPlayer Player { get; }
         public ActionCard[] CardsInHand { get; } 
-
         public Queue<ActionCard> NextDropCards { get; } = new Queue<ActionCard>();
-        
-        public Dictionary<float, ActionCard> PlayedCardsAtTime { get; } = new Dictionary<float, ActionCard>();
+        public ActionCard this[int index] => CardsInHand[index];
         
         public ActionCardsQueueController(INetworkPlayer player, int cardsCount)
         {
@@ -39,9 +39,32 @@ namespace Core.Cards
             CardsInHand = new ActionCard[cardsCount];
         }
 
-        public ActionCard GetCardAtPosition(int position)
+        public ActionCard TryGetNextCard()
         {
-            return null;
+            // now it doesnt work, but later will
+            //return NextDropCards.Dequeue();
+            var testConfig = new ActionCardConfig(1, 10, "testCard", "WaterAttack");
+            var card = new ActionCard(testConfig);
+
+            return card;
+        }
+        
+        public bool TryCastCardAtIndex(int index, BattleEnvironment castingContext)
+        {
+            if (index <= 0 || index >= CardsInHand.Length)
+                throw new ArgumentOutOfRangeException();
+
+            var card = CardsInHand[index];
+            
+            if (Player.PlayerCharacter.PlayerCurrentStats.Stamina >= card.StaminaCost)
+            {
+                card.CastCard(Player, castingContext);
+                Player.PlayerCharacter.PlayerCurrentStats.Stamina.Spend(card.StaminaCost);
+                CardsInHand[index] = NextDropCards.Dequeue();
+                return true;
+            }
+
+            return false;
         }
     }
     

@@ -7,7 +7,6 @@ namespace MagicCardGame
     public class CardHolder : MonoBehaviour
     {
         [SerializeField] protected Deck BindedDeck;
-
         [SerializeField] public int Capacity = 5;
         protected CardSlot[] Slots { get; set; }
 
