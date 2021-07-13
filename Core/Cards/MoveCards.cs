@@ -1,4 +1,5 @@
-﻿using Core.Player;
+﻿using System.Threading.Tasks;
+using Core.Player;
 using Core.Utils;
 
 namespace Core.Cards
@@ -7,7 +8,7 @@ namespace Core.Cards
     {
         protected abstract NetVector2 MoveVector { get; }
 
-        public override void CastCard(INetworkPlayer networkPlayer, BattleEnvironment environment)
+        public async override Task CastCard(INetworkPlayer networkPlayer, BattleEnvironment environment)
         {
             networkPlayer.Move(MoveVector);
             base.CastCard(networkPlayer, environment);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Core.Player;
 
 namespace Core.Cards
@@ -9,23 +10,23 @@ namespace Core.Cards
         public int CardId => СardConfig.CardId;
         public int EnergyCost => СardConfig.EnergyCost;
 
-        public virtual void CastCard(INetworkPlayer networkPlayer, BattleEnvironment environment)
-        {
-            networkPlayer.CastCardAcrossNetwork(CardId);
-        }
-
         protected ActionCardConfig СardConfig;
 
         public ActionCard(ActionCardConfig config)
         {
             СardConfig = config;
         }
+        
+        public virtual async Task CastCard(INetworkPlayer networkPlayer, BattleEnvironment environment)
+        {
+            await Task.Delay(СardConfig.CastDelay);
+            networkPlayer.CastCardAcrossNetwork(CardId);
+        }
     }
 
     public class ActionCardsQueueController 
     {
         public INetworkPlayer Player { get; }
-
         public ActionCard[] CardsInHand { get; } 
 
         public Queue<ActionCard> NextDropCards { get; } = new Queue<ActionCard>();
@@ -48,9 +49,10 @@ namespace Core.Cards
     {
         public readonly int CardId;
         public readonly int EnergyCost;
+        public readonly int CastDelay;
         public readonly string CardDescription;
         public readonly string CardName;
-
+        
         public ActionCardConfig(int cardId, int energyCost = 5, string cardDescription = "", string cardName = "")
         {
             CardId = cardId;

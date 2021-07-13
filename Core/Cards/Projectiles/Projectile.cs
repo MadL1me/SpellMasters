@@ -6,14 +6,18 @@ using Core.Utils;
 
 namespace Core.Cards.Projectiles
 {
-    public abstract class Projectile : INetworkObject
+    public class Projectile : INetworkObject
     {
         public event Action<Projectile> OnDestroy;
-        
         public int TypeId => Config.TypeId;
         public float MaxLifetime => Config.MaxLifetime;
-        public NetVector2 Position => Collider.Center;
         public bool IsMoving => Config.MovingSpeed != 0 && Config.MoveVector != NetVector2.Zero;
+        public bool IsDestroyed { get; protected set; }
+        public NetVector2 Position
+        {
+            get => Collider.Center;
+            set => Collider.Center = value;
+        }
         public BoxCollider Collider { get; protected set; }
         public ProjectileConfig Config { get; protected set; }
         public float Lifetime { get; protected set; }
@@ -32,10 +36,20 @@ namespace Core.Cards.Projectiles
         
         public virtual void Update(float deltaTime)
         {
+            if (IsDestroyed)
+                return;
+            
             Lifetime += deltaTime;
             
             if (Lifetime >= MaxLifetime)
                 Destroy();
+            
+            Move(deltaTime);
+        }
+
+        protected virtual void Move(float deltaTime)
+        {
+            Position = Config.MoveVector * deltaTime * Config.MovingSpeed;
         }
 
         protected virtual void OnCollision(BoxCollider other)
@@ -49,9 +63,10 @@ namespace Core.Cards.Projectiles
             playerCharacter.PlayerCurrentStats.Health -= Config.DamageOnCollision;
         }
 
-        protected virtual void Destroy()
+        public virtual void Destroy()
         {
             OnDestroy?.Invoke(this);
+            IsDestroyed = true;
         }
     }
 
@@ -75,7 +90,7 @@ namespace Core.Cards.Projectiles
             MoveVector = moveVector;
         }
     }
-
+    
     public class FireballProjectile : Projectile
     {
         public FireballProjectile(NetVector2 position, NetVector2 size, ProjectileConfig config) 

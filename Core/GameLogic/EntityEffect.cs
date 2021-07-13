@@ -23,10 +23,12 @@ namespace Core.GameLogic
             Power = power;
         }
 
+        // I guess calls once is use
         public abstract void UseOnEntity(NetworkPlayerCharacter entity);
 
-        public virtual void OnInteractWithOtherEffect(EntityEffect effect) { }
-        
+        public virtual void OnBeforeRemove(NetworkPlayerCharacter entity) {}
+
+        // calls everytime then active
         public virtual void Update(NetworkPlayerCharacter entity, float deltaTime)
         {
             Duration -= deltaTime;
