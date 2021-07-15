@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Core.Cards;
 using Core.Cards.Projectiles;
 using Core.Collision;
-using Core.Entities;
 using Core.Utils;
 
 namespace Core.Player

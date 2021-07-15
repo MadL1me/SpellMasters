@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Core.Player;
+﻿using Core.Player;
 
 namespace Core.GameLogic
 {

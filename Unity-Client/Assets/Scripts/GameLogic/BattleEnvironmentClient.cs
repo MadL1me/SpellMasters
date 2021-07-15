@@ -1,8 +1,6 @@
-﻿using System;
-using Core.Player;
+﻿using Core.Player;
 using MagicCardGame.Network;
 using UnityEngine;
-using NetworkPlayer = Core.Player.NetworkPlayer;
 
 namespace MagicCardGame.Assets.Scripts.GameLogic
 {

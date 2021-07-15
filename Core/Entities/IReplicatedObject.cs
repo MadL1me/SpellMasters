@@ -1,6 +1,4 @@
-﻿using Core.Utils;
-
-namespace Core.Entities
+﻿namespace Core.Entities
 {
     public interface IReplicatedObject : INetworkObject
     {

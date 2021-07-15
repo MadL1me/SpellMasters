@@ -1,9 +1,5 @@
 ﻿using Core.Cards;
-using Core.Player;
 using Core.Utils;
-using LiteNetLib;
-using LiteNetLib.Utils;
-using MagicCardGame.Assets.Scripts.Protocol;
 using UnityEngine;
 using NetworkPlayer = Core.Player.NetworkPlayer;
 

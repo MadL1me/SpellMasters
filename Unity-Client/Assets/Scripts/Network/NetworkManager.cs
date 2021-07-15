@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using MagicCardGame.Assets.Scripts.Protocol;
 using UnityEngine;
 
