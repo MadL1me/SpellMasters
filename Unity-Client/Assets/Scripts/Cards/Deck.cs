@@ -1,13 +1,12 @@
 using Core.Cards;
+using MagicCardGame.Assets.Scripts.GameLogic;
 using MagicCardGame.Network;
 using UnityEngine;
 
 namespace MagicCardGame
 {
     public class Deck : MonoBehaviour
-    {
-        [SerializeField] private NetworkPlayerClientView _networkPlayer;
-        
+    {        
         public CardElement AskForCard()
         {
             var askedCardType = QueryCardFromDeck();
@@ -19,9 +18,11 @@ namespace MagicCardGame
 
         protected ActionCard QueryCardFromDeck()
         {
-            _networkPlayer.NetworkPlayer.CardsQueueController.TryGetNextCard();
+            NetworkPlayerClientView networkPlayerView = BattleEnvironmentClient.Instance.LocalPlayer;
+
+            networkPlayerView.NetworkPlayer.CardsQueueController.TryGetNextCard();
             //Not implemented due lack of networking support at this moment
-            return _networkPlayer.NetworkPlayer.CardsQueueController.TryGetNextCard();;
+            return networkPlayerView.NetworkPlayer.CardsQueueController.TryGetNextCard();;
         }
     }
 }

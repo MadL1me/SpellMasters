@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Core.Player;
+using MagicCardGame.Assets.Scripts.GameLogic;
+using MagicCardGame.Network;
 using UnityEngine;
 
 namespace MagicCardGame
@@ -10,8 +12,6 @@ namespace MagicCardGame
         [SerializeField] protected Deck BindedDeck;
         [SerializeField] public int Capacity = 5;
 
-        public BattleEnvironment Environment;
-        public INetworkPlayer networkPlayer;
         protected CardSlot[] Slots { get; set; }
 
         public RectTransform Rect { get; set; }
@@ -30,37 +30,37 @@ namespace MagicCardGame
 
         private void FirstFilling()
         {
-            for (var i = 0; i < Slots.Length; i++)
+            for (int i = 0; i < Slots.Length; i++)
                 PutCard(BindedDeck.AskForCard(), i);
         }
 
         private Vector2 CalculateCardSlotOffset(int index)
         {
-            var cardSlotSize = new Vector2(Rect.sizeDelta.x / Capacity, 0);
-            var cardPosition = new Vector2();
+            Vector2 cardSlotSize = new Vector2(Rect.sizeDelta.x / Capacity, 0);
+            Vector2 cardPosition = new Vector2();
 
             cardPosition.x = cardSlotSize.x * index + cardSlotSize.x / 2;
             cardPosition.y = 0;
 
-            var positionRelativeToCenter = (Vector2) transform.position - Rect.sizeDelta / 2 + cardPosition;
+            Vector2 positionRelativeToCenter = (Vector2) transform.position - Rect.sizeDelta / 2 + cardPosition;
             return positionRelativeToCenter;
         }
 
         protected void InitSlots()
         {
-            for (var i = 0; i < Capacity; i++)
+            for (int i = 0; i < Capacity; i++)
             {
-                var slotGameObject = CardSlot.Create(this, CalculateCardSlotOffset(i));
+                GameObject slotGameObject = CardSlot.Create(this, CalculateCardSlotOffset(i));
                 Slots[i] = slotGameObject.GetComponent<CardSlot>();
             }
         }
 
         public void CardWasClicked(CardElement clickedCard)
         {
-            var wasFound = false;
-            var cardIndex = -1;
+            bool wasFound = false;
+            int cardIndex = -1;
 
-            for (var i = 0; i < Slots.Length; i++)
+            for (int i = 0; i < Slots.Length; i++)
             {
                 if (Slots[i].Card == clickedCard)
                 {
@@ -73,9 +73,12 @@ namespace MagicCardGame
             if (!wasFound)
                 throw new KeyNotFoundException("Clicked card is not presented in Holder");
 
-            Slots[cardIndex].Card.CardType.CastCard(networkPlayer,Environment);
+            NetworkPlayerClientView networkPlayer = BattleEnvironmentClient.Instance.LocalPlayer;
+            BattleEnvironment environment = BattleEnvironmentClient.Instance.BattleEnvironment;
+
+            Slots[cardIndex].Card.CardType.CastCard(networkPlayer.NetworkPlayer,environment);
             RemoveCardByIndex(cardIndex);
-            var cardForReplacement = BindedDeck.AskForCard();
+            CardElement cardForReplacement = BindedDeck.AskForCard();
             PutCard(cardForReplacement, cardIndex);
         }
 

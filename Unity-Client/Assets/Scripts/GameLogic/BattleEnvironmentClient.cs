@@ -6,9 +6,10 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
 {
     public class BattleEnvironmentClient : MonoBehaviour
     {
-        [SerializeField] private NetworkPlayerClientView _localPlayer;
-        [SerializeField] private NetworkPlayerClientView _otherPlayer;
-        [SerializeField] private CardUIHandler _cardUIHandler;
+        [SerializeField]
+        public NetworkPlayerClientView LocalPlayer;
+        [SerializeField]
+        public NetworkPlayerClientView OtherPlayer;
         
         public static BattleEnvironmentClient Instance { get; private set; }
         public BattleEnvironment BattleEnvironment { get; private set; }
@@ -23,9 +24,7 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
 
         public void Start()
         {
-            MakeTestEnvironment(_localPlayer.NetworkPlayer, _otherPlayer.NetworkPlayer);
-            _cardUIHandler.MainHolder.Environment = BattleEnvironment;
-            _cardUIHandler.MainHolder.networkPlayer = _localPlayer.NetworkPlayer;
+            MakeTestEnvironment(LocalPlayer.NetworkPlayer, OtherPlayer.NetworkPlayer);
         }
         
         public void Update()
