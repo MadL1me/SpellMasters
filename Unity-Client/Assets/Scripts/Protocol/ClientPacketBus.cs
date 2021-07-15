@@ -1,4 +1,6 @@
-﻿using Core.Protocol;
+﻿using System;
+using System.Linq;
+using Core.Protocol;
 using Core.Protocol.Packets;
 using UnityEngine;
 
@@ -8,10 +10,25 @@ namespace MagicCardGame.Assets.Scripts.Protocol
     {
         public ClientPacketBus()
         {
-            // encryption request
             RegisterHandler(new SimplePacketHandler<ServerConnection, S2CEncryptionRequest>((connection, packet) =>
             {
-                Debug.Log("Received encryption request " + packet.EncryptionAlgorithm);
+                connection.SendPacket(new C2SPublicKeyExchange
+                {
+                    Key = connection.GenerateRSAKeys()
+                });
+            }));
+            
+            RegisterHandler(new SimplePacketHandler<ServerConnection, S2CSymmetricKeyResponse>((connection, packet) =>
+            {
+                var aesKey = connection.DecryptRSABytes(packet.RsaEncryptedAesKey);
+                
+                var aes = new AESCryptoProvider(aesKey);
+                connection.Encryption = aes;
+                
+                connection.SendPacket(new C2SClientInfo
+                {
+                    DeviceId = new byte[16]
+                });
             }));
         }
     }

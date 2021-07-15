@@ -11,7 +11,7 @@ namespace Server
             Console.WriteLine("Running server");
 
             var registry = new ClientRegistry(50);
-            var bus = new PacketHandlerBus<ClientWrapper>();
+            var bus = new ServerPacketBus();
 
             var server = new ServerListener(registry, bus);
             server.Listen(9669);

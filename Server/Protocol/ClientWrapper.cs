@@ -17,7 +17,7 @@ namespace Server.Protocol
     {
         public int Id { get; }
         public ClientState State { get; set; }
-        public ICryptoProvider Encryption { get; private set; }
+        public ICryptoProvider Encryption { get; set; }
         
         private ServerListener _net;
         private ClientRegistry _registry;

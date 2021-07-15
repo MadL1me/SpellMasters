@@ -5,8 +5,8 @@
         public override ushort PacketId => 0x0010;
         public override bool UseEncryption => true;
 
-        public uint ClientVersion { get; set; }
-        public uint ProtocolVersion { get; set; }
+        public uint ClientVersion { get; set; } = 1;
+        public uint ProtocolVersion { get; set; } = 1;
         public byte[] DeviceId { get; set; }
 
         protected override void WriteDataOctets(OctetWriter writer)

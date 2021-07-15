@@ -20,11 +20,14 @@ namespace MagicCardGame.Assets.Scripts.Protocol
         private const string ServerAuthKey = "--MCG-Proto--";
         
         public ConnectionState State { get; private set; }
+        public ICryptoProvider Encryption { get; set; }
         
         private NetManager _net;
         private NetPeer _server;
         private PacketHandlerBus<ServerConnection> _handlerBus;
-        private ICryptoProvider _crypto;
+
+        private byte[] _rsaPublicKey;
+        private byte[] _rsaPrivateKey;
 
         public ServerConnection(PacketHandlerBus<ServerConnection> handlerBus)
         {
@@ -42,8 +45,8 @@ namespace MagicCardGame.Assets.Scripts.Protocol
         {
             var data = reader.GetRemainingBytes();
 
-            if (_crypto != null)
-                data = _crypto.DecryptByteBuffer(data);
+            if (Encryption != null)
+                data = Encryption.DecryptByteBuffer(data);
             
             Debug.Log("Received " + string.Join(" ", data.Select(x => x.ToString("X2"))));
             
@@ -71,13 +74,13 @@ namespace MagicCardGame.Assets.Scripts.Protocol
         
         public void SendPacket(IPacket packet)
         {
-            if (packet.UseEncryption && _crypto == null)
+            if (packet.UseEncryption && Encryption == null)
                 throw new Exception("Attempted to send an encrypted packet before encryption was established");
 
             var data = packet.GetDataOctets();
 
             if (packet.UseEncryption)
-                data = _crypto.EncryptByteBuffer(data);
+                data = Encryption.EncryptByteBuffer(data);
             
             Debug.Log("Sending " + string.Join(" ", data.Select(x => x.ToString("X2"))));
             
@@ -87,6 +90,20 @@ namespace MagicCardGame.Assets.Scripts.Protocol
         public void Poll()
         {
             _net.PollEvents();
+        }
+
+        public byte[] GenerateRSAKeys()
+        {
+            RSACryptoProvider.GenerateKeyPair(2048, out _rsaPublicKey, out _rsaPrivateKey);
+            
+            return _rsaPublicKey;
+        }
+
+        public byte[] DecryptRSABytes(byte[] bytes)
+        {
+            var rsa = new RSACryptoProvider(_rsaPrivateKey, true);
+
+            return rsa.DecryptByteBuffer(bytes);
         }
     }
 }
