@@ -130,10 +130,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1475643921592018899, guid: 70e139c534b9c2b4ea69cd2a879a3975, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1475643921592018899, guid: 70e139c534b9c2b4ea69cd2a879a3975, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1475643921772849701, guid: 70e139c534b9c2b4ea69cd2a879a3975, type: 3}
       propertyPath: _networkPlayer
       value: 
       objectReference: {fileID: 679959884}
+    - target: {fileID: 1475643921772849702, guid: 70e139c534b9c2b4ea69cd2a879a3975, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -106
+      objectReference: {fileID: 0}
     - target: {fileID: 1475643921879501982, guid: 70e139c534b9c2b4ea69cd2a879a3975, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -222,8 +234,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardsDeckUi
       objectReference: {fileID: 0}
+    - target: {fileID: 1475643922668680287, guid: 70e139c534b9c2b4ea69cd2a879a3975, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -161
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70e139c534b9c2b4ea69cd2a879a3975, type: 3}
+--- !u!114 &500384108 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 521600796, guid: 70e139c534b9c2b4ea69cd2a879a3975, type: 3}
+  m_PrefabInstance: {fileID: 366942597}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb515aa3c6230494c8d25c74ecdb0167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &504105793
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,6 +521,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localPlayer: {fileID: 679959884}
   _otherPlayer: {fileID: 684310587}
+  _cardUIHandler: {fileID: 500384108}
 --- !u!4 &722257592
 Transform:
   m_ObjectHideFlags: 0

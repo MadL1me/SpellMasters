@@ -8,6 +8,7 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
     {
         [SerializeField] private NetworkPlayerClientView _localPlayer;
         [SerializeField] private NetworkPlayerClientView _otherPlayer;
+        [SerializeField] private CardUIHandler _cardUIHandler;
         
         public static BattleEnvironmentClient Instance { get; private set; }
         public BattleEnvironment BattleEnvironment { get; private set; }
@@ -22,7 +23,9 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
 
         public void Start()
         {
-            MakeTestEnvironment(_localPlayer.NetworkPlayer, _otherPlayer.NetworkPlayer);    
+            MakeTestEnvironment(_localPlayer.NetworkPlayer, _otherPlayer.NetworkPlayer);
+            _cardUIHandler.MainHolder.Environment = BattleEnvironment;
+            _cardUIHandler.MainHolder.networkPlayer = _localPlayer.NetworkPlayer;
         }
         
         public void Update()

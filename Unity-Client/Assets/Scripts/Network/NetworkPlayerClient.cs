@@ -40,7 +40,7 @@ namespace MagicCardGame.Network
             _view.Move(new Vector2(vector.X, vector.Y));
         }
 
-        public override void CastCardAcrossNetwork(int CardId)
+        public override void CastCardAcrossNetwork(int cardId)
         {
             // Send packet with new 
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.Player;
 using UnityEngine;
 
 namespace MagicCardGame
@@ -8,6 +9,9 @@ namespace MagicCardGame
     {
         [SerializeField] protected Deck BindedDeck;
         [SerializeField] public int Capacity = 5;
+
+        public BattleEnvironment Environment;
+        public INetworkPlayer networkPlayer;
         protected CardSlot[] Slots { get; set; }
 
         public RectTransform Rect { get; set; }
@@ -69,7 +73,7 @@ namespace MagicCardGame
             if (!wasFound)
                 throw new KeyNotFoundException("Clicked card is not presented in Holder");
 
-            //Slots[cardIndex].Card.CardType.CastCard();
+            Slots[cardIndex].Card.CardType.CastCard(networkPlayer,Environment);
             RemoveCardByIndex(cardIndex);
             var cardForReplacement = BindedDeck.AskForCard();
             PutCard(cardForReplacement, cardIndex);

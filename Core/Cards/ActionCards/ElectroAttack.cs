@@ -11,7 +11,7 @@ namespace Core.Cards.ActionCards
         public async override Task CastCard(INetworkPlayer networkPlayer, BattleEnvironment environment)
         {
             base.CastCard(networkPlayer, environment);
-            networkPlayer.PlayerCharacter.PlayerEffects.Add(new ElectroEntityEffect());
+            new ElectroEntityEffect().UseOnEntity(networkPlayer.PlayerCharacter);
         }
     }
 }

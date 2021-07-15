@@ -13,7 +13,7 @@ namespace Core.Player
         NetworkPlayerCharacter PlayerCharacter { get; }
         ActionCardsQueueController CardsQueueController { get; }
         void Move(NetVector2 vector);
-        void CastCardAcrossNetwork(int CardId);
+        void CastCardAcrossNetwork(int cardId);
         void Update();
         void GetDamageAcrossNetwork(float damage);
     }
@@ -24,7 +24,7 @@ namespace Core.Player
         public NetworkPlayerCharacter PlayerCharacter { get; }
         public ActionCardsQueueController CardsQueueController { get; }
         public abstract void Move(NetVector2 vector);
-        public abstract void CastCardAcrossNetwork(int CardId);
+        public abstract void CastCardAcrossNetwork(int cardId);
         public abstract void Update();
         public void GetDamageAcrossNetwork(float damage)
         {
