@@ -9,12 +9,7 @@ namespace Server
         static void Main(string[] args)
         {
             Console.WriteLine("Running server");
-
-            var registry = new ClientRegistry(50);
-            var bus = new ServerPacketBus();
-
-            var server = new ServerListener(registry, bus);
-            server.Listen(9669);
+            Server server = new Server(50, 9669);
         }
     }
 }

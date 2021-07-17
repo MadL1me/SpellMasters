@@ -20,6 +20,9 @@ namespace Server.Protocol
                     RsaEncryptedAesKey = buf
                 });
             }));
+
+            RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SClientInfo>(
+                GlobalSettings.MainServer.MainLobby.LobbyJoinPacketHandler));
         }
     }
 }

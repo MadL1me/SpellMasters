@@ -13,6 +13,8 @@ namespace Core.Protocol
             RegisterPacketType<S2CSymmetricKeyResponse>();
             RegisterPacketType<C2SClientInfo>();
             RegisterPacketType<C2SPublicKeyExchange>();
+            RegisterPacketType<S2CLobbyIsFull>();
+            RegisterPacketType<S2CWrongVersion>();
         }
         
         public abstract ushort PacketId { get; }

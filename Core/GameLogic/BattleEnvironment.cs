@@ -9,10 +9,15 @@ namespace Core.Player
 {
     public class BattleEnvironment
     {
-        public INetworkPlayer[] NetworkPlayers { get; protected set; }
+        public INetworkPlayer[] NetworkPlayers { get; set; }
        
         public List<Projectile> Projectiles { get; protected set; }
         public PhysicsEngine PhysicsEngine { get; protected set; } = new PhysicsEngine();
+
+        public BattleEnvironment(int lobbySize)
+        {
+            NetworkPlayers = new INetworkPlayer[lobbySize];
+        }
         
         public void Update(float deltaTime)
         {
@@ -76,13 +81,18 @@ namespace Core.Player
         public INetworkPlayer FirstPlayer => NetworkPlayers[0];
         public INetworkPlayer SecondPlayer => NetworkPlayers[1];
         
-        public TwoPlayersBattleEnvironment(INetworkPlayer first, INetworkPlayer second)
+        public TwoPlayersBattleEnvironment(INetworkPlayer first, INetworkPlayer second) : base(2)
         {
             NetworkPlayers = new[]
             {
                 first,
                 second
             };
+        }
+
+        public TwoPlayersBattleEnvironment() : base(2)
+        {
+            NetworkPlayers = new INetworkPlayer[2];
         }
     }
 }

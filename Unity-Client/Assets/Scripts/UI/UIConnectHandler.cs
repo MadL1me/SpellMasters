@@ -1,3 +1,4 @@
+using Core.Protocol.Packets;
 using MagicCardGame.Assets.Scripts.Protocol;
 using TMPro;
 using UnityEngine;
@@ -55,10 +56,18 @@ namespace MagicCardGame
                 
                 if (_requestedConnect != 0)
                     return;
-                
+
+
                 if (!NetworkProvider.Connect(_hostName, _port))
                     ShowError("Failed to connect");
+                else
+                    JoinLobby();
             }
+        }
+
+        private void JoinLobby()
+        {
+            NetworkProvider.Connection.SendPacket(new C2SClientInfo());
         }
 
         private void ShowError(string text)
