@@ -18,7 +18,7 @@ namespace MagicCardGame
 
         protected ActionCard QueryCardFromDeck()
         {
-            NetworkPlayerClientView networkPlayerView = BattleEnvironmentClient.Instance.LocalPlayer;
+            var networkPlayerView = BattleEnvironmentClient.Instance.LocalPlayer;
 
             networkPlayerView.NetworkPlayer.CardsQueueController.TryGetNextCard();
             //Not implemented due lack of networking support at this moment

@@ -3,9 +3,6 @@ using Core.Protocol.Packets;
 using Server.Protocol;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server.GameLogic
 {
@@ -26,17 +23,15 @@ namespace Server.GameLogic
             if (ConnectedPlayers.Count >= LobbySize)
                 return false;
 
-            ServerNetworkPlayer networkPlayer = new ServerNetworkPlayer(client);
+            var networkPlayer = new ServerNetworkPlayer(client);
 
             ConnectedPlayers.Add(networkPlayer);
 
             return true;
         }
 
-        private bool CheckIfIsFull()
-        {
-            return ConnectedPlayers.Count == LobbySize;
-        }
+        private bool IsLobbyFull => ConnectedPlayers.Count == LobbySize;
+        
 
         private void InitEnvironment()
         {
@@ -51,10 +46,12 @@ namespace Server.GameLogic
             }
         }
 
-        private void StartGame()
+        private void StartGame(ClientWrapper client)
         {
             //isn't implemented at this moment
-            Console.WriteLine("Lobby has reached its max capacity.Starting the game...");
+            Console.WriteLine("Lobby has reached its max capacity. Starting the game...");
+            
+            client.SendPacket(new S2CBattleEnvironmentInfo {BattleEnvironment = Environment});
         }
 
         public void LobbyJoinPacketHandler(ClientWrapper client, C2SClientInfo clientInfo)
@@ -66,7 +63,7 @@ namespace Server.GameLogic
                 return;
             }
 
-            bool result = AddPlayerToPool(client);
+            var result = AddPlayerToPool(client);
 
             if (!result)
             {
@@ -76,10 +73,10 @@ namespace Server.GameLogic
 
             Console.WriteLine($"Client {client.Id} connected to lobby successfully");
 
-            if (CheckIfIsFull())
+            if (IsLobbyFull)
             {
                 InitEnvironment();
-                StartGame();
+                StartGame(client);
             }
         }
     }

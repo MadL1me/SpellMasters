@@ -1,5 +1,4 @@
 ﻿using Core.Protocol.Packets;
-using Server.GameLogic;
 
 namespace Server
 {

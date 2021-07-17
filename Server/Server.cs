@@ -1,10 +1,6 @@
 ﻿using Server.GameLogic;
 using Server.Protocol;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server
 {
@@ -21,10 +17,10 @@ namespace Server
 
             GlobalSettings.MainServer = this; //first class to be created occupies this slot
 
-            ClientRegistry registry = new ClientRegistry(maxClients);
-            ServerPacketBus bus = new ServerPacketBus();
+            var registry = new ClientRegistry(maxClients);
+            var bus = new ServerPacketBus();
 
-            ServerListener server = new ServerListener(registry, bus);
+            var server = new ServerListener(registry, bus);
             server.Listen(port);
 
         }

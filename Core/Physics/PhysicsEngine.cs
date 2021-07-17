@@ -17,7 +17,7 @@ namespace Core.Collision
         {
             for (var i = 0; i < Colliders.Count; i++)
             {
-                for (int j = 0; j < Colliders.Count; j++)
+                for (var j = 0; j < Colliders.Count; j++)
                 {
                     if (i == j)
                         continue;

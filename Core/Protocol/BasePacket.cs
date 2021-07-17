@@ -9,12 +9,12 @@ namespace Core.Protocol
 
         static BasePacket()
         {
-            RegisterPacketType<S2CEncryptionRequest>();
-            RegisterPacketType<S2CSymmetricKeyResponse>();
-            RegisterPacketType<C2SClientInfo>();
-            RegisterPacketType<C2SPublicKeyExchange>();
-            RegisterPacketType<S2CLobbyIsFull>();
-            RegisterPacketType<S2CWrongVersion>();
+            RegisterPacketType<S2CEncryptionRequest>();     // 0x0001
+            RegisterPacketType<C2SPublicKeyExchange>();     // 0x0002
+            RegisterPacketType<S2CSymmetricKeyResponse>();  // 0x0003
+            RegisterPacketType<S2CWrongVersion>();          // 0x0004
+            RegisterPacketType<S2CLobbyIsFull>();           // 0x0005
+            RegisterPacketType<C2SClientInfo>();            // 0x0010
         }
         
         public abstract ushort PacketId { get; }
