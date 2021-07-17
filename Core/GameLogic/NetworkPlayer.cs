@@ -8,7 +8,7 @@ using Core.Utils;
 namespace Core.Player
 {
     public interface INetworkPlayer
-    { 
+    {
         int PlayerId { get; }
         NetworkPlayerCharacter PlayerCharacter { get; }
         ActionCardsQueueController CardsQueueController { get; }
@@ -17,15 +17,25 @@ namespace Core.Player
         void Update();
         void GetDamageAcrossNetwork(float damage);
     }
-    
-    public abstract class NetworkPlayer : INetworkPlayer
+
+    public class NetworkPlayer : INetworkPlayer
     {
-        public int PlayerId { get; }
-        public NetworkPlayerCharacter PlayerCharacter { get; }
-        public ActionCardsQueueController CardsQueueController { get; }
-        public abstract void Move(NetVector2 vector);
-        public abstract void CastCardAcrossNetwork(int cardId);
-        public abstract void Update();
+        public int PlayerId { get; set; }
+        public NetworkPlayerCharacter PlayerCharacter { get; set; }
+        public ActionCardsQueueController CardsQueueController { get; set; }
+
+        public virtual void Move(NetVector2 vector)
+        {
+        }
+
+        public virtual void CastCardAcrossNetwork(int cardId)
+        {
+        }
+
+        public virtual void Update()
+        {
+        }
+
         public void GetDamageAcrossNetwork(float damage)
         {
             PlayerCharacter.PlayerCurrentStats.Health -= damage;
@@ -36,8 +46,10 @@ namespace Core.Player
             PlayerCharacter = new NetworkPlayerCharacter(new NetworkPlayerStats());
             CardsQueueController = new ActionCardsQueueController(this, 5);
         }
-        
-        public abstract void InitPlayerCharacterFromNetwork();
+
+        public virtual void InitPlayerCharacterFromNetwork()
+        {
+        }
     }
 
     public class NetworkPlayerCharacter : INetworkObject
@@ -49,15 +61,15 @@ namespace Core.Player
         public BoxCollider Collider { get; }
         public List<EntityEffect> PlayerEffects { get; }
         public bool CanMove { get; set; }
-        
+
         public NetworkPlayerCharacter(NetworkPlayerStats playerInitialStats)
         {
             PlayerInitialStats = playerInitialStats;
             PlayerCurrentStats = PlayerInitialStats.Clone();
-            Collider = new BoxCollider(new NetVector2(5,10)
-                ,new NetVector2(0,0), this);
+            Collider = new BoxCollider(new NetVector2(5, 10)
+                , new NetVector2(0, 0), this);
         }
-        
+
         public void SetPosition(NetVector2 position)
         {
             Collider.Center = position;
@@ -69,7 +81,7 @@ namespace Core.Player
         public float Health { get; set; } = 100;
         public Stamina Stamina { get; set; } = new Stamina();
         public string DisplayName { get; set; } = "DefaultName";
-        
+
         public NetworkPlayerStats Clone()
         {
             return new NetworkPlayerStats
