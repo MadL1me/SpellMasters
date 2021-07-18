@@ -2,13 +2,13 @@
 
 namespace Server
 {
-    public class GameSimulationServer
+    public class GameSimulation
     {
         public BattleEnvironment Environment { get; }
 
         public bool IsRunning { get; private set; }
         
-        public GameSimulationServer(BattleEnvironment environment)
+        public GameSimulation(BattleEnvironment environment)
         {
             Environment = environment;
         }

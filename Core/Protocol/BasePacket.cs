@@ -14,6 +14,7 @@ namespace Core.Protocol
             RegisterPacketType<S2CSymmetricKeyResponse>();  // 0x0003
             RegisterPacketType<S2CWrongVersion>();          // 0x0004
             RegisterPacketType<S2CLobbyIsFull>();           // 0x0005
+            RegisterPacketType<S2CBattleEnvironmentInfo>(); // 0x0006
             RegisterPacketType<C2SClientInfo>();            // 0x0010
         }
         

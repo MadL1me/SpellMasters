@@ -7,7 +7,7 @@ namespace Core.Protocol.Packets
 {
     public class S2CBattleEnvironmentInfo : S2CPacketBase
     {
-        public override ushort PacketId { get; }
+        public override ushort PacketId => 0x0006;
         public override bool UseEncryption { get; }
 
         public BattleEnvironment BattleEnvironment;
