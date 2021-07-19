@@ -8,43 +8,44 @@ namespace Core.Protocol.Packets
     public class S2CBattleEnvironmentInfo : S2CPacketBase
     {
         public override ushort PacketId => 0x0006;
-        public override bool UseEncryption { get; }
+        public override bool UseEncryption => true;
 
         public BattleEnvironment BattleEnvironment;
 
         protected override void WriteDataOctets(OctetWriter writer)
         {
-            writer.WriteInt32(BattleEnvironment.NetworkPlayers.Length);
+            writer.WriteUVarInt((uint) BattleEnvironment.NetworkPlayers.Length);
             foreach (var networkPlayer in BattleEnvironment.NetworkPlayers)
             {
-                writer.WriteBytes(BitConverter.GetBytes(networkPlayer.PlayerCharacter.PlayerCurrentStats.Stamina.Available));
-                writer.WriteBytes(BitConverter.GetBytes(networkPlayer.PlayerCharacter.PlayerCurrentStats.Stamina.MaxLimit));
-                writer.WriteBytes(BitConverter.GetBytes(networkPlayer.PlayerCharacter.PlayerCurrentStats.Stamina.MinLimit));
-                writer.WriteBytes(BitConverter.GetBytes(networkPlayer.PlayerCharacter.PlayerCurrentStats.Stamina.RegenerationSpeed));
+                writer.WriteReal32(networkPlayer.PlayerCharacter.PlayerCurrentStats.Stamina.Available);
+                writer.WriteReal32(networkPlayer.PlayerCharacter.PlayerCurrentStats.Stamina.MaxLimit);
+                writer.WriteReal32(networkPlayer.PlayerCharacter.PlayerCurrentStats.Stamina.MinLimit);
+                writer.WriteReal32(networkPlayer.PlayerCharacter.PlayerCurrentStats.Stamina.RegenerationSpeed);
                 writer.WriteString(networkPlayer.PlayerCharacter.PlayerCurrentStats.DisplayName);
-                writer.WriteBytes(BitConverter.GetBytes(networkPlayer.PlayerCharacter.PlayerCurrentStats.Health));
+                writer.WriteReal32(networkPlayer.PlayerCharacter.PlayerCurrentStats.Health);
                 writer.WriteBool(networkPlayer.PlayerCharacter.CanMove);
-                writer.WriteInt32(networkPlayer.PlayerId);
+                writer.WriteUVarInt((uint) networkPlayer.PlayerId);
+                writer.WriteUVarInt((uint) networkPlayer.CardsQueueController.CardsInHand.Length);
             }
         }
 
         protected override void ReadDataOctets(OctetReader reader)
         {
-            var lobbySize = reader.ReadInt32();
+            var lobbySize = (int) reader.ReadUVarInt32();
             BattleEnvironment = new BattleEnvironment(lobbySize);
             for (var i = 0; i < lobbySize; ++i)
             {
                 var stamina = new Stamina
                 {
-                    Available = BitConverter.ToSingle(reader.ReadBytes(4), 0),
-                    MaxLimit = BitConverter.ToSingle(reader.ReadBytes(4), 0),
-                    MinLimit = BitConverter.ToSingle(reader.ReadBytes(4), 0),
-                    RegenerationSpeed = BitConverter.ToSingle(reader.ReadBytes(4), 0)
+                    Available = reader.ReadReal32(),
+                    MaxLimit = reader.ReadReal32(),
+                    MinLimit = reader.ReadReal32(),
+                    RegenerationSpeed = reader.ReadReal32()
                 };
                 var networkPlayerStats = new NetworkPlayerStats
                 {
                     DisplayName = reader.ReadString(),
-                    Health = BitConverter.ToSingle(reader.ReadBytes(4), 0),
+                    Health = reader.ReadReal32(),
                     Stamina = stamina
                 };
                 var playerCharacter = new NetworkPlayerCharacter(networkPlayerStats)
@@ -53,10 +54,10 @@ namespace Core.Protocol.Packets
                 };
                 var networkPlayer = new NetworkPlayer
                 {
-                    PlayerId = reader.ReadInt32(),
+                    PlayerId = (int) reader.ReadUVarInt32(),
                     PlayerCharacter = playerCharacter
                 };
-                var cardsQueueController = new ActionCardsQueueController(networkPlayer, reader.ReadInt32());
+                var cardsQueueController = new ActionCardsQueueController(networkPlayer, (int) reader.ReadUVarInt32());
                 networkPlayer.CardsQueueController = cardsQueueController;
                 BattleEnvironment.NetworkPlayers[i] = networkPlayer;
             }
