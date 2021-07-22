@@ -18,7 +18,7 @@ namespace Core.Cards
             СardConfig = config;
         }
         
-        public virtual async Task CastCard(INetworkPlayer networkPlayer, BattleEnvironment environment)
+        public virtual async Task CastCard(NetworkPlayer networkPlayer, BattleEnvironment environment)
         {
             await Task.Delay(СardConfig.CastDelay);
             networkPlayer.CastCardAcrossNetwork(CardId);
@@ -27,12 +27,12 @@ namespace Core.Cards
 
     public class ActionCardsQueueController 
     {
-        public INetworkPlayer Player { get; }
+        public NetworkPlayer Player { get; }
         public ActionCard[] CardsInHand { get; } 
         public Queue<ActionCard> NextDropCards { get; } = new Queue<ActionCard>();
         public ActionCard this[int index] => CardsInHand[index];
         
-        public ActionCardsQueueController(INetworkPlayer player, int cardsCount)
+        public ActionCardsQueueController(NetworkPlayer player, int cardsCount)
         {
             Player = player;
             CardsInHand = new ActionCard[cardsCount];

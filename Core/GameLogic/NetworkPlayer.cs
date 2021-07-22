@@ -7,18 +7,7 @@ using Core.Utils;
 
 namespace Core.Player
 {
-    public interface INetworkPlayer
-    {
-        int PlayerId { get; }
-        NetworkPlayerCharacter PlayerCharacter { get; }
-        ActionCardsQueueController CardsQueueController { get; }
-        void Move(NetVector2 vector);
-        void CastCardAcrossNetwork(int cardId);
-        void Update();
-        void GetDamageAcrossNetwork(float damage);
-    }
-
-    public class NetworkPlayer : INetworkPlayer
+    public class NetworkPlayer
     {
         public int PlayerId { get; set; }
         public NetworkPlayerCharacter PlayerCharacter { get; set; }

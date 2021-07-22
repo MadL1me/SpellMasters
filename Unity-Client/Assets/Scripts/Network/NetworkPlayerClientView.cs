@@ -33,6 +33,7 @@ namespace MagicCardGame.Network
 
         public void InitPlayerFromNetwork()
         {
+
         }
 
         public void Move(Vector2 vector)

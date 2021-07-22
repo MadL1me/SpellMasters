@@ -9,14 +9,14 @@ namespace Core.Player
 {
     public class BattleEnvironment
     {
-        public INetworkPlayer[] NetworkPlayers { get; set; }
+        public NetworkPlayer[] NetworkPlayers { get; set; }
        
         public List<Projectile> Projectiles { get; protected set; }
         public PhysicsEngine PhysicsEngine { get; protected set; } = new PhysicsEngine();
 
         public BattleEnvironment(int lobbySize)
         {
-            NetworkPlayers = new INetworkPlayer[lobbySize];
+            NetworkPlayers = new NetworkPlayer[lobbySize];
         }
         
         public void Update(float deltaTime)
@@ -34,10 +34,10 @@ namespace Core.Player
             return player.CardsQueueController.TryCastCardAtIndex(cardInHandIndex, this);
         }
         
-        public INetworkPlayer GetClosestCharacter(NetVector2 position)
+        public NetworkPlayer GetClosestCharacter(NetVector2 position)
         {
             var minDistance = float.MaxValue;
-            INetworkPlayer closestPlayer = null;
+            NetworkPlayer closestPlayer = null;
             
             foreach (var networkPlayer in NetworkPlayers)
             {
@@ -53,10 +53,10 @@ namespace Core.Player
             return closestPlayer;
         }
         
-        public INetworkPlayer GetClosestCharacterExcept(NetVector2 position, INetworkPlayer player)
+        public NetworkPlayer GetClosestCharacterExcept(NetVector2 position, NetworkPlayer player)
         {
             var minDistance = float.MaxValue;
-            INetworkPlayer closestPlayer = null;
+            NetworkPlayer closestPlayer = null;
             
             foreach (var networkPlayer in NetworkPlayers)
             {
@@ -78,10 +78,10 @@ namespace Core.Player
 
     public class TwoPlayersBattleEnvironment : BattleEnvironment
     {
-        public INetworkPlayer FirstPlayer => NetworkPlayers[0];
-        public INetworkPlayer SecondPlayer => NetworkPlayers[1];
+        public NetworkPlayer FirstPlayer => NetworkPlayers[0];
+        public NetworkPlayer SecondPlayer => NetworkPlayers[1];
         
-        public TwoPlayersBattleEnvironment(INetworkPlayer first, INetworkPlayer second) : base(2)
+        public TwoPlayersBattleEnvironment(NetworkPlayer first, NetworkPlayer second) : base(2)
         {
             NetworkPlayers = new[]
             {
@@ -92,7 +92,7 @@ namespace Core.Player
 
         public TwoPlayersBattleEnvironment() : base(2)
         {
-            NetworkPlayers = new INetworkPlayer[2];
+            NetworkPlayers = new NetworkPlayer[2];
         }
     }
 }

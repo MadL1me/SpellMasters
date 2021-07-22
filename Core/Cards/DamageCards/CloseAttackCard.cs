@@ -13,7 +13,7 @@ namespace Core.Cards.DamageCards
             AttackDistance = attackDistance;
         }
 
-        public async override Task CastCard(INetworkPlayer networkPlayer, BattleEnvironment environment)
+        public async override Task CastCard(NetworkPlayer networkPlayer, BattleEnvironment environment)
         {
             var closestCharacter = environment.GetClosestCharacterExcept(networkPlayer.PlayerCharacter.Position, networkPlayer);
             if (NetVector2.Distance(networkPlayer.PlayerCharacter.Position,

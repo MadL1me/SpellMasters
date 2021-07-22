@@ -1,6 +1,10 @@
 ﻿using Core.Player;
+using Core.Protocol.Packets;
+using MagicCardGame.Assets.Scripts.Protocol;
 using MagicCardGame.Network;
 using UnityEngine;
+using System;
+using NetworkPlayer = Core.Player.NetworkPlayer;
 
 namespace MagicCardGame.Assets.Scripts.GameLogic
 {
@@ -32,9 +36,17 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
             BattleEnvironment?.Update(Time.deltaTime);
         }
 
-        private void MakeTestEnvironment(INetworkPlayer player1, INetworkPlayer player2)
+        private void MakeTestEnvironment(NetworkPlayer player1, NetworkPlayer player2)
         {
             BattleEnvironment = new TwoPlayersBattleEnvironment(player1, player2);
+        }
+
+        public void InitFromNetwork(ServerConnection connection, S2CBattleEnvironmentInfo envirInfo)
+        {
+            if (envirInfo.BattleEnvironment.NetworkPlayers.Length != 2)
+                throw new NotImplementedException("players counts different from 2 isn't supported");
+
+            BattleEnvironment = envirInfo.BattleEnvironment;
         }
     }
 }

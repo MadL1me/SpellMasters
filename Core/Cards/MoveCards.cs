@@ -6,32 +6,35 @@ namespace Core.Cards
 {
     public abstract class MoveCard : ActionCard
     {
-        protected abstract NetVector2 MoveVector { get; }
+        protected virtual NetVector2 MoveVector { get; set; }
 
-        public async override Task CastCard(INetworkPlayer networkPlayer, BattleEnvironment environment)
+        public async override Task CastCard(NetworkPlayer networkPlayer, BattleEnvironment environment)
         {
             networkPlayer.Move(MoveVector);
             base.CastCard(networkPlayer, environment);
         }
 
-        protected MoveCard(ActionCardConfig config) : base(config) { }
+        protected MoveCard(ActionCardConfig config, NetVector2 moveVector) : base(config)
+        {
+            MoveVector = moveVector;
+        }
     }
 
-    public abstract class MoveLeftCard : MoveCard
+    public class MoveLeftCard : MoveCard
     {
         protected override NetVector2 MoveVector => NetVector2.Left;
-        protected MoveLeftCard(ActionCardConfig config) : base(config) { }
+        public MoveLeftCard(ActionCardConfig config, NetVector2 moveVector) : base(config, moveVector) { }
     }
     
-    public abstract class MoveRightCard : MoveCard
+    public class MoveRightCard : MoveCard
     {
         protected override NetVector2 MoveVector => NetVector2.Right;
-        protected MoveRightCard(ActionCardConfig config) : base(config) { }
+        public MoveRightCard(ActionCardConfig config , NetVector2 moveVector) : base(config, moveVector) { }
     }
     
-    public abstract class MoveUpCard : MoveCard
+    public class MoveUpCard : MoveCard
     {
         protected override NetVector2 MoveVector => NetVector2.Up;
-        protected MoveUpCard(ActionCardConfig config) : base(config) { }
+        public MoveUpCard(ActionCardConfig config, NetVector2 moveVector) : base(config, moveVector) { }
     }
 }

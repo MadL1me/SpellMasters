@@ -1,19 +1,20 @@
 ﻿using Core.Cards;
+using Core.Utils;
 
 namespace MagicCardGame
 {
     public class MoveLeftCardClient : MoveLeftCard
     {
-        public MoveLeftCardClient(ActionCardConfig config) : base(config) { }
+        public MoveLeftCardClient(ActionCardConfig config, NetVector2 moveVector) : base(config, moveVector) { }
     }
     
     public class MoveRightCardClient : MoveRightCard
     {
-        public MoveRightCardClient(ActionCardConfig config) : base(config) { }
+        public MoveRightCardClient(ActionCardConfig config, NetVector2 moveVector) : base(config, moveVector) { }
     }
     
     public class MoveUpCardClient : MoveUpCard
     {
-        public MoveUpCardClient(ActionCardConfig config) : base(config) { }
+        public MoveUpCardClient(ActionCardConfig config, NetVector2 moveVector) : base(config, moveVector) { }
     }
 }

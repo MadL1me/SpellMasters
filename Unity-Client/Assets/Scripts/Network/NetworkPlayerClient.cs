@@ -23,11 +23,11 @@ namespace MagicCardGame.Network
                 return;
             
             if (Input.GetKeyDown(KeyCode.LeftArrow))
-                new MoveLeftCardClient(new ActionCardConfig(0, 0)).CastCard(this, null);
+                new MoveLeftCardClient(new ActionCardConfig(0, 0), new NetVector2(-1, 0)).CastCard(this, null);
             if (Input.GetKeyDown(KeyCode.RightArrow))
-                new MoveRightCardClient(new ActionCardConfig(1, 0)).CastCard(this, null);
+                new MoveRightCardClient(new ActionCardConfig(1, 0), new NetVector2(1, 0)).CastCard(this, null);
             if (Input.GetKeyDown(KeyCode.UpArrow))
-                new MoveUpCardClient(new ActionCardConfig(2, 0)).CastCard(this, null);
+                new MoveUpCardClient(new ActionCardConfig(2, 0), new NetVector2(0, 1)).CastCard(this, null);
         }
 
         public override void InitPlayerCharacterFromNetwork()
