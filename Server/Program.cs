@@ -1,4 +1,5 @@
 ﻿using System;
+using Server.Protocol;
 
 namespace Server
 {
@@ -7,7 +8,11 @@ namespace Server
         static void Main(string[] args)
         {
             Console.WriteLine("Running server");
-            var server = new Server(50, 9669);
+
+            var registry = new ClientRegistry(50);
+            var bus = new ServerPacketBus();
+            var server = new ServerListener(registry, bus);
+            server.Listen(9669);
         }
     }
 }

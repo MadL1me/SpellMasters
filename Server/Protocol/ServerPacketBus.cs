@@ -21,8 +21,8 @@ namespace Server.Protocol
                 });
             }));
 
-            RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SClientInfo>(
-                GlobalSettings.MainServer.MainLobby.LobbyJoinPacketHandler));
+            RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SClientInfo>((client, packet) =>
+                client.Server.MainLobby.LobbyJoinPacketHandler(client, packet)));
         }
     }
 }

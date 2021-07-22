@@ -18,8 +18,8 @@ namespace Server.Protocol
         public int Id { get; }
         public ClientState State { get; set; }
         public ICryptoProvider Encryption { get; set; }
+        public ServerListener Server { get; }
         
-        private ServerListener _net;
         private ClientRegistry _registry;
         private NetPeer _peer;
 
@@ -28,7 +28,7 @@ namespace Server.Protocol
             Id = id;
             State = ClientState.Unencrypted;
             
-            _net = net;
+            Server = net;
             _registry = registry;
             _peer = peer;
         }

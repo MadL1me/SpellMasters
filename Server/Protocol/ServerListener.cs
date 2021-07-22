@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using Core.Protocol;
 using LiteNetLib;
+using Server.GameLogic;
 
 namespace Server.Protocol
 {
@@ -17,10 +19,16 @@ namespace Server.Protocol
         private ClientRegistry _registry;
         private PacketHandlerBus<ClientWrapper> _handlerBus;
         
+        public Lobby MainLobby { get; protected set; }
+        public List<Lobby> Lobbies { get; protected set; }
+        
         public ServerListener(ClientRegistry registry, PacketHandlerBus<ClientWrapper> handlerBus)
         {
             _registry = registry;
             _handlerBus = handlerBus;
+            
+            MainLobby = new Lobby(2);
+            Lobbies = new List<Lobby>();
             
             var evt = new EventBasedNetListener();
             _net = new NetManager(evt);
