@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Core.Protocol;
+using Core.Protocol.Packets;
 using LiteNetLib;
 using UnityEngine;
 
@@ -32,6 +33,7 @@ namespace MagicCardGame.Assets.Scripts.Protocol
         public ServerConnection(PacketHandlerBus<ServerConnection> handlerBus)
         {
             _handlerBus = handlerBus;
+            _handlerBus.CreateCallbackDriver(300, new ClientCallbackDispatcher());
             State = ConnectionState.Unencrypted;
             
             var evt = new EventBasedNetListener();
@@ -72,6 +74,58 @@ namespace MagicCardGame.Assets.Scripts.Protocol
             return _server != null;
         }
         
+        /// <summary>
+        /// Sends a packet and awaits a callback packet
+        /// </summary>
+        public void SendPacketWithCallback(
+            C2SCallbackPacketBase packet, 
+            ClientCallbackDispatcher.CallbackEvent callback,
+            ClientCallbackDispatcher.CallbackError errorCallback = null)
+        {
+            _handlerBus.CallbackDriver
+                .RegisterCallback(packet.GetSequenceId(), callback, errorCallback);
+            
+            SendPacket(packet);
+        }
+
+        /// <summary>
+        /// Responds to a given callback packet with another packet
+        /// </summary>
+        public void Respond(S2CCallbackPacketBase packet, C2SCallbackPacketBase newPacket)
+        {
+            newPacket.InheritSequenceId(packet);
+            SendPacket(newPacket);
+        }
+        
+        /// <summary>
+        /// Responds to a given callback packet with an error
+        /// </summary>
+        public void RespondWithError(S2CCallbackPacketBase packet, int id)
+        {
+            var newPacket = new C2SErrorPacket(id);
+            newPacket.InheritSequenceId(packet);
+            SendPacket(newPacket);
+        }
+        
+        /// <summary>
+        /// Responds to a given callback packet with a success
+        /// </summary>
+        public void RespondWithSuccess(S2CCallbackPacketBase packet)
+        {
+            RespondWithError(packet, 0);
+        }
+        
+        /// <summary>
+        /// Responds to a given callback packet with another packet with callback
+        /// </summary>
+        public void RespondWithCallback(S2CCallbackPacketBase packet, C2SCallbackPacketBase newPacket,
+            ClientCallbackDispatcher.CallbackEvent callback,
+            ClientCallbackDispatcher.CallbackError errorCallback = null)
+        {
+            newPacket.InheritSequenceId(packet);
+            SendPacketWithCallback(newPacket, callback, errorCallback);
+        }
+        
         public void SendPacket(IPacket packet)
         {
             if (packet.UseEncryption && Encryption == null)
@@ -89,6 +143,7 @@ namespace MagicCardGame.Assets.Scripts.Protocol
         
         public void Poll()
         {
+            _handlerBus.Update();
             _net.PollEvents();
         }
 

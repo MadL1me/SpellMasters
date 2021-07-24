@@ -5,11 +5,11 @@ using System;
 
 namespace Server.GameLogic
 {
-    public class ServerNetworkPlayer : NetworkPlayer
+    public class NetworkPlayerServer : NetworkPlayer
     {
         public ClientWrapper BindedClient { get; protected set; }
 
-        public ServerNetworkPlayer(ClientWrapper client) : base()
+        public NetworkPlayerServer(ClientWrapper client) : base()
         {
             BindedClient = client;
         }

@@ -4,49 +4,71 @@ using MagicCardGame.Assets.Scripts.Protocol;
 using MagicCardGame.Network;
 using UnityEngine;
 using System;
+using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 using NetworkPlayer = Core.Player.NetworkPlayer;
 
 namespace MagicCardGame.Assets.Scripts.GameLogic
 {
-    public class BattleEnvironmentClient : MonoBehaviour
+    /// <summary>
+    /// Represents a clientside battle environment
+    /// </summary>
+    public class BattleEnvironmentClient
     {
-        [SerializeField]
-        public NetworkPlayerClientView LocalPlayer;
-        [SerializeField]
-        public NetworkPlayerClientView OtherPlayer;
+        /// <summary>
+        /// Name of the scene to load when in-game
+        /// </summary>
+        private const string BattleSceneName = "Scenes/TestSceneIlushkins";
         
-        public static BattleEnvironmentClient Instance { get; private set; }
-        public BattleEnvironment BattleEnvironment { get; private set; }
-
-        private void Awake()
-        {
-            if (Instance != null)
-                Destroy(this);
-            else
-                Instance = this;
-        }
-
-        public void Start()
-        {
-            MakeTestEnvironment(LocalPlayer.NetworkPlayer, OtherPlayer.NetworkPlayer);
-        }
+        /// <summary>
+        /// Currently active environment, may be null if player is not in-game
+        /// </summary>
+        public static BattleEnvironmentClient Current { get; private set; }
         
-        public void Update()
+        public BattleEnvironment SharedEnvironment { get; private set; }
+        public NetworkPlayerClient LocalPlayer => SharedEnvironment.NetworkPlayers[0] as NetworkPlayerClient;
+        
+        /// <summary>
+        /// Initializes clientside battle env from an environment object provided
+        /// by the server
+        /// </summary>
+        public BattleEnvironmentClient(BattleEnvironment sharedEnv)
         {
-            BattleEnvironment?.Update(Time.deltaTime);
+            SharedEnvironment = sharedEnv;
         }
 
-        private void MakeTestEnvironment(NetworkPlayer player1, NetworkPlayer player2)
+        public void SetAsCurrent() => Current = this;
+
+        /// <summary>
+        /// Creates starting entities such as players and etc.
+        /// </summary>
+        public void CreateStartingEntities()
         {
-            BattleEnvironment = new TwoPlayersBattleEnvironment(player1, player2);
+            foreach (var player in SharedEnvironment.NetworkPlayers)
+            {
+                if (player == null)
+                    continue;
+
+                Addressables.InstantiateAsync("Assets/Prefabs/PlayerPrefab.prefab").Completed += handle =>
+                {
+                    var inst = handle.Result;
+                    
+                    // TODO Should make player local here
+                };
+            }
         }
 
-        public void InitFromNetwork(ServerConnection connection, S2CBattleEnvironmentInfo envirInfo)
+        /// <summary>
+        /// Immediately creates a clientside battle environment and loads the appropriate scene
+        /// </summary>
+        public static void CreateAndLoadScene(BattleEnvironment sharedEnv)
         {
-            if (envirInfo.BattleEnvironment.NetworkPlayers.Length != 2)
-                throw new NotImplementedException("players counts different from 2 isn't supported");
+            var clientEnv = new BattleEnvironmentClient(sharedEnv);
+            clientEnv.SetAsCurrent();
 
-            BattleEnvironment = envirInfo.BattleEnvironment;
+            SceneManager.LoadScene(BattleSceneName);
+            
+            clientEnv.CreateStartingEntities();
         }
     }
 }

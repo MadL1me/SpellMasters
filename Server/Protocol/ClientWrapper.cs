@@ -12,7 +12,7 @@ namespace Server.Protocol
         Encrypted,
         Authorized
     }
-    
+
     public class ClientWrapper
     {
         public int Id { get; }
@@ -40,6 +40,58 @@ namespace Server.Protocol
                 EncryptionAlgorithm = GlobalSettings.EncryptionAlgorithm,
                 EncryptionProtocolVersion = GlobalSettings.EncryptionProtocolVersion
             });
+        }
+
+        /// <summary>
+        /// Sends a packet and awaits a callback packet
+        /// </summary>
+        public void SendPacketWithCallback(
+            S2CCallbackPacketBase packet, 
+            ServerCallbackDispatcher.CallbackEvent callback,
+            ServerCallbackDispatcher.CallbackError errorCallback = null)
+        {
+            Server.HandlerBus.CallbackDriver
+                .RegisterCallback(packet.GetSequenceId(), callback, errorCallback);
+            
+            SendPacket(packet);
+        }
+        
+        /// <summary>
+        /// Responds to a given callback packet with another packet
+        /// </summary>
+        public void Respond(C2SCallbackPacketBase packet, S2CCallbackPacketBase newPacket)
+        {
+            newPacket.InheritSequenceId(packet);
+            SendPacket(newPacket);
+        }
+        
+        /// <summary>
+        /// Responds to a given callback packet with an error
+        /// </summary>
+        public void RespondWithError(C2SCallbackPacketBase packet, int id)
+        {
+            var newPacket = new S2CErrorPacket(id);
+            newPacket.InheritSequenceId(packet);
+            SendPacket(newPacket);
+        }
+        
+        /// <summary>
+        /// Responds to a given callback packet with a success
+        /// </summary>
+        public void RespondWithSuccess(C2SCallbackPacketBase packet)
+        {
+            RespondWithError(packet, 0);
+        }
+        
+        /// <summary>
+        /// Responds to a given callback packet with another packet with callback
+        /// </summary>
+        public void RespondWithCallback(C2SCallbackPacketBase packet, S2CCallbackPacketBase newPacket,
+            ServerCallbackDispatcher.CallbackEvent callback,
+            ServerCallbackDispatcher.CallbackError errorCallback = null)
+        {
+            newPacket.InheritSequenceId(packet);
+            SendPacketWithCallback(newPacket, callback, errorCallback);
         }
 
         public void SendPacket(IPacket packet)

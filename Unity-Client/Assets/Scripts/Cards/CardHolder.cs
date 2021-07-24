@@ -73,10 +73,10 @@ namespace MagicCardGame
             if (!wasFound)
                 throw new KeyNotFoundException("Clicked card is not presented in Holder");
 
-            NetworkPlayerClientView networkPlayer = BattleEnvironmentClient.Instance.LocalPlayer;
-            BattleEnvironment environment = BattleEnvironmentClient.Instance.BattleEnvironment;
+            NetworkPlayerClient networkPlayer = BattleEnvironmentClient.Current.LocalPlayer;
+            BattleEnvironment environment = BattleEnvironmentClient.Current.SharedEnvironment;
 
-            Slots[cardIndex].Card.CardType.CastCard(networkPlayer.NetworkPlayer,environment);
+            Slots[cardIndex].Card.CardType.CastCard(networkPlayer, environment);
             RemoveCardByIndex(cardIndex);
             CardElement cardForReplacement = BindedDeck.AskForCard();
             PutCard(cardForReplacement, cardIndex);

@@ -9,75 +9,48 @@ namespace Server.GameLogic
     public class Lobby
     {
         public BattleEnvironment Environment { get; protected set; }
-        public List<ServerNetworkPlayer> ConnectedPlayers { get; protected set; }
         public int LobbySize { get; protected set; }
+        public int ConnectedPlayerCount { get; protected set; }
+        private bool IsLobbyFull => ConnectedPlayerCount >= LobbySize;
 
         public Lobby(int lobbySize)
         {
             LobbySize = lobbySize;
-            ConnectedPlayers = new List<ServerNetworkPlayer>();
+            Environment = new BattleEnvironment(LobbySize);
         }
 
         private bool AddPlayerToPool(ClientWrapper client)
         {
-            if (ConnectedPlayers.Count >= LobbySize)
+            if (ConnectedPlayerCount >= LobbySize)
                 return false;
 
-            var networkPlayer = new ServerNetworkPlayer(client);
-
-            ConnectedPlayers.Add(networkPlayer);
-
+            Environment.NetworkPlayers[ConnectedPlayerCount++] = new NetworkPlayerServer(client);
             return true;
-        }
-
-        private bool IsLobbyFull => ConnectedPlayers.Count == LobbySize;
-        
-
-        private void InitEnvironment()
-        {
-            if (ConnectedPlayers.Count == 2)
-            {
-                Environment = new TwoPlayersBattleEnvironment(ConnectedPlayers[0], ConnectedPlayers[1]);
-            }
-            else
-            {
-                Environment = new BattleEnvironment(ConnectedPlayers.Count);
-                Environment.NetworkPlayers = ConnectedPlayers.ToArray();
-            }
         }
 
         private void StartGame(ClientWrapper client)
         {
-            //isn't implemented at this moment
             Console.WriteLine("Lobby has reached its max capacity. Starting the game...");
             
             client.SendPacket(new S2CBattleEnvironmentInfo {BattleEnvironment = Environment});
         }
 
-        public void LobbyJoinPacketHandler(ClientWrapper client, C2SClientInfo clientInfo)
+        public void LobbyJoinPacketHandler(ClientWrapper client, C2SJoinLobby packet)
         {
-            if(clientInfo.ProtocolVersion != GlobalSettings.ProtocolVersion ||
-               clientInfo.ClientVersion != GlobalSettings.ServerVersion)
-            {
-                client.SendPacket(new S2CWrongVersion());
-                return;
-            }
-
             var result = AddPlayerToPool(client);
 
             if (!result)
             {
-                client.SendPacket(new S2CLobbyIsFull());
+                client.RespondWithError(packet, 10001);
                 return;
             }
 
             Console.WriteLine($"Client {client.Id} connected to lobby successfully");
 
             if (IsLobbyFull)
-            {
-                InitEnvironment();
                 StartGame(client);
-            }
+
+            client.RespondWithSuccess(packet);
         }
     }
 }

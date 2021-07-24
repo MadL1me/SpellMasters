@@ -18,11 +18,10 @@ namespace MagicCardGame
 
         protected ActionCard QueryCardFromDeck()
         {
-            var networkPlayerView = BattleEnvironmentClient.Instance.LocalPlayer;
+            var networkPlayer = BattleEnvironmentClient.Current.LocalPlayer;
 
-            networkPlayerView.NetworkPlayer.CardsQueueController.TryGetNextCard();
             //Not implemented due lack of networking support at this moment
-            return networkPlayerView.NetworkPlayer.CardsQueueController.TryGetNextCard();;
+            return networkPlayer.CardsQueueController.TryGetNextCard();
         }
     }
 }

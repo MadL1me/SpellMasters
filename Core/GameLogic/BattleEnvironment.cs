@@ -75,24 +75,4 @@ namespace Core.Player
             return closestPlayer;
         }
     }
-
-    public class TwoPlayersBattleEnvironment : BattleEnvironment
-    {
-        public NetworkPlayer FirstPlayer => NetworkPlayers[0];
-        public NetworkPlayer SecondPlayer => NetworkPlayers[1];
-        
-        public TwoPlayersBattleEnvironment(NetworkPlayer first, NetworkPlayer second) : base(2)
-        {
-            NetworkPlayers = new[]
-            {
-                first,
-                second
-            };
-        }
-
-        public TwoPlayersBattleEnvironment() : base(2)
-        {
-            NetworkPlayers = new NetworkPlayer[2];
-        }
-    }
 }

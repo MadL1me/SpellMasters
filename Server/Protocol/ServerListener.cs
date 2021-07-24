@@ -17,15 +17,17 @@ namespace Server.Protocol
         private NetManager _net;
         private CancellationTokenSource _token;
         private ClientRegistry _registry;
-        private PacketHandlerBus<ClientWrapper> _handlerBus;
+
+        public ServerPacketBus HandlerBus { get; protected set; }
         
         public Lobby MainLobby { get; protected set; }
         public List<Lobby> Lobbies { get; protected set; }
         
-        public ServerListener(ClientRegistry registry, PacketHandlerBus<ClientWrapper> handlerBus)
+        public ServerListener(ClientRegistry registry, ServerPacketBus handlerBus)
         {
             _registry = registry;
-            _handlerBus = handlerBus;
+            HandlerBus = handlerBus;
+            HandlerBus.CreateCallbackDriver(300, new ServerCallbackDispatcher());
             
             MainLobby = new Lobby(2);
             Lobbies = new List<Lobby>();
@@ -49,6 +51,7 @@ namespace Server.Protocol
 
             while (!_token.IsCancellationRequested)
             {
+                HandlerBus.Update();
                 _net.PollEvents();
                 Thread.Sleep(15);
             }
@@ -108,7 +111,7 @@ namespace Server.Protocol
                 return;
             }
             
-            _handlerBus.HandlePacket(client, packet);
+            HandlerBus.HandlePacket(client, packet);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Linq;
 using Core.Protocol;
 using Core.Protocol.Packets;
+using MagicCardGame.Assets.Scripts.GameLogic;
 using UnityEngine;
 
 namespace MagicCardGame.Assets.Scripts.Protocol
@@ -29,6 +30,13 @@ namespace MagicCardGame.Assets.Scripts.Protocol
                 {
                     DeviceId = new byte[16]
                 });
+            }));
+            
+            // This handler automatically creates a clientside battle env and loads the appropriate scene
+            // when a packet is received
+            RegisterHandler(new SimplePacketHandler<ServerConnection, S2CBattleEnvironmentInfo>((connection, packet) =>
+            {
+                BattleEnvironmentClient.CreateAndLoadScene(packet.BattleEnvironment);
             }));
         }
     }
