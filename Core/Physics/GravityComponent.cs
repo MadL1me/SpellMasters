@@ -5,17 +5,17 @@ namespace Core.Collision
 {
     public class GravityComponent
     {
-        public INetworkObject NetworkObject { get; }
+        public INetworkedObject NetworkObject { get; }
         public NetVector2 Velocity { get; }
         
-        public GravityComponent(INetworkObject networkObject)
+        public GravityComponent(INetworkedObject networkObject)
         {
             NetworkObject = networkObject;
         }
         
         public void Update(float deltaTime)
         {
-            NetworkObject.SetPosition((NetworkObject.Position + Velocity) * deltaTime);
+            NetworkObject.Position += (NetworkObject.Position + Velocity) * deltaTime;
         }
     }
 }

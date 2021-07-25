@@ -1,12 +1,8 @@
-﻿using Core.Player;
-using Core.Protocol.Packets;
+﻿using Core.GameLogic;
 using MagicCardGame.Assets.Scripts.Protocol;
 using MagicCardGame.Network;
-using UnityEngine;
-using System;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
-using NetworkPlayer = Core.Player.NetworkPlayer;
 
 namespace MagicCardGame.Assets.Scripts.GameLogic
 {
@@ -25,15 +21,17 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
         /// </summary>
         public static BattleEnvironmentClient Current { get; private set; }
         
+        public ServerConnection Server { get; private set; }
         public BattleEnvironment SharedEnvironment { get; private set; }
-        public NetworkPlayerClient LocalPlayer => SharedEnvironment.NetworkPlayers[0] as NetworkPlayerClient;
+        public NetworkPlayerClient LocalPlayer { get; private set; }
         
         /// <summary>
         /// Initializes clientside battle env from an environment object provided
         /// by the server
         /// </summary>
-        public BattleEnvironmentClient(BattleEnvironment sharedEnv)
+        public BattleEnvironmentClient(ServerConnection server, BattleEnvironment sharedEnv)
         {
+            Server = server;
             SharedEnvironment = sharedEnv;
         }
 
@@ -49,11 +47,20 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
                 if (player == null)
                     continue;
 
+                var clientPlayer = (NetworkPlayerClient) player;
+
+                var isLocal = clientPlayer.IsLocal;
+
+                if (isLocal)
+                    LocalPlayer = clientPlayer;
+                
                 Addressables.InstantiateAsync("Assets/Prefabs/PlayerPrefab.prefab").Completed += handle =>
                 {
-                    var inst = handle.Result;
+                    var view = handle.Result.GetComponent<NetworkPlayerClientView>();
+                    view.NetworkPlayer = clientPlayer;
                     
-                    // TODO Should make player local here
+                    if (isLocal)
+                        view.MarkAsLocal();
                 };
             }
         }
@@ -61,9 +68,9 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
         /// <summary>
         /// Immediately creates a clientside battle environment and loads the appropriate scene
         /// </summary>
-        public static void CreateAndLoadScene(BattleEnvironment sharedEnv)
+        public static void CreateAndLoadScene(ServerConnection server, BattleEnvironment sharedEnv)
         {
-            var clientEnv = new BattleEnvironmentClient(sharedEnv);
+            var clientEnv = new BattleEnvironmentClient(server, sharedEnv);
             clientEnv.SetAsCurrent();
 
             SceneManager.LoadScene(BattleSceneName);

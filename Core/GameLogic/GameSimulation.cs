@@ -1,4 +1,4 @@
-﻿using Core.Player;
+﻿using Core.GameLogic;
 
 namespace Server
 {

@@ -1,4 +1,4 @@
-﻿using Core.Player;
+﻿using Core.GameLogic;
 using Core.Protocol.Packets;
 using Server.Protocol;
 using System;
@@ -24,7 +24,10 @@ namespace Server.GameLogic
             if (ConnectedPlayerCount >= LobbySize)
                 return false;
 
-            Environment.NetworkPlayers[ConnectedPlayerCount++] = new NetworkPlayerServer(client);
+            Environment.NetworkPlayers[ConnectedPlayerCount++] = new NetworkPlayerServer(client)
+            {
+                DisplayedName = "PL" + (ConnectedPlayerCount - 1)
+            };
             return true;
         }
 

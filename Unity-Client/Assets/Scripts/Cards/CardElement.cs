@@ -25,7 +25,7 @@ namespace MagicCardGame
 
         public static CardElement CreateFromActionCard(ActionCard cardData)
         {
-            var image = Resources.Load<Sprite>($"RawSprites/{cardData.CardName}");
+            var image = Resources.Load<Sprite>($"RawSprites/{cardData.SharedData.CardName}");
             if (image == null)
                 throw new NullReferenceException("Can't find related resource");
 

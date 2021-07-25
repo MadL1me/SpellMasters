@@ -29,7 +29,7 @@ namespace Server.Protocol
             HandlerBus = handlerBus;
             HandlerBus.CreateCallbackDriver(300, new ServerCallbackDispatcher());
             
-            MainLobby = new Lobby(2);
+            MainLobby = new Lobby(1);
             Lobbies = new List<Lobby>();
             
             var evt = new EventBasedNetListener();

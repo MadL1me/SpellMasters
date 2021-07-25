@@ -22,6 +22,7 @@ namespace MagicCardGame.Assets.Scripts.Protocol
         
         public ConnectionState State { get; private set; }
         public ICryptoProvider Encryption { get; set; }
+        public uint LocalClientId { get; set; }
         
         private NetManager _net;
         private NetPeer _server;
@@ -132,11 +133,11 @@ namespace MagicCardGame.Assets.Scripts.Protocol
                 throw new Exception("Attempted to send an encrypted packet before encryption was established");
 
             var data = packet.GetDataOctets();
+            
+            Debug.Log("Sending " + string.Join(" ", data.Select(x => x.ToString("X2"))));
 
             if (packet.UseEncryption)
                 data = Encryption.EncryptByteBuffer(data);
-            
-            Debug.Log("Sending " + string.Join(" ", data.Select(x => x.ToString("X2"))));
             
             _server.Send(data, DeliveryMethod.ReliableOrdered);
         }

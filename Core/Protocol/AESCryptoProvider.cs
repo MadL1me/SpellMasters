@@ -9,8 +9,6 @@ namespace Core.Protocol
         public byte[] SecretIV { get; }
         
         private Aes _aes;
-        private ICryptoTransform _dec;
-        private ICryptoTransform _enc;
 
         public AESCryptoProvider(byte[] key, byte[] iv)
         {
@@ -23,9 +21,6 @@ namespace Core.Protocol
             
             SecretKey = _aes.Key;
             SecretIV = _aes.IV;
-
-            _dec = _aes.CreateDecryptor(_aes.Key, _aes.IV);
-            _enc = _aes.CreateEncryptor(_aes.Key, _aes.IV);
         }
 
         public AESCryptoProvider(byte[] data)
@@ -46,9 +41,6 @@ namespace Core.Protocol
                 
                 SecretKey = _aes.Key;
                 SecretIV = _aes.IV;
-                
-                _dec = _aes.CreateDecryptor(_aes.Key, _aes.IV);
-                _enc = _aes.CreateEncryptor(_aes.Key, _aes.IV);
             }
         }
 
@@ -60,9 +52,6 @@ namespace Core.Protocol
 
             SecretKey = _aes.Key;
             SecretIV = _aes.IV;
-            
-            _dec = _aes.CreateDecryptor(_aes.Key, _aes.IV);
-            _enc = _aes.CreateEncryptor(_aes.Key, _aes.IV);
         }
 
         public byte[] GetData()
@@ -80,7 +69,8 @@ namespace Core.Protocol
         public byte[] EncryptByteBuffer(byte[] buffer)
         {
             using (var ms = new MemoryStream())
-            using (var crypto = new CryptoStream(ms, _enc, CryptoStreamMode.Write))
+            using (var enc = _aes.CreateEncryptor(_aes.Key, _aes.IV))
+            using (var crypto = new CryptoStream(ms, enc, CryptoStreamMode.Write))
             {
                 crypto.Write(buffer, 0, buffer.Length);
                 
@@ -94,7 +84,8 @@ namespace Core.Protocol
         public byte[] DecryptByteBuffer(byte[] buffer)
         {
             using (var ms = new MemoryStream(buffer))
-            using (var crypto = new CryptoStream(ms, _dec, CryptoStreamMode.Read))
+            using (var dec = _aes.CreateDecryptor(_aes.Key, _aes.IV))
+            using (var crypto = new CryptoStream(ms, dec, CryptoStreamMode.Read))
             using (var newMs = new MemoryStream())
             {
                 var buf = new byte[64];

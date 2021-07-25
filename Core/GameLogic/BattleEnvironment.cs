@@ -3,45 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using Core.Cards.Projectiles;
 using Core.Collision;
+using Core.Entities;
+using Core.Protocol;
 using Core.Utils;
 
-namespace Core.Player
+namespace Core.GameLogic
 {
     public class BattleEnvironment
     {
-        public NetworkPlayer[] NetworkPlayers { get; set; }
+        public NetworkedPlayer[] NetworkPlayers { get; set; }
        
         public List<Projectile> Projectiles { get; protected set; }
         public PhysicsEngine PhysicsEngine { get; protected set; } = new PhysicsEngine();
 
         public BattleEnvironment(int lobbySize)
         {
-            NetworkPlayers = new NetworkPlayer[lobbySize];
+            NetworkPlayers = new NetworkedPlayer[lobbySize];
         }
         
         public void Update(float deltaTime)
         {
             PhysicsEngine.Update(deltaTime);
         }
-
-        public bool TryCastCardByPlayer(int playerId, int cardInHandIndex)
-        {
-            var player = NetworkPlayers.FirstOrDefault(netPlayer => netPlayer.PlayerId == playerId);
-
-            if (player is null)
-                throw new ArgumentException();
-
-            return player.CardsQueueController.TryCastCardAtIndex(cardInHandIndex, this);
-        }
         
-        public NetworkPlayer GetClosestCharacter(NetVector2 position)
+        public NetworkedPlayer GetClosestCharacter(NetVector2 position)
         {
             var minDistance = float.MaxValue;
-            NetworkPlayer closestPlayer = null;
+            NetworkedPlayer closestPlayer = null;
             
             foreach (var networkPlayer in NetworkPlayers)
             {
-                var distance = NetVector2.Distance(position, networkPlayer.PlayerCharacter.Position);
+                var distance = NetVector2.Distance(position, networkPlayer.Position);
                 
                 if (distance <= minDistance)
                 {
@@ -53,17 +45,17 @@ namespace Core.Player
             return closestPlayer;
         }
         
-        public NetworkPlayer GetClosestCharacterExcept(NetVector2 position, NetworkPlayer player)
+        public NetworkedPlayer GetClosestCharacterExcept(NetVector2 position, NetworkedPlayer player)
         {
             var minDistance = float.MaxValue;
-            NetworkPlayer closestPlayer = null;
+            NetworkedPlayer closestPlayer = null;
             
             foreach (var networkPlayer in NetworkPlayers)
             {
                 if (networkPlayer == player)
                     continue;
 
-                var distance = NetVector2.Distance(position, networkPlayer.PlayerCharacter.Position);
+                var distance = NetVector2.Distance(position, networkPlayer.Position);
                 
                 if (distance <= minDistance)
                 {

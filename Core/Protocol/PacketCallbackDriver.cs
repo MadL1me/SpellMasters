@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Protocol
 {
@@ -35,6 +36,9 @@ namespace Core.Protocol
         {
             _activeCallbacks = new Dictionary<uint, Entry>();
             _callbackLock = new object();
+
+            DefaultTimeToLive = timeToLive;
+            Dispatcher = dispatcher;
         }
 
         /// <summary>
@@ -85,28 +89,24 @@ namespace Core.Protocol
         /// </summary>
         public void InvalidateCallbackList()
         {
-            var toRemove = new List<(uint, Entry)>();
-            
             lock (_callbackLock)
             {
-                foreach (var data in _activeCallbacks)
+                foreach (var data in _activeCallbacks.ToArray())
                 {
                     var newEntry = data.Value;
 
                     if (--newEntry.TimeToLive == 0)
-                        toRemove.Add((data.Key, data.Value));
+                    {
+                        _activeCallbacks.Remove(data.Key);
+                        
+                        if (data.Value.ErrorEvent != null)
+                            Dispatcher.DispatchError(null, data.Value.ErrorEvent, null);
+                    }
                     else
+                    {
                         _activeCallbacks[data.Key] = newEntry;
+                    }
                 }
-
-                foreach (var id in toRemove)
-                    _activeCallbacks.Remove(id.Item1);
-            }
-
-            foreach (var id in toRemove)
-            {
-                if (id.Item2.ErrorEvent != null)
-                    Dispatcher.DispatchError(null, id.Item2.ErrorEvent, null);
             }
         }
     }

@@ -5,7 +5,7 @@
     /// </summary>
     public class S2CErrorPacket : S2CCallbackPacketBase
     {
-        public override ushort PacketId => 0xEEE0;
+        public override ushort PacketId => 0x00E0;
         public override bool UseEncryption => true;
         
         /// <summary>

@@ -5,7 +5,7 @@
     /// </summary>
     public class C2SErrorPacket : C2SCallbackPacketBase
     {
-        public override ushort PacketId => 0xEEE1;
+        public override ushort PacketId => 0x00E1;
         public override bool UseEncryption => true;
         
         /// <summary>

@@ -20,6 +20,12 @@ namespace Server.Protocol
                     RsaEncryptedAesKey = buf
                 });
             }));
+            
+            RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SClientInfo>((client, packet) =>
+            {
+                client.Respond(packet, new S2CClientRegistrationConfirm 
+                    { PlayerNetworkId = (uint) (1000000 + client.Id) });
+            }));
 
             RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SJoinLobby>((client, packet) =>
                 client.Server.MainLobby.LobbyJoinPacketHandler(client, packet)));

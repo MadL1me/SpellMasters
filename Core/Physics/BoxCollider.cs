@@ -7,15 +7,15 @@ namespace Core.Collision
     public class BoxCollider
     {
         public event Action<BoxCollider> OnCollision;
+        public INetworkedObject Owner { get; }
         public NetVector2 Center { get; set; }
         public NetVector2 Size { get; set; }
-        public INetworkObject Container { get; set; }
         
-        public BoxCollider(NetVector2 size, NetVector2 center, INetworkObject container)
+        public BoxCollider(INetworkedObject owner, NetVector2 size, NetVector2 center)
         {
+            Owner = owner;
             Size = size;
             Center = center;
-            Container = container;
         }
         
         public bool IsColliding(BoxCollider other)

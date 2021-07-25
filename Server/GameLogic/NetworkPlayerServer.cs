@@ -1,37 +1,18 @@
-﻿using Core.Player;
+﻿using Core.GameLogic;
 using Core.Utils;
 using Server.Protocol;
 using System;
+using Core.Entities;
 
 namespace Server.GameLogic
 {
-    public class NetworkPlayerServer : NetworkPlayer
+    public class NetworkPlayerServer : NetworkedPlayer
     {
-        public ClientWrapper BindedClient { get; protected set; }
+        public ClientWrapper BoundClient { get; protected set; }
 
-        public NetworkPlayerServer(ClientWrapper client) : base()
+        public NetworkPlayerServer(ClientWrapper client) : base((uint) (1000000 + client.Id))
         {
-            BindedClient = client;
-        }
-
-        public override void CastCardAcrossNetwork(int cardId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void InitPlayerCharacterFromNetwork()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Move(NetVector2 vector)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Update()
-        {
-            throw new NotImplementedException();
+            BoundClient = client;
         }
     }
 }

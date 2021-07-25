@@ -100,11 +100,11 @@ namespace Server.Protocol
                 throw new Exception("Attempted to send an encrypted packet before encryption was established");
 
             var data = packet.GetDataOctets();
+            
+            Console.WriteLine("Sending " + string.Join(" ", data.Select(x => x.ToString("X2"))));
 
             if (packet.UseEncryption)
                 data = Encryption.EncryptByteBuffer(data);
-            
-            Console.WriteLine("Sending " + string.Join(" ", data.Select(x => x.ToString("X2"))));
             
             _peer.Send(data, DeliveryMethod.ReliableOrdered);
         }

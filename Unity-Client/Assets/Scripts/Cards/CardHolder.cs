@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Core.Player;
+using Core.GameLogic;
 using MagicCardGame.Assets.Scripts.GameLogic;
 using MagicCardGame.Network;
 using UnityEngine;
@@ -76,7 +76,7 @@ namespace MagicCardGame
             NetworkPlayerClient networkPlayer = BattleEnvironmentClient.Current.LocalPlayer;
             BattleEnvironment environment = BattleEnvironmentClient.Current.SharedEnvironment;
 
-            Slots[cardIndex].Card.CardType.CastCard(networkPlayer, environment);
+            Slots[cardIndex].Card.CardType.SharedData.Cast(environment, networkPlayer);
             RemoveCardByIndex(cardIndex);
             CardElement cardForReplacement = BindedDeck.AskForCard();
             PutCard(cardForReplacement, cardIndex);

@@ -1,7 +1,7 @@
 ﻿using System;
 using Core.Cards;
+using Core.Entities;
 using Core.GameLogic;
-using Core.Player;
 
 namespace Core.Protocol.Packets
 {
@@ -15,16 +15,13 @@ namespace Core.Protocol.Packets
         protected override void WriteDataOctets(OctetWriter writer)
         {
             writer.WriteUVarInt((uint) BattleEnvironment.NetworkPlayers.Length);
+            
             foreach (var networkPlayer in BattleEnvironment.NetworkPlayers)
             {
-                writer.WriteReal32(networkPlayer.PlayerCharacter.PlayerCurrentStats.Stamina.Available);
-                writer.WriteReal32(networkPlayer.PlayerCharacter.PlayerCurrentStats.Stamina.MaxLimit);
-                writer.WriteReal32(networkPlayer.PlayerCharacter.PlayerCurrentStats.Stamina.MinLimit);
-                writer.WriteReal32(networkPlayer.PlayerCharacter.PlayerCurrentStats.Stamina.RegenerationSpeed);
-                writer.WriteString(networkPlayer.PlayerCharacter.PlayerCurrentStats.DisplayName);
-                writer.WriteReal32(networkPlayer.PlayerCharacter.PlayerCurrentStats.Health);
-                writer.WriteBool(networkPlayer.PlayerCharacter.CanMove);
-                writer.WriteUVarInt((uint) networkPlayer.PlayerId);
+                writer.WriteUVarInt(networkPlayer.NetworkId);
+                writer.WriteString(networkPlayer.DisplayedName);
+                writer.WriteVarInt(networkPlayer.MaxHealth);
+                writer.WriteVarInt(networkPlayer.MaxEnergy);
                 writer.WriteUVarInt((uint) networkPlayer.CardsQueueController.CardsInHand.Length);
             }
         }
@@ -33,32 +30,20 @@ namespace Core.Protocol.Packets
         {
             var lobbySize = (int) reader.ReadUVarInt32();
             BattleEnvironment = new BattleEnvironment(lobbySize);
+            
             for (var i = 0; i < lobbySize; ++i)
             {
-                var stamina = new Stamina
+                var networkPlayer = new NetworkedPlayer(reader.ReadUVarInt32())
                 {
-                    Available = reader.ReadReal32(),
-                    MaxLimit = reader.ReadReal32(),
-                    MinLimit = reader.ReadReal32(),
-                    RegenerationSpeed = reader.ReadReal32()
+                    DisplayedName = reader.ReadString(),
+                    MaxHealth = reader.ReadVarInt64(),
+                    MaxEnergy = reader.ReadVarInt32()
                 };
-                var networkPlayerStats = new NetworkPlayerStats
-                {
-                    DisplayName = reader.ReadString(),
-                    Health = reader.ReadReal32(),
-                    Stamina = stamina
-                };
-                var playerCharacter = new NetworkPlayerCharacter(networkPlayerStats)
-                {
-                    CanMove = reader.ReadBool()
-                };
-                var networkPlayer = new NetworkPlayer
-                {
-                    PlayerId = (int) reader.ReadUVarInt32(),
-                    PlayerCharacter = playerCharacter
-                };
+                
                 var cardsQueueController = new ActionCardsQueueController(networkPlayer, (int) reader.ReadUVarInt32());
+                
                 networkPlayer.CardsQueueController = cardsQueueController;
+                
                 BattleEnvironment.NetworkPlayers[i] = networkPlayer;
             }
         }

@@ -1,8 +1,8 @@
-﻿using Core.Player;
+﻿using Core.GameLogic;
 
 namespace Core.GameLogic.Buffs
 {
-    public class WetEntityEffect : EntityEffect
+    /*public class WetEntityEffect : EntityEffect
 
     {
         public override void UseOnEntity(NetworkPlayerCharacter entity)
@@ -29,5 +29,5 @@ namespace Core.GameLogic.Buffs
             if (appendBuff)
                 entity.PlayerEffects.Add(this);
         }
-    }
+    }*/
 }

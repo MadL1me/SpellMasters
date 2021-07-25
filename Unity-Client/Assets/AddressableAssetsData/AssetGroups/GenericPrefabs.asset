@@ -12,11 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: GenericPrefabs
   m_EditorClassIdentifier: 
-  m_GroupName: EntityPrefabs
+  m_GroupName: GenericPrefabs
   m_Data:
     m_SerializedData: []
   m_GUID: 80b9dfded1a39c1438d4a85d0f2506ef
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 8dd682f2eabbf6343b1bb12531cabc49
+    m_Address: Assets/Prefabs
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 102900000, guid: 8dd682f2eabbf6343b1bb12531cabc49, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: 8dd682f2eabbf6343b1bb12531cabc49, type: 3}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 7db8a957570f33a4aab4a2589bb603cb, type: 2}
   m_SchemaSet:

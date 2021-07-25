@@ -1,8 +1,8 @@
-﻿using Core.Player;
+﻿using Core.GameLogic;
 
 namespace Core.GameLogic.Buffs
 {
-    public class ElectroEntityEffect : EntityEffect
+    /*public class ElectroEntityEffect : EntityEffect
     {
         public override void UseOnEntity(NetworkPlayerCharacter entity)
         {
@@ -33,5 +33,5 @@ namespace Core.GameLogic.Buffs
         {
             entity.CanMove = true;
         }
-    }
+    }*/
 }

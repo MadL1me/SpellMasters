@@ -1,4 +1,5 @@
-﻿using Core.Player;
+﻿using Core.Entities;
+using Core.GameLogic;
 
 namespace Core.GameLogic
 {
@@ -22,12 +23,12 @@ namespace Core.GameLogic
         }
 
         // I guess calls once is use
-        public abstract void UseOnEntity(NetworkPlayerCharacter entity);
+        public abstract void UseOnEntity(NetworkedPlayer entity);
 
-        public virtual void OnBeforeRemove(NetworkPlayerCharacter entity) {}
+        public virtual void OnBeforeRemove(NetworkedPlayer entity) {}
 
         // calls everytime then active
-        public virtual void Update(NetworkPlayerCharacter entity, float deltaTime)
+        public virtual void Update(NetworkedPlayer entity, float deltaTime)
         {
             Duration -= deltaTime;
         }
