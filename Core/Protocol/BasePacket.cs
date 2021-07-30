@@ -12,15 +12,17 @@ namespace Core.Protocol
             RegisterPacketType<S2CEncryptionRequest>();            // 0x0001
             RegisterPacketType<C2SPublicKeyExchange>();            // 0x0002
             RegisterPacketType<S2CSymmetricKeyResponse>();         // 0x0003
-            //RegisterPacketType<S2CWrongVersion>();                // 0x0004
-            //RegisterPacketType<S2CLobbyIsFull>();                 // 0x0005
+            //RegisterPacketType<S2CWrongVersion>();               // 0x0004
+            //RegisterPacketType<S2CLobbyIsFull>();                // 0x0005
             RegisterPacketType<S2CBattleEnvironmentInfo>();        // 0x0006
             RegisterPacketType<C2SPullCardFromDeck>();             // 0x0007
             RegisterPacketType<S2CGiveCardFromDeck>();             // 0x0008
             RegisterPacketType<C2SJoinLobby>();                    // 0x0009
-            RegisterPacketType<C2SClientInfo>();                   // 0x0010
-            RegisterPacketType<S2CClientRegistrationConfirm>();    // 0x0011
-            
+            RegisterPacketType<C2SClientInfo>();                   // 0x000A
+            RegisterPacketType<S2CClientRegistrationConfirm>();    // 0x000B
+            RegisterPacketType<C2SCreateLobby>();                  // 0x000C
+            RegisterPacketType<S2CLobbyInfo>();                    // 0x000D
+
             RegisterPacketType<S2CErrorPacket>();                  // 0x00E0
             RegisterPacketType<C2SErrorPacket>();                  // 0x00E1
         }

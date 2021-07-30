@@ -2,7 +2,7 @@
 {
     public class C2SClientInfo : C2SCallbackPacketBase
     {
-        public override ushort PacketId => 0x0010;
+        public override ushort PacketId => 0x000A;
         public override bool UseEncryption => true;
 
         public uint ClientVersion { get; set; } = 1;

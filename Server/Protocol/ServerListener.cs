@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Core.Protocol;
+using Core.Protocol.Packets;
 using LiteNetLib;
 using Server.GameLogic;
 
@@ -20,17 +21,15 @@ namespace Server.Protocol
 
         public ServerPacketBus HandlerBus { get; protected set; }
         
-        public Lobby MainLobby { get; protected set; }
-        public List<Lobby> Lobbies { get; protected set; }
+        public Dictionary<ulong, Lobby> Lobbies { get; protected set; }
         
         public ServerListener(ClientRegistry registry, ServerPacketBus handlerBus)
         {
             _registry = registry;
             HandlerBus = handlerBus;
             HandlerBus.CreateCallbackDriver(300, new ServerCallbackDispatcher());
-            
-            MainLobby = new Lobby(1);
-            Lobbies = new List<Lobby>();
+
+            InitLobbies();
             
             var evt = new EventBasedNetListener();
             _net = new NetManager(evt);
@@ -39,6 +38,37 @@ namespace Server.Protocol
             evt.PeerConnectedEvent += HandlePeerConnected;
             evt.PeerDisconnectedEvent += HandlePeerDisconnected;
             evt.NetworkReceiveEvent += HandleNetworkReceive;
+        }
+
+        private void InitLobbies()
+        {
+            Lobbies = new Dictionary<ulong, Lobby>();
+        }
+
+        public void CreateLobbyOnRequestPacketHandler(ClientWrapper client, C2SCreateLobby packet)
+        {
+            Lobby newLobby = new Lobby((int)packet.slotCount);
+            Lobbies.Add(newLobby.Id, newLobby);
+
+            client.SendPacket(new S2CLobbyInfo
+            {
+                Id = newLobby.Id,
+                slotCount = (uint)newLobby.LobbySize,
+                slotsOccupied = 0
+            });
+        }
+
+        public void LobbyJoinPacketHandler(ClientWrapper client, C2SJoinLobby packet)
+        {
+            bool res = Lobbies.TryGetValue(packet.Id, out Lobby lobby);
+            if(!res)
+            {
+                throw new Exception("SANITY CHECK DEBUG KILL ME");
+                client.RespondWithError(packet, 10001);
+                return;
+            }
+
+            lobby.LobbyJoinPacketHandler(client, packet);
         }
 
         public void Halt() => _token.Cancel();
@@ -53,6 +83,10 @@ namespace Server.Protocol
             {
                 HandlerBus.Update();
                 _net.PollEvents();
+
+                foreach(KeyValuePair<ulong, Lobby> lobby in Lobbies)
+                    lobby.Value.Update(15);
+
                 Thread.Sleep(15);
             }
 

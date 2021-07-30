@@ -35,9 +35,10 @@ namespace MagicCardGame.Assets.Scripts.Protocol
                     (connection, packet) =>
                     {
                         connection.LocalClientId = ((S2CClientRegistrationConfirm) packet).PlayerNetworkId;
-                        
+
                         // BUG Only for testing
-                        connection.SendPacketWithCallback(new C2SJoinLobby(), (connection, packet) => {});
+                        connection.SendPacket(new C2SCreateLobby { slotCount = 1 });
+                        connection.SendPacketWithCallback(new C2SJoinLobby { Id = 0 }, (connection, packet) => {});
                     });
             }));
             
@@ -46,7 +47,7 @@ namespace MagicCardGame.Assets.Scripts.Protocol
             RegisterHandler(new SimplePacketHandler<ServerConnection, S2CBattleEnvironmentInfo>((connection, packet) =>
             {
                 // This insanely dumb hack forces players to be recreated as clientside once
-                // TODO Figure out how to improve this
+                // TODusya Figure out how to improve this
                 for (var i = 0; i < packet.BattleEnvironment.NetworkPlayers.Length; i++)
                 {
                     var player = packet.BattleEnvironment.NetworkPlayers[i];

@@ -2,7 +2,7 @@
 {
     public class S2CClientRegistrationConfirm : S2CCallbackPacketBase
     {
-        public override ushort PacketId => 0x0011;
+        public override ushort PacketId => 0x000B;
         
         public uint PlayerNetworkId { get; set; }
 

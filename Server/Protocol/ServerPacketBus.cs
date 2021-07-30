@@ -27,8 +27,13 @@ namespace Server.Protocol
                     { PlayerNetworkId = (uint) (1000000 + client.Id) });
             }));
 
+            RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SCreateLobby>((client, packet) =>
+            {
+                client.Server.CreateLobbyOnRequestPacketHandler(client, packet);
+            }));
+
             RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SJoinLobby>((client, packet) =>
-                client.Server.MainLobby.LobbyJoinPacketHandler(client, packet)));
+                client.Server.LobbyJoinPacketHandler(client, packet)));
         }
     }
 }
