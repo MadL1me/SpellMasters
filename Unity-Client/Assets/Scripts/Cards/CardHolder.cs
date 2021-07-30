@@ -76,7 +76,7 @@ namespace MagicCardGame
             NetworkPlayerClient networkPlayer = BattleEnvironmentClient.Current.LocalPlayer;
             BattleEnvironment environment = BattleEnvironmentClient.Current.SharedEnvironment;
 
-            Slots[cardIndex].Card.CardType.SharedData.Cast(environment, networkPlayer);
+            Slots[cardIndex].Card.CardType.SharedData.ExecuteCast(environment, networkPlayer, clickedCard.CardType);
             RemoveCardByIndex(cardIndex);
             CardElement cardForReplacement = BindedDeck.AskForCard();
             PutCard(cardForReplacement, cardIndex);

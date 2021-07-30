@@ -1,5 +1,4 @@
-﻿using Core.Cards.Types;
-using Core.Entities;
+﻿using Core.Entities;
 using Core.GameLogic;
 using Core.Utils;
 
@@ -17,14 +16,22 @@ namespace Core.Cards
         /// <summary>
         /// Called when the player is about to cast the card
         /// </summary>
-        public virtual void Cast(BattleEnvironment battle, NetworkedPlayer player) {}
+        public void ExecuteCast(BattleEnvironment battle, NetworkedPlayer player, ActionCard cardInst)
+        {
+            FlyweightStorage<CardBehaviour>.Instance.GetData(cardInst.NumericId).ExecuteCast(battle, player, cardInst);
+        }
 
         static CardData()
         {
             var storage = FlyweightStorage<CardData>.Instance;
 
             // 0: MoveCard
-            storage.RegisterData(new MoveCardData());
+            storage.RegisterData(new CardData
+            {
+                CardName = "moveRight",
+                CardDescription = "Move pipa",
+                EnergyCost = 3
+            });
         }
     }
 }
