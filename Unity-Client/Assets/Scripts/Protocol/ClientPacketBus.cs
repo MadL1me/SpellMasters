@@ -36,9 +36,8 @@ namespace MagicCardGame.Assets.Scripts.Protocol
                     {
                         connection.LocalClientId = ((S2CClientRegistrationConfirm) packet).PlayerNetworkId;
 
-                        // BUG Only for testing
-                        connection.SendPacket(new C2SCreateLobby { slotCount = 1 });
-                        connection.SendPacketWithCallback(new C2SJoinLobby { Id = 0 }, (connection, packet) => {});
+                        UIController.Hr.MainConnectWindow.SetActive(false);
+                        UIController.Hr.MainLobbyMenu.gameObject.SetActive(true);
                     });
             }));
             
@@ -66,6 +65,11 @@ namespace MagicCardGame.Assets.Scripts.Protocol
                 }
                 
                 BattleEnvironmentClient.CreateAndLoadScene(connection, packet.BattleEnvironment);
+            }));
+
+            RegisterHandler(new SimplePacketHandler<ServerConnection, S2CAvailableLobbies>((connection, packet) =>
+            {
+                UIController.Hr.MainLobbyMenu.AvailableLobbiesPacketHandler(connection, packet);
             }));
         }
     }

@@ -50,12 +50,28 @@ namespace Server.Protocol
             Lobby newLobby = new Lobby((int)packet.slotCount);
             Lobbies.Add(newLobby.Id, newLobby);
 
-            client.SendPacket(new S2CLobbyInfo
+            AvailableLobbiesPacketHandler(client);
+        }
+
+        public void AvailableLobbiesPacketHandler(ClientWrapper client, C2SRequestAvailableLobbies packet = null)
+        {
+            S2CAvailableLobbies lobbiesInfo = new S2CAvailableLobbies { ArraySize = Lobbies.Count };
+            lobbiesInfo.Infos = new S2CAvailableLobbies.LobbyInfo[lobbiesInfo.ArraySize];
+
+            int lobbyNumber = 0;
+            foreach(KeyValuePair<ulong, Lobby> lobby in Lobbies)
             {
-                Id = newLobby.Id,
-                slotCount = (uint)newLobby.LobbySize,
-                slotsOccupied = 0
-            });
+                lobbiesInfo.Infos[lobbyNumber] = new S2CAvailableLobbies.LobbyInfo
+                {
+                    SlotCount = (uint)lobby.Value.LobbySize,
+                    SlotsOccupied = (uint)lobby.Value.ConnectedPlayerCount,
+                    Id = lobby.Value.Id
+                };
+
+                lobbyNumber++;
+            }
+
+            client.SendPacket(lobbiesInfo);
         }
 
         public void LobbyJoinPacketHandler(ClientWrapper client, C2SJoinLobby packet)

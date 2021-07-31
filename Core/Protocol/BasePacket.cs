@@ -22,6 +22,8 @@ namespace Core.Protocol
             RegisterPacketType<S2CClientRegistrationConfirm>();    // 0x000B
             RegisterPacketType<C2SCreateLobby>();                  // 0x000C
             RegisterPacketType<S2CLobbyInfo>();                    // 0x000D
+            RegisterPacketType<S2CAvailableLobbies>();             // 0x000E
+            RegisterPacketType<C2SRequestAvailableLobbies>();
 
             RegisterPacketType<S2CErrorPacket>();                  // 0x00E0
             RegisterPacketType<C2SErrorPacket>();                  // 0x00E1
