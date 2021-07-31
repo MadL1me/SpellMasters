@@ -1,6 +1,7 @@
 ﻿using Core.GameLogic;
 using MagicCardGame.Assets.Scripts.Protocol;
 using MagicCardGame.Network;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
@@ -9,7 +10,7 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
     /// <summary>
     /// Represents a clientside battle environment
     /// </summary>
-    public class BattleEnvironmentClient
+    public class BattleEnvironmentClient : MonoBehaviour
     {
         /// <summary>
         /// Name of the scene to load when in-game

@@ -76,7 +76,7 @@ namespace MagicCardGame
             NetworkPlayerClient networkPlayer = BattleEnvironmentClient.Current.LocalPlayer;
             BattleEnvironment environment = BattleEnvironmentClient.Current.SharedEnvironment;
 
-            Slots[cardIndex].Card.CardType.SharedData.ExecuteCast(environment, networkPlayer, clickedCard.CardType);
+            Slots[cardIndex].Card.CardType.ExecuteCast(environment, networkPlayer);
             RemoveCardByIndex(cardIndex);
             CardElement cardForReplacement = BindedDeck.AskForCard();
             PutCard(cardForReplacement, cardIndex);
@@ -86,7 +86,7 @@ namespace MagicCardGame
         {
             if (index > Capacity)
                 throw new ArgumentException("Index is bigger than capacity");
-
+            
             Vector2 newPosition = Slots[index].transform.position;
 
             Slots[index].PutCard(card);

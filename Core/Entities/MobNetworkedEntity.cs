@@ -1,4 +1,6 @@
-﻿namespace Core.Entities
+﻿using Core.GameLogic;
+
+namespace Core.Entities
 {
     /// <summary>
     /// Class that represents all player-like creature entities

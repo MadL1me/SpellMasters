@@ -2,6 +2,9 @@
 
 namespace Core.Collision
 {
+    /// <summary>
+    /// Custom self-made simple physics engine. Supports only box colliders with AABB checks.
+    /// </summary>
     public class PhysicsEngine
     {
         public List<GravityComponent> GravityObjects { get; protected set; } = new List<GravityComponent>();

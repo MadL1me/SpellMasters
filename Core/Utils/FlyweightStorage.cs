@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Core.Cards;
 using Core.Entities;
+using Core.GameLogic;
 
 namespace Core.Utils
 {
@@ -26,6 +27,7 @@ namespace Core.Utils
         {
             new EntityData();
             new CardData();
+            new EntityEffectData();
         }
 
         /// <summary>

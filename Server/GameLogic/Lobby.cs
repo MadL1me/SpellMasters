@@ -24,7 +24,7 @@ namespace Server.GameLogic
 
         public Lobby(int lobbySize)
         {
-            Id = IdentificatorController<Lobby>.GetNextID();
+            Id = IdentificationController<Lobby>.GetNextID();
             Status = LobbyStatus.WaitingForPlayers;
             LobbySize = lobbySize;
             Environment = new BattleEnvironment(LobbySize);
@@ -32,7 +32,7 @@ namespace Server.GameLogic
 
         private bool AddPlayerToPool(ClientWrapper client)
         {
-            if (ConnectedPlayerCount >= LobbySize)
+            if (IsLobbyFull)
                 return false;
 
             Environment.NetworkPlayers[ConnectedPlayerCount++] = new NetworkPlayerServer(client)
@@ -66,7 +66,6 @@ namespace Server.GameLogic
 
             client.RespondWithSuccess(packet);
         }
-
 
         public void Update(float time)
         {
