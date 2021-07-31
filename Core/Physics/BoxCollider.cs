@@ -4,6 +4,9 @@ using Core.Utils;
 
 namespace Core.Collision
 {
+    /// <summary>
+    /// Simple self-made collider, supports colliding check with AABB only. Not a library class.
+    /// </summary>
     public class BoxCollider
     {
         public event Action<BoxCollider> OnCollision;

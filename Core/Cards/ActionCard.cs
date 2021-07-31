@@ -6,7 +6,7 @@ using Core.Utils;
 namespace Core.Cards
 {
     /// <summary>
-    /// Class of all ActionCards, which maps data and behaviour
+    /// Class of all ActionCards, which maps its data: <see cref="CardData"/> and behaviour: <see cref="CardBehaviour"/>
     /// </summary>
     public class ActionCard : FlyweightInstance<CardData>
     {

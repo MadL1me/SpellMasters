@@ -3,6 +3,9 @@ using Core.Utils;
 
 namespace Core.Collision
 {
+    /// <summary>
+    /// Simple gravity class, equivalent of Rigidbody gravity.
+    /// </summary>
     public class GravityComponent
     {
         public INetworkedObject NetworkObject { get; }

@@ -6,6 +6,7 @@ namespace Core.GameLogic
     /// <summary>
     /// Represents the logic for continuous buff or effect on Entity (For example burning for 5 second, etc)
     /// </summary>
+    /// <seealso cref="EntityEffect"/>
     public abstract class EntityEffectBehaviour
     {
         public event Action<EntityEffect> OnEffectEnd;

@@ -2,8 +2,8 @@
 {
     /// <summary>
     /// Represents an object that follows the flyweight data pattern.
-    /// https://en.wikipedia.org/wiki/Flyweight_pattern
     /// </summary>
+    /// <wiki>https://en.wikipedia.org/wiki/Flyweight_pattern</wiki>
     public abstract class FlyweightInstance<TData>
     {
         /// <summary>

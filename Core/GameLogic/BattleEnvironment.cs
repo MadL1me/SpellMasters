@@ -1,14 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Core.Cards.Projectiles;
 using Core.Collision;
 using Core.Entities;
-using Core.Protocol;
 using Core.Utils;
 
 namespace Core.GameLogic
 {
+    /// <summary>
+    /// Represents main controller or gameloop for gameplay logic. It runs and must have unique instance
+    /// for each players match.
+    /// <para>&#160;</para>
+    /// Includes: physics, projectiles, effects on player, etc.
+    /// </summary>
     public class BattleEnvironment
     {
         public NetworkedPlayer[] NetworkPlayers { get; set; }
@@ -17,7 +20,7 @@ namespace Core.GameLogic
         public PhysicsEngine PhysicsEngine { get; protected set; } = new PhysicsEngine();
         public Dictionary<MobNetworkedEntity, EntityEffectsController> EffectsControllers { get; protected set; } =
             new Dictionary<MobNetworkedEntity, EntityEffectsController>();
-        
+
         public BattleEnvironment(int lobbySize)
         {
             NetworkPlayers = new NetworkedPlayer[lobbySize];

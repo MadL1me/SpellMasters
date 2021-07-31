@@ -8,6 +8,7 @@ namespace Core.GameLogic
     /// <summary>
     /// Represents the configuration for effect on Entity
     /// </summary>
+    /// <seealso cref="EntityEffect"/>
     public class EntityEffectData
     { 
         public float Power { get; set; }

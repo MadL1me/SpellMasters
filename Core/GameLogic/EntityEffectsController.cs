@@ -5,6 +5,11 @@ using Core.Utils;
 
 namespace Core.GameLogic
 {
+    /// <summary>
+    /// Represents effects controller on corresponding <see cref="NetworkedPlayer"/>. <para>&#160;</para>
+    /// Basically, its a list with effects, which contains gameloop with logic for effects execution.
+    /// </summary>
+    /// <seealso cref="EntityEffect"/>
     public class EntityEffectsController
     {
         public List<EntityEffect> Effects { get; private set; } = new List<EntityEffect>();

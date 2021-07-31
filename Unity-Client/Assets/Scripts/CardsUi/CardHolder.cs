@@ -86,7 +86,7 @@ namespace MagicCardGame
         {
             if (index > Capacity)
                 throw new ArgumentException("Index is bigger than capacity");
-
+            
             Vector2 newPosition = Slots[index].transform.position;
 
             Slots[index].PutCard(card);

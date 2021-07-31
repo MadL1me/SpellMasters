@@ -3,6 +3,9 @@ using Core.Cards;
 
 namespace Core.Entities
 {
+    /// <summary>
+    /// Represents network player character, his cards deck, health, name, etc.
+    /// </summary>
     public class NetworkedPlayer : MobNetworkedEntity
     {
         // These properties override ones in the flyweight entity data.
