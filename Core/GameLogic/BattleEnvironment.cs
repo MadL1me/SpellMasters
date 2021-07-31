@@ -15,7 +15,9 @@ namespace Core.GameLogic
        
         public List<Projectile> Projectiles { get; protected set; }
         public PhysicsEngine PhysicsEngine { get; protected set; } = new PhysicsEngine();
-
+        public Dictionary<MobNetworkedEntity, EntityEffectsController> EffectsControllers { get; protected set; } =
+            new Dictionary<MobNetworkedEntity, EntityEffectsController>();
+        
         public BattleEnvironment(int lobbySize)
         {
             NetworkPlayers = new NetworkedPlayer[lobbySize];
@@ -24,6 +26,9 @@ namespace Core.GameLogic
         public void Update(float deltaTime)
         {
             PhysicsEngine.Update(deltaTime);
+            
+            foreach (var entityEffectsController in EffectsControllers)
+                entityEffectsController.Value.UpdateEffects(deltaTime);
         }
         
         public NetworkedPlayer GetClosestCharacter(NetVector2 position)
