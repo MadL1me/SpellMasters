@@ -1,6 +1,4 @@
-﻿using Core.GameLogic;
-using DG.Tweening;
-using MagicCardGame.Assets.Scripts.Util;
+﻿using MagicCardGame.Assets.Scripts.Util;
 using TMPro;
 using UnityEngine;
 

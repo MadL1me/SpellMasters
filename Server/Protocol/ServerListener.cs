@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using Core.Cards;
 using Core.Protocol;
 using Core.Protocol.Packets;
 using LiteNetLib;
@@ -14,7 +15,7 @@ namespace Server.Protocol
     {
         private const int MaxConstantPeers = 50;
         private const string ServerAuthKey = "--MCG-Proto--";
-        
+
         private NetManager _net;
         private CancellationTokenSource _token;
         private ClientRegistry _registry;
@@ -44,7 +45,7 @@ namespace Server.Protocol
         public void Listen(int port)
         {
             _token = new CancellationTokenSource();
-            
+
             _net.Start(port);
 
             while (!_token.IsCancellationRequested)
@@ -95,12 +96,12 @@ namespace Server.Protocol
                 return;
 
             var data = reader.GetRemainingBytes();
-            
+
             if (client.Encryption != null)
                 data = client.Encryption.DecryptByteBuffer(data);
 
             Console.WriteLine("Received " + string.Join(" ", data.Select(x => x.ToString("X2"))));
-            
+
             using var stream = new MemoryStream(data);
             var octetReader = new OctetReader(stream);
 
@@ -111,7 +112,7 @@ namespace Server.Protocol
                 Console.WriteLine($"Malformed packet from {peer.EndPoint} of length {data.Length}");
                 return;
             }
-            
+
             HandlerBus.HandlePacket(client, packet);
             OnHandlePacket?.Invoke(client, packet);
         }

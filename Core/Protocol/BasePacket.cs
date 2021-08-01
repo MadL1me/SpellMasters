@@ -15,8 +15,8 @@ namespace Core.Protocol
             //RegisterPacketType<S2CWrongVersion>();               // 0x0004
             //RegisterPacketType<S2CLobbyIsFull>();                // 0x0005
             RegisterPacketType<S2CBattleEnvironmentInfo>();        // 0x0006
-            RegisterPacketType<C2SPullCardFromDeck>();             // 0x0007
-            RegisterPacketType<S2CGiveCardFromDeck>();             // 0x0008
+            RegisterPacketType<C2SExecuteCard>();                   // 0x0007
+            RegisterPacketType<S2CGiveCardsFromDeck>();             // 0x0008
             RegisterPacketType<C2SJoinLobby>();                    // 0x0009
             RegisterPacketType<C2SClientInfo>();                   // 0x000A
             RegisterPacketType<S2CClientRegistrationConfirm>();    // 0x000B
