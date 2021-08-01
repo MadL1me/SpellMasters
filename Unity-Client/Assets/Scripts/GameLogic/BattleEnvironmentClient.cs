@@ -15,7 +15,7 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
         /// <summary>
         /// Name of the scene to load when in-game
         /// </summary>
-        private const string BattleSceneName = "Scenes/TestSceneIlushkins";
+        private const string BattleSceneName = "Scenes/BattleScene";
         
         /// <summary>
         /// Currently active environment, may be null if player is not in-game

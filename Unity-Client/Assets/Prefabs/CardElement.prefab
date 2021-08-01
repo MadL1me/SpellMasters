@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 105}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 2.0131, y: 77.5}
+  m_SizeDelta: {x: 104.0261, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5199152161223987570
 MonoBehaviour:
@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da5ab0df9c4bc3443a7465af9cba847e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlideSpeed: 600
+  SlideSpeed: 5000
 --- !u!1 &5199152162136768549
 GameObject:
   m_ObjectHideFlags: 0
@@ -84,8 +84,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -0.0000044107, y: -0.000022888}
+  m_SizeDelta: {x: 104.03, y: 108.0522}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5199152162136768554
 CanvasRenderer:

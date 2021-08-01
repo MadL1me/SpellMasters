@@ -15,7 +15,6 @@ namespace MagicCardGame
         [SerializeField] public int Capacity = 5;
 
         protected CardSlot[] Slots { get; set; }
-
         public RectTransform Rect { get; set; }
 
         private void Awake()
@@ -43,13 +42,15 @@ namespace MagicCardGame
 
         private Vector2 CalculateCardSlotOffset(int index)
         {
-            var cardSlotSize = new Vector2(Rect.sizeDelta.x / Capacity, 0);
+            var cardSlotSize = new Vector2(Rect.rect.x / Capacity, 0);
             var cardPosition = new Vector2();
 
             cardPosition.x = cardSlotSize.x * index + cardSlotSize.x / 2;
             cardPosition.y = 0;
 
-            var positionRelativeToCenter = (Vector2) transform.position - Rect.sizeDelta / 2 + cardPosition;
+            print(Rect.rect);
+            var positionRelativeToCenter = (Vector2) transform.position - new Vector2(Rect.rect.x, Rect.rect.y) / 2 + cardPosition;
+            print(positionRelativeToCenter);
             return positionRelativeToCenter;
         }
 
