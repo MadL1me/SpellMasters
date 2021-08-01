@@ -3,7 +3,8 @@ using Core.Protocol.Packets;
 using Core.Utils;
 using Server.Protocol;
 using System;
-using System.Collections.Generic;
+using Core.Cards;
+using Server.GameLogic.Cards;
 
 namespace Server.GameLogic
 {
@@ -13,6 +14,7 @@ namespace Server.GameLogic
         InGame,
         GameWasEnded,
     }
+
     public class Lobby
     {
         public ulong Id { get; }
@@ -35,18 +37,29 @@ namespace Server.GameLogic
             if (IsLobbyFull)
                 return false;
 
-            Environment.NetworkPlayers[ConnectedPlayerCount++] = new NetworkPlayerServer(client)
+            Environment.NetworkPlayers[ConnectedPlayerCount] = new NetworkPlayerServer(client)
             {
-                DisplayedName = "PL" + (ConnectedPlayerCount - 1)
+                DisplayedName = "PL" + (ConnectedPlayerCount)
             };
+            for (var i = 0;
+                i < Environment.NetworkPlayers[ConnectedPlayerCount].CardsQueueController.CardsInHand.Length;
+                ++i)
+                Environment.NetworkPlayers[ConnectedPlayerCount].CardsQueueController.CardsInHand[i] =
+                    new ActionCard(0);
+            for (var i = 0; i < 1; ++i)
+                Environment.NetworkPlayers[ConnectedPlayerCount].CardsQueueController.NextDropCards
+                    .Enqueue(new ActionCard(0));
+
+            ConnectedPlayerCount++;
             return true;
         }
 
         private void StartGame(ClientWrapper client)
         {
             Console.WriteLine("Lobby has reached its max capacity. Starting the game...");
-            Status = LobbyStatus.InGame;          
-            client.SendPacket(new S2CBattleEnvironmentInfo {BattleEnvironment = Environment});
+            Status = LobbyStatus.InGame;
+            client.SendPacket(new S2CBattleEnvironmentInfo
+                {BattleEnvironment = Environment, LocalPlayerNetworkId = (uint) client.Id, LobbyId = (uint) Id});
         }
 
         public void LobbyJoinPacketHandler(ClientWrapper client, C2SJoinLobby packet)

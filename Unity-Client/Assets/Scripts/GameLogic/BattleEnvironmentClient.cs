@@ -21,6 +21,8 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
         /// Currently active environment, may be null if player is not in-game
         /// </summary>
         public static BattleEnvironmentClient Current { get; private set; }
+
+        public static uint LobbyId;
         
         public ServerConnection Server { get; private set; }
         public BattleEnvironment SharedEnvironment { get; private set; }

@@ -16,19 +16,16 @@ namespace Core.Cards
         public ActionCard[] CardsInHand { get; } 
         public Queue<ActionCard> NextDropCards { get; } = new Queue<ActionCard>();
         
-        public ActionCardsQueueController(NetworkedPlayer player, int cardsCount)
+        public ActionCardsQueueController(NetworkedPlayer player, uint cardsInHandCount)
         {
             Player = player;
-            CardsInHand = new ActionCard[cardsCount];
+            CardsInHand = new ActionCard[cardsInHandCount];
         }
 
         public ActionCard TryGetNextCard()
         {
             // now it doesnt work, but later will
-            // return NextDropCards.Dequeue();
-            var card = new ActionCard(0);
-
-            return card;
+            return NextDropCards.Dequeue();
         }
         
         /// <summary>

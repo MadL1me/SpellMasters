@@ -26,7 +26,7 @@ namespace MagicCardGame
 
         private static void JoinNthLobby(ulong id)
         {
-            NetworkProvider.Connection.SendPacketWithCallback(new C2SJoinLobby {Id = id}, (connection, packet) => { });
+            NetworkProvider.Connection.SendPacket(new C2SJoinLobby {Id = id});
         }
         
         

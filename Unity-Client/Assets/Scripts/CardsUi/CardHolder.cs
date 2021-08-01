@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Core.GameLogic;
+using Core.Protocol.Packets;
 using MagicCardGame.Assets.Scripts.GameLogic;
+using MagicCardGame.Assets.Scripts.Protocol;
 using MagicCardGame.Network;
 using UnityEngine;
 
@@ -31,7 +33,12 @@ namespace MagicCardGame
         private void FirstFilling()
         {
             for (var i = 0; i < Slots.Length; i++)
-                PutCard(BindedDeck.AskForCard(), i);
+            {
+                var askedCardType = BattleEnvironmentClient.Current.LocalPlayer.CardsQueueController.CardsInHand[i];
+                var card = CardElement.CreateFromActionCard(askedCardType);
+                card.transform.position = transform.position;
+                PutCard(card, i);
+            }
         }
 
         private Vector2 CalculateCardSlotOffset(int index)
@@ -64,19 +71,25 @@ namespace MagicCardGame
             {
                 if (Slots[i].Card == clickedCard)
                 {
-                    wasFound = true;
                     cardIndex = i;
+                    break;
                 }
             }
 
             //sanity check
-            if (!wasFound)
+            if (cardIndex < 0)
                 throw new KeyNotFoundException("Clicked card is not presented in Holder");
 
             NetworkPlayerClient networkPlayer = BattleEnvironmentClient.Current.LocalPlayer;
             BattleEnvironment environment = BattleEnvironmentClient.Current.SharedEnvironment;
 
-            Slots[cardIndex].Card.CardType.ExecuteCast(environment, networkPlayer);
+            //Slots[cardIndex].Card.CardType.ExecuteCast(environment, networkPlayer);  //idk why, but this crush
+
+            NetworkProvider.Connection.SendPacket(new C2SExecuteCard
+            {
+                HandSlotId = (uint) cardIndex,
+                ActionCard = BattleEnvironmentClient.Current.LocalPlayer.CardsQueueController.CardsInHand[cardIndex]
+            });
             RemoveCardByIndex(cardIndex);
             CardElement cardForReplacement = BindedDeck.AskForCard();
             PutCard(cardForReplacement, cardIndex);
@@ -86,7 +99,7 @@ namespace MagicCardGame
         {
             if (index > Capacity)
                 throw new ArgumentException("Index is bigger than capacity");
-            
+
             Vector2 newPosition = Slots[index].transform.position;
 
             Slots[index].PutCard(card);

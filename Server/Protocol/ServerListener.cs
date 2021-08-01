@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using Core.Cards;
 using Core.Protocol;
 using Core.Protocol.Packets;
 using LiteNetLib;
@@ -14,15 +15,15 @@ namespace Server.Protocol
     {
         private const int MaxConstantPeers = 50;
         private const string ServerAuthKey = "--MCG-Proto--";
-        
+
         private NetManager _net;
         private CancellationTokenSource _token;
         private ClientRegistry _registry;
 
         public ServerPacketBus HandlerBus { get; protected set; }
-        
+
         public Dictionary<ulong, Lobby> Lobbies { get; protected set; }
-        
+
         public ServerListener(ClientRegistry registry, ServerPacketBus handlerBus)
         {
             _registry = registry;
@@ -30,7 +31,7 @@ namespace Server.Protocol
             HandlerBus.CreateCallbackDriver(300, new ServerCallbackDispatcher());
 
             InitLobbies();
-            
+
             var evt = new EventBasedNetListener();
             _net = new NetManager(evt);
 
@@ -48,7 +49,7 @@ namespace Server.Protocol
 
         public void CreateLobbyOnRequestPacketHandler(ClientWrapper client, C2SCreateLobby packet)
         {
-            var newLobby = new Lobby((int)packet.slotCount);
+            var newLobby = new Lobby((int) packet.slotCount);
             Lobbies.Add(newLobby.Id, newLobby);
 
             AvailableLobbiesPacketHandler(client);
@@ -56,16 +57,16 @@ namespace Server.Protocol
 
         public void AvailableLobbiesPacketHandler(ClientWrapper client, C2SRequestAvailableLobbies packet = null)
         {
-            var lobbiesInfo = new S2CAvailableLobbies { ArraySize = Lobbies.Count };
+            var lobbiesInfo = new S2CAvailableLobbies {ArraySize = Lobbies.Count};
             lobbiesInfo.Infos = new S2CAvailableLobbies.LobbyInfo[lobbiesInfo.ArraySize];
 
             var lobbyNumber = 0;
-            foreach(var (_, lobbyValue) in Lobbies)
+            foreach (var (_, lobbyValue) in Lobbies)
             {
                 lobbiesInfo.Infos[lobbyNumber] = new S2CAvailableLobbies.LobbyInfo
                 {
-                    SlotCount = (uint)lobbyValue.LobbySize,
-                    SlotsOccupied = (uint)lobbyValue.ConnectedPlayerCount,
+                    SlotCount = (uint) lobbyValue.LobbySize,
+                    SlotsOccupied = (uint) lobbyValue.ConnectedPlayerCount,
                     Id = lobbyValue.Id
                 };
 
@@ -89,12 +90,17 @@ namespace Server.Protocol
             }
         }
 
+        public void ExecuteCard(ClientWrapper client, C2SExecuteCard packet)
+        {
+            client.SendPacket(new S2CGiveCardsFromDeck {Card = new ActionCard(0)});
+        }
+
         public void Halt() => _token.Cancel();
 
         public void Listen(int port)
         {
             _token = new CancellationTokenSource();
-            
+
             _net.Start(port);
 
             while (!_token.IsCancellationRequested)
@@ -102,7 +108,7 @@ namespace Server.Protocol
                 HandlerBus.Update();
                 _net.PollEvents();
 
-                foreach(var lobby in Lobbies)
+                foreach (var lobby in Lobbies)
                     lobby.Value.Update(15);
 
                 Thread.Sleep(15);
@@ -146,12 +152,12 @@ namespace Server.Protocol
                 return;
 
             var data = reader.GetRemainingBytes();
-            
+
             if (client.Encryption != null)
                 data = client.Encryption.DecryptByteBuffer(data);
 
             Console.WriteLine("Received " + string.Join(" ", data.Select(x => x.ToString("X2"))));
-            
+
             using var stream = new MemoryStream(data);
             var octetReader = new OctetReader(stream);
 
@@ -162,7 +168,7 @@ namespace Server.Protocol
                 Console.WriteLine($"Malformed packet from {peer.EndPoint} of length {data.Length}");
                 return;
             }
-            
+
             HandlerBus.HandlePacket(client, packet);
         }
     }

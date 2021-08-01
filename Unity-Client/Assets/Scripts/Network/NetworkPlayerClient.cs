@@ -1,7 +1,4 @@
-﻿using Core.Cards;
-using Core.Entities;
-using Core.Utils;
-using UnityEngine;
+﻿using Core.Entities;
 
 namespace MagicCardGame.Network
 {
