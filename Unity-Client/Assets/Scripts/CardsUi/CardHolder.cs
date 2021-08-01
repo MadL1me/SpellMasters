@@ -30,25 +30,25 @@ namespace MagicCardGame
 
         private void FirstFilling()
         {
-            for (int i = 0; i < Slots.Length; i++)
+            for (var i = 0; i < Slots.Length; i++)
                 PutCard(BindedDeck.AskForCard(), i);
         }
 
         private Vector2 CalculateCardSlotOffset(int index)
         {
-            Vector2 cardSlotSize = new Vector2(Rect.sizeDelta.x / Capacity, 0);
-            Vector2 cardPosition = new Vector2();
+            var cardSlotSize = new Vector2(Rect.sizeDelta.x / Capacity, 0);
+            var cardPosition = new Vector2();
 
             cardPosition.x = cardSlotSize.x * index + cardSlotSize.x / 2;
             cardPosition.y = 0;
 
-            Vector2 positionRelativeToCenter = (Vector2) transform.position - Rect.sizeDelta / 2 + cardPosition;
+            var positionRelativeToCenter = (Vector2) transform.position - Rect.sizeDelta / 2 + cardPosition;
             return positionRelativeToCenter;
         }
 
         protected void InitSlots()
         {
-            for (int i = 0; i < Capacity; i++)
+            for (var i = 0; i < Capacity; i++)
             {
                 GameObject slotGameObject = CardSlot.Create(this, CalculateCardSlotOffset(i));
                 Slots[i] = slotGameObject.GetComponent<CardSlot>();
@@ -57,10 +57,10 @@ namespace MagicCardGame
 
         public void CardWasClicked(CardElement clickedCard)
         {
-            bool wasFound = false;
+            var wasFound = false;
             int cardIndex = -1;
 
-            for (int i = 0; i < Slots.Length; i++)
+            for (var i = 0; i < Slots.Length; i++)
             {
                 if (Slots[i].Card == clickedCard)
                 {

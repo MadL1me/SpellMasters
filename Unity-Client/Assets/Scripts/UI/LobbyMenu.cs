@@ -1,7 +1,5 @@
 using Core.Protocol.Packets;
 using MagicCardGame.Assets.Scripts.Protocol;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,52 +14,48 @@ namespace MagicCardGame
 
         public GameObject LobbyButtonPrefab;
 
-        private void UpdateButtonClicked()
+        private static void UpdateButtonClicked()
         {
-            foreach (Transform child in ContentZone.transform)
-            {
-                Destroy(child.gameObject);
-            }
             NetworkProvider.Connection.SendPacket(new C2SRequestAvailableLobbies());
         }
 
-        private void CreateButtonClicked()
+        private static void CreateButtonClicked()
         {
-            NetworkProvider.Connection.SendPacket(new C2SCreateLobby { slotCount = 1 });
+            NetworkProvider.Connection.SendPacket(new C2SCreateLobby {slotCount = 1});
         }
 
-        void JoinNthLobby(ulong id)
+        private static void JoinNthLobby(ulong id)
         {
-            NetworkProvider.Connection.SendPacketWithCallback(new C2SJoinLobby { Id = id }, (connection, packet) => { });
+            NetworkProvider.Connection.SendPacketWithCallback(new C2SJoinLobby {Id = id}, (connection, packet) => { });
         }
-
+        
+        
+        
         public void AvailableLobbiesPacketHandler(ServerConnection server, S2CAvailableLobbies lobbies)
         {
+            foreach (Transform child in ContentZone.transform)
+                Destroy(child.gameObject);
+            if (lobbies.Infos.Length == 0)
+                NetworkProvider.Connection.SendPacket(new C2SCreateLobby {slotCount = 1});
 
-            for (int i = 0; i < lobbies.Infos.Length; i++)
+            foreach (var lobbyInfo in lobbies.Infos)
             {
-                GameObject newLobby = Instantiate(LobbyButtonPrefab);
+                GameObject newLobby = Instantiate(LobbyButtonPrefab, ContentZone.transform);
 
-                Button newlobbyButton = newLobby.GetComponent<Button>();
-                ulong lobbyID = lobbies.Infos[i].Id;
+                var newlobbyButton = newLobby.GetComponent<Button>();
+                ulong lobbyID = lobbyInfo.Id;
                 newlobbyButton.onClick.AddListener(delegate { JoinNthLobby(lobbyID); });
 
-                TMP_Text text = newLobby.GetComponentInChildren<TMP_Text>();
-                text.SetText($"0 / {lobbies.Infos[i].SlotCount}");
-
-                newLobby.transform.SetParent(ContentZone.transform);
+                var text = newLobby.GetComponentInChildren<TMP_Text>();
+                text.SetText($"{lobbyInfo.SlotsOccupied} / {lobbyInfo.SlotCount}");
             }
         }
-        void Start()
+
+        private void Start()
         {
             UpdateButton.onClick.AddListener(UpdateButtonClicked);
             CreateButton.onClick.AddListener(CreateButtonClicked);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
+            NetworkProvider.Connection.SendPacket(new C2SRequestAvailableLobbies());
         }
     }
 }

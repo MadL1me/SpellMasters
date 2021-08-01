@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Core.Protocol.Packets
+﻿namespace Core.Protocol.Packets
 {
 
     public class S2CLobbyInfo : S2CPacketBase

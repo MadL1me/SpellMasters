@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
-using Core.Protocol;
+﻿using Core.Protocol;
 using Core.Protocol.Packets;
 using MagicCardGame.Assets.Scripts.GameLogic;
 using MagicCardGame.Network;
-using UnityEngine;
 
 namespace MagicCardGame.Assets.Scripts.Protocol
 {

@@ -1,6 +1,5 @@
 using Core.Cards;
 using MagicCardGame.Assets.Scripts.GameLogic;
-using MagicCardGame.Network;
 using UnityEngine;
 
 namespace MagicCardGame
@@ -10,6 +9,7 @@ namespace MagicCardGame
         public CardElement AskForCard()
         {
             var askedCardType = QueryCardFromDeck();
+            Debug.Log(askedCardType.SharedData.CardName);
             var card = CardElement.CreateFromActionCard(askedCardType);
             card.transform.position = transform.position;
 

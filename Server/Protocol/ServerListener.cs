@@ -47,7 +47,7 @@ namespace Server.Protocol
 
         public void CreateLobbyOnRequestPacketHandler(ClientWrapper client, C2SCreateLobby packet)
         {
-            Lobby newLobby = new Lobby((int)packet.slotCount);
+            var newLobby = new Lobby((int)packet.slotCount);
             Lobbies.Add(newLobby.Id, newLobby);
 
             AvailableLobbiesPacketHandler(client);
@@ -55,17 +55,17 @@ namespace Server.Protocol
 
         public void AvailableLobbiesPacketHandler(ClientWrapper client, C2SRequestAvailableLobbies packet = null)
         {
-            S2CAvailableLobbies lobbiesInfo = new S2CAvailableLobbies { ArraySize = Lobbies.Count };
+            var lobbiesInfo = new S2CAvailableLobbies { ArraySize = Lobbies.Count };
             lobbiesInfo.Infos = new S2CAvailableLobbies.LobbyInfo[lobbiesInfo.ArraySize];
 
-            int lobbyNumber = 0;
-            foreach(KeyValuePair<ulong, Lobby> lobby in Lobbies)
+            var lobbyNumber = 0;
+            foreach(var (_, lobbyValue) in Lobbies)
             {
                 lobbiesInfo.Infos[lobbyNumber] = new S2CAvailableLobbies.LobbyInfo
                 {
-                    SlotCount = (uint)lobby.Value.LobbySize,
-                    SlotsOccupied = (uint)lobby.Value.ConnectedPlayerCount,
-                    Id = lobby.Value.Id
+                    SlotCount = (uint)lobbyValue.LobbySize,
+                    SlotsOccupied = (uint)lobbyValue.ConnectedPlayerCount,
+                    Id = lobbyValue.Id
                 };
 
                 lobbyNumber++;
@@ -76,15 +76,16 @@ namespace Server.Protocol
 
         public void LobbyJoinPacketHandler(ClientWrapper client, C2SJoinLobby packet)
         {
-            bool res = Lobbies.TryGetValue(packet.Id, out Lobby lobby);
-            if(!res)
+            if (Lobbies.TryGetValue(packet.Id, out var lobby))
+            {
+                lobby.LobbyJoinPacketHandler(client, packet);
+            }
+            else
             {
                 throw new Exception("SANITY CHECK DEBUG KILL ME");
                 client.RespondWithError(packet, 10001);
                 return;
             }
-
-            lobby.LobbyJoinPacketHandler(client, packet);
         }
 
         public void Halt() => _token.Cancel();
@@ -100,7 +101,7 @@ namespace Server.Protocol
                 HandlerBus.Update();
                 _net.PollEvents();
 
-                foreach(KeyValuePair<ulong, Lobby> lobby in Lobbies)
+                foreach(var lobby in Lobbies)
                     lobby.Value.Update(15);
 
                 Thread.Sleep(15);

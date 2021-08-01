@@ -10,8 +10,7 @@ namespace MagicCardGame
 
         public static GameObject Create(CardHolder holder, Vector2 position)
         {
-            var slotObject = new GameObject();
-            slotObject.name = "Slot";
+            var slotObject = new GameObject {name = "Slot"};
             var component = slotObject.AddComponent<CardSlot>();
             component.Rect = slotObject.AddComponent<RectTransform>();
 
