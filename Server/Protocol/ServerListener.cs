@@ -42,7 +42,8 @@ namespace Server.Protocol
 
         private void InitLobbies()
         {
-            Lobbies = new Dictionary<ulong, Lobby>();
+            var newLobby = new Lobby(1);
+            Lobbies = new Dictionary<ulong, Lobby> {{newLobby.Id, newLobby}};
         }
 
         public void CreateLobbyOnRequestPacketHandler(ClientWrapper client, C2SCreateLobby packet)

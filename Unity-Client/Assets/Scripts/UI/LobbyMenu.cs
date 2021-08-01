@@ -35,8 +35,6 @@ namespace MagicCardGame
         {
             foreach (Transform child in ContentZone.transform)
                 Destroy(child.gameObject);
-            if (lobbies.Infos.Length == 0)
-                NetworkProvider.Connection.SendPacket(new C2SCreateLobby {slotCount = 1});
 
             foreach (var lobbyInfo in lobbies.Infos)
             {
