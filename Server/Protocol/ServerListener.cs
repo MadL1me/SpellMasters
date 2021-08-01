@@ -19,17 +19,16 @@ namespace Server.Protocol
         private CancellationTokenSource _token;
         private ClientRegistry _registry;
 
-        public ServerPacketBus HandlerBus { get; protected set; }
+        public event Action OnUpdate;
+        public event Action<ClientWrapper, IPacket> OnHandlePacket; 
         
-        public Dictionary<ulong, Lobby> Lobbies { get; protected set; }
+        public ServerPacketBus HandlerBus { get; protected set; }
         
         public ServerListener(ClientRegistry registry, ServerPacketBus handlerBus)
         {
             _registry = registry;
             HandlerBus = handlerBus;
             HandlerBus.CreateCallbackDriver(300, new ServerCallbackDispatcher());
-
-            InitLobbies();
             
             var evt = new EventBasedNetListener();
             _net = new NetManager(evt);
@@ -38,55 +37,6 @@ namespace Server.Protocol
             evt.PeerConnectedEvent += HandlePeerConnected;
             evt.PeerDisconnectedEvent += HandlePeerDisconnected;
             evt.NetworkReceiveEvent += HandleNetworkReceive;
-        }
-
-        private void InitLobbies()
-        {
-            var newLobby = new Lobby(1);
-            Lobbies = new Dictionary<ulong, Lobby> {{newLobby.Id, newLobby}};
-        }
-
-        public void CreateLobbyOnRequestPacketHandler(ClientWrapper client, C2SCreateLobby packet)
-        {
-            var newLobby = new Lobby((int)packet.slotCount);
-            Lobbies.Add(newLobby.Id, newLobby);
-
-            AvailableLobbiesPacketHandler(client);
-        }
-
-        public void AvailableLobbiesPacketHandler(ClientWrapper client, C2SRequestAvailableLobbies packet = null)
-        {
-            var lobbiesInfo = new S2CAvailableLobbies { ArraySize = Lobbies.Count };
-            lobbiesInfo.Infos = new S2CAvailableLobbies.LobbyInfo[lobbiesInfo.ArraySize];
-
-            var lobbyNumber = 0;
-            foreach(var (_, lobbyValue) in Lobbies)
-            {
-                lobbiesInfo.Infos[lobbyNumber] = new S2CAvailableLobbies.LobbyInfo
-                {
-                    SlotCount = (uint)lobbyValue.LobbySize,
-                    SlotsOccupied = (uint)lobbyValue.ConnectedPlayerCount,
-                    Id = lobbyValue.Id
-                };
-
-                lobbyNumber++;
-            }
-
-            client.SendPacket(lobbiesInfo);
-        }
-
-        public void LobbyJoinPacketHandler(ClientWrapper client, C2SJoinLobby packet)
-        {
-            if (Lobbies.TryGetValue(packet.Id, out var lobby))
-            {
-                lobby.LobbyJoinPacketHandler(client, packet);
-            }
-            else
-            {
-                throw new Exception("SANITY CHECK DEBUG KILL ME");
-                client.RespondWithError(packet, 10001);
-                return;
-            }
         }
 
         public void Halt() => _token.Cancel();
@@ -102,8 +52,7 @@ namespace Server.Protocol
                 HandlerBus.Update();
                 _net.PollEvents();
 
-                foreach(var lobby in Lobbies)
-                    lobby.Value.Update(15);
+                OnUpdate?.Invoke();
 
                 Thread.Sleep(15);
             }
@@ -164,6 +113,7 @@ namespace Server.Protocol
             }
             
             HandlerBus.HandlePacket(client, packet);
+            OnHandlePacket?.Invoke(client, packet);
         }
     }
 }

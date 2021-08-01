@@ -1,4 +1,5 @@
-﻿using Core.Protocol;
+﻿using System;
+using Core.Protocol;
 using Core.Protocol.Packets;
 
 namespace Server.Protocol
@@ -24,15 +25,25 @@ namespace Server.Protocol
             RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SClientInfo>((client, packet) =>
                 client.Respond(packet, new S2CClientRegistrationConfirm
                     {PlayerNetworkId = (uint) (1000000 + client.Id)})));
-
+        }
+    }
+    
+    public class LobbiesServerPacketBus : PacketHandlerBus<ClientWrapper>
+    {
+        public event Action<ClientWrapper, C2SCreateLobby> OnCreateLobbyRequest;
+        public event Action<ClientWrapper, C2SJoinLobby> OnJoinLobbyRequest;
+        public event Action<ClientWrapper, C2SRequestAvailableLobbies> OnRequestAvailableLobbies;
+        
+        public LobbiesServerPacketBus() 
+        {
             RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SCreateLobby>((client, packet) =>
-                client.Server.CreateLobbyOnRequestPacketHandler(client, packet)));
+                OnCreateLobbyRequest?.Invoke(client, packet)));
 
             RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SJoinLobby>((client, packet) =>
-                client.Server.LobbyJoinPacketHandler(client, packet)));
+                OnJoinLobbyRequest?.Invoke(client, packet)));
 
             RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SRequestAvailableLobbies>((client, packet) =>
-                client.Server.AvailableLobbiesPacketHandler(client, packet)));
+                OnRequestAvailableLobbies?.Invoke(client, packet)));
         }
     }
 }
