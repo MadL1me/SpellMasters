@@ -11,7 +11,6 @@ namespace MagicCardGame
         [SerializeField] private TMP_Text _progressText;
         [SerializeField] private TMP_Text _errorText;
 
-        private int _requestedConnect;
         private string _hostName;
         private int _port;
         private Vector2 _startPos;
@@ -43,22 +42,20 @@ namespace MagicCardGame
                 _addressInput.gameObject.SetActive(false);
                 transform.position = new Vector3(3000, 0);
 
-                _requestedConnect = 2;
+                TryConnect(2);
             });
         }
 
-        private void Update()
+        private void TryConnect(int tries)
         {
-            if (_requestedConnect > 0)
+            while(tries > 0)
             {
-                _requestedConnect--;
-
-                if (_requestedConnect != 0)
-                    return;
-
-
-                if (!NetworkProvider.Connect(_hostName, _port))
+                if (NetworkProvider.Connect(_hostName, _port))
+                    tries = 0;
+                else
                     ShowError("Failed to connect");
+                
+                tries--;
             }
         }
 
