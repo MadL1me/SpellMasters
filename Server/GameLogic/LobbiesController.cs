@@ -5,6 +5,12 @@ using Server.Protocol;
 
 namespace Server.GameLogic
 {
+    /// <summary>
+    /// Represents logic of interaction with lobbies. <br/>
+    /// This class should also be divided, when matchmaker would be done <br/>
+    /// I moved this out of ServerListener, because we don't want to have god-class, and it also
+    /// makes more sense in solid principles.
+    /// </summary>
     public class LobbiesController
     {
         public Dictionary<ulong, Lobby> Lobbies { get; protected set; }

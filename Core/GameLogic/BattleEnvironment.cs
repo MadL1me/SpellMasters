@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Core.Cards.Projectiles;
 using Core.Collision;
 using Core.Entities;
@@ -6,6 +7,13 @@ using Core.Utils;
 
 namespace Core.GameLogic
 {
+    public enum BattleEnvironmentState
+    {
+        NotStarted,
+        InGame,
+        Finished
+    }
+    
     /// <summary>
     /// Represents main controller or gameloop for gameplay logic. It runs and must have unique instance
     /// for each players match.
@@ -21,9 +29,20 @@ namespace Core.GameLogic
         public Dictionary<MobNetworkedEntity, EntityEffectsController> EffectsControllers { get; protected set; } =
             new Dictionary<MobNetworkedEntity, EntityEffectsController>();
 
+        public BattleEnvironmentState State { get; protected set; }
+        
         public BattleEnvironment(int lobbySize)
         {
             NetworkPlayers = new NetworkedPlayer[lobbySize];
+            Start();
+        }
+
+        /// <summary>
+        /// TODO: Make start only if lobby is full
+        /// </summary>
+        public void Start()
+        {            
+            State = BattleEnvironmentState.InGame;
         }
         
         public void Update(float deltaTime)
@@ -32,8 +51,39 @@ namespace Core.GameLogic
             
             foreach (var entityEffectsController in EffectsControllers)
                 entityEffectsController.Value.UpdateEffects(deltaTime);
+            
+            CheckForWinner();
+        }
+
+        /// <summary>
+        /// Currently checks for 2 players duel, so i suppose we need two more battle environments soon:
+        /// DuelBattleEnv and TeamBattleEnv to check this stuff differently
+        /// </summary>
+        private void CheckForWinner()
+        {
+            if (NetworkPlayers.Count(player => player.IsDead) != NetworkPlayers.Length-1)
+                return;
+            
+            State = BattleEnvironmentState.Finished;
         }
         
+        /// <summary>
+        /// Gets guy who hasn't died if match ended
+        /// </summary>
+        /// <returns></returns>
+        public NetworkedPlayer GetWinner()
+        {
+            if (State != BattleEnvironmentState.Finished)
+                return null;
+
+            return NetworkPlayers.Single(player => !player.IsDead);
+        }
+
+        public void MovePlayer(NetworkedPlayer player)
+        {
+            
+        }
+
         public NetworkedPlayer GetClosestCharacter(NetVector2 position)
         {
             var minDistance = float.MaxValue;

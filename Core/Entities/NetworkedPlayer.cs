@@ -13,6 +13,7 @@ namespace Core.Entities
         public long MaxHealth { get; set; }
         public int MaxEnergy { get; set; }
         public string DisplayedName { get; set; }
+        public bool IsDead => Health <= 0;
         
         public ActionCardsQueueController CardsQueueController { get; set; }
 
