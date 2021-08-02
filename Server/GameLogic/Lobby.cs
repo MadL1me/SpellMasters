@@ -82,7 +82,8 @@ namespace Server.GameLogic
 
         public void Update(float time)
         {
-            Environment.Update(time);
+            if(IsLobbyFull)
+                Environment.Update(time);
         }
     }
 }
