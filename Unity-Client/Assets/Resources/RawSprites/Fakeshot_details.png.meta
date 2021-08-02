@@ -8,6 +8,12 @@ TextureImporter:
   - first:
       213: 6262812799713212796
     second: Card2
+  - first:
+      213: 7133480753685521097
+    second: Healthbar_frame
+  - first:
+      213: 3916648373740689642
+    second: Healthbar_filler
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -38,7 +44,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -117,7 +123,7 @@ TextureImporter:
         width: 1245
         height: 1657
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -138,7 +144,7 @@ TextureImporter:
         width: 878
         height: 1115
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -146,6 +152,48 @@ TextureImporter:
       bones: []
       spriteID: c79fcad3f0bf9e650800000000000000
       internalID: 6262812799713212796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healthbar_frame
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 4635
+        width: 3702
+        height: 479
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c2e28f53f63ff260800000000000000
+      internalID: 7133480753685521097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healthbar_filler
+      rect:
+        serializedVersion: 2
+        x: 487
+        y: 5173
+        width: 1809
+        height: 185
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 83, y: 0, z: 54, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae8dce2d1faba5630800000000000000
+      internalID: 3916648373740689642
       vertices: []
       indices: 
       edges: []
