@@ -32,9 +32,10 @@ namespace MagicCardGame
             var cardElementObject = Instantiate(CardUIHandler.Hr.CardElementPrefab);
             var component = cardElementObject.GetComponent<CardElement>();
 
-            component.Image = image;
-            var imageComponent = cardElementObject.GetComponentInChildren<Image>();
-            imageComponent.sprite = image;
+            //component.Image = image;
+            var child = cardElementObject.transform.Find("Image").GetComponent<Image>();
+            var imageComponent = cardElementObject.GetComponentInChildren<SpriteRenderer>();
+            child.sprite = image;
             component.CardType = cardData;
 
             return component;
