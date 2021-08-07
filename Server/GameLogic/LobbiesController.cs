@@ -28,10 +28,10 @@ namespace Server.GameLogic
             Lobbies = new Dictionary<ulong, Lobby> {{newLobby.Id, newLobby}};
         }
 
-        public void UpdateLobbies()
+        public void UpdateLobbies(float delta)
         {   
             foreach(var lobby in Lobbies)
-                lobby.Value.Update(15);
+                lobby.Value.Update(delta);
         }
 
         public void CreateLobbyOnRequestPacketHandler(ClientWrapper client, C2SCreateLobby packet)

@@ -22,7 +22,7 @@ namespace Core.GameLogic
     /// </summary>
     public class BattleEnvironment
     {
-        public NetworkedPlayer[] NetworkPlayers { get; set; }
+        public virtual NetworkedPlayer[] NetworkPlayers { get; set; }
        
         public List<Projectile> Projectiles { get; protected set; }
         public PhysicsEngine PhysicsEngine { get; protected set; } = new PhysicsEngine();

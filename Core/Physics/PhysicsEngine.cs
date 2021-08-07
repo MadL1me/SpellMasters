@@ -16,6 +16,17 @@ namespace Core.Collision
             CheckCollisions();
         }
 
+        public void AddObjectToWorld(GravityComponent component)
+        {
+            GravityObjects.Add(component);
+        }
+
+        public void AddObjectToWorld(BoxCollider component)
+        {
+            Colliders.Add(component);
+        }
+
+
         private void CheckCollisions()
         {
             for (var i = 0; i < Colliders.Count; i++)

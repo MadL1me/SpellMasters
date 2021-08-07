@@ -23,7 +23,9 @@ namespace Core.Protocol
             RegisterPacketType<C2SCreateLobby>();                  // 0x000C
             RegisterPacketType<S2CLobbyInfo>();                    // 0x000D
             RegisterPacketType<S2CAvailableLobbies>();             // 0x000E
-            RegisterPacketType<C2SRequestAvailableLobbies>();
+            RegisterPacketType<C2SRequestAvailableLobbies>();      // 0x000F
+            RegisterPacketType<S2CPlayersRegularData>();            // 0x0010
+
 
             RegisterPacketType<S2CErrorPacket>();                  // 0x00E0
             RegisterPacketType<C2SErrorPacket>();                  // 0x00E1

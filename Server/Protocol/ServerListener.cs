@@ -53,6 +53,10 @@ namespace Server.Protocol
                 HandlerBus.Update();
                 _net.PollEvents();
 
+                //we assume deltaTime between each iteration of the loop is 15ms
+                //don't forget to make realistic loop afer completing the prototype 😊
+                LobbiesController.UpdateLobbies(15);
+
                 Thread.Sleep(15);
             }
 

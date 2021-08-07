@@ -7,6 +7,8 @@ namespace Core.Entities
     /// </summary>
     public abstract class MobNetworkedEntity : PhysicalNetworkedEntity
     {
+        //S2CPlayersRegularData relies on this data to transmit it across the network
+        //If you change it,then change in the S2CPlayersRegularData then
         public virtual long Health { get; set; }
         public virtual int Energy { get; set; }
         

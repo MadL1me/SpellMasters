@@ -19,7 +19,7 @@ namespace Server.GameLogic
     {
         public ulong Id { get; }
         public LobbyStatus Status { get; set; }
-        public BattleEnvironment Environment { get; protected set; }
+        public BattleEnvironmentServer Environment { get; protected set; }
         public int LobbySize { get; protected set; }
         public int ConnectedPlayerCount { get; protected set; }
         private bool IsLobbyFull => ConnectedPlayerCount >= LobbySize;
@@ -29,7 +29,7 @@ namespace Server.GameLogic
             Id = IdentificationController<Lobby>.GetNextID();
             Status = LobbyStatus.WaitingForPlayers;
             LobbySize = lobbySize;
-            Environment = new BattleEnvironment(LobbySize);
+            Environment = new BattleEnvironmentServer(LobbySize);
         }
 
         private bool AddPlayerToPool(ClientWrapper client)
@@ -50,8 +50,35 @@ namespace Server.GameLogic
                 Environment.NetworkPlayers[ConnectedPlayerCount].CardsQueueController.NextDropCards
                     .Enqueue(new ActionCard(0));
 
+            //this must be done everytime a player is born anywhere across the code kindgom
+            Environment.NetworkPlayers[ConnectedPlayerCount].BindToPhysicalEngine(Environment.PhysicsEngine);
+
             ConnectedPlayerCount++;
             return true;
+        }
+
+        /// <summary>
+        /// Sends regular data to all players in the lobby
+        /// </summary>
+        private void PackVolatilePlayersDataAndSend()
+        {
+            S2CPlayersRegularData data = new S2CPlayersRegularData();
+            data.PlayersCount = ConnectedPlayerCount;
+            data.PlayersData = new S2CPlayersRegularData.PlayerVolatileData[data.PlayersCount];
+
+            for(int i = 0; i < Environment.NetworkPlayers.Length; i++)
+            {
+                data.PlayersData[i] = new S2CPlayersRegularData.PlayerVolatileData
+                {
+                    NetworkId = Environment.NetworkPlayers[i].NetworkId,
+                    Health = Environment.NetworkPlayers[i].Health,
+                    Energy = Environment.NetworkPlayers[i].Energy,
+                    Position = Environment.NetworkPlayers[i].Position
+                };
+            }
+
+            foreach (NetworkPlayerServer player in Environment.NetworkPlayers)
+                player.BoundClient.SendPacket(data);
         }
 
         private void StartGame(ClientWrapper client)
@@ -82,8 +109,11 @@ namespace Server.GameLogic
 
         public void Update(float time)
         {
-            if(IsLobbyFull)
+            if (IsLobbyFull)
+            {
                 Environment.Update(time);
+                PackVolatilePlayersDataAndSend();
+            }
         }
     }
 }
