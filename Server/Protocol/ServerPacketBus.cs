@@ -25,25 +25,15 @@ namespace Server.Protocol
             RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SClientInfo>((client, packet) =>
                 client.Respond(packet, new S2CClientRegistrationConfirm
                     {PlayerNetworkId = (uint) (1000000 + client.Id)})));
-        }
-    }
-    
-    public class LobbiesServerPacketBus : PacketHandlerBus<ClientWrapper>
-    {
-        public event Action<ClientWrapper, C2SCreateLobby> OnCreateLobbyRequest;
-        public event Action<ClientWrapper, C2SJoinLobby> OnJoinLobbyRequest;
-        public event Action<ClientWrapper, C2SRequestAvailableLobbies> OnRequestAvailableLobbies;
-        
-        public LobbiesServerPacketBus() 
-        {
+
             RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SCreateLobby>((client, packet) =>
-                OnCreateLobbyRequest?.Invoke(client, packet)));
+                client.Server.LobbiesController.CreateLobbyOnRequestPacketHandler(client, packet)));
 
             RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SJoinLobby>((client, packet) =>
-                OnJoinLobbyRequest?.Invoke(client, packet)));
+                client.Server.LobbiesController.LobbyJoinPacketHandler(client, packet)));
 
             RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SRequestAvailableLobbies>((client, packet) =>
-                OnRequestAvailableLobbies?.Invoke(client, packet)));
+                client.Server.LobbiesController.AvailableLobbiesPacketHandler(client, packet)));
         }
     }
 }

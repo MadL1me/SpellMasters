@@ -20,9 +20,7 @@ namespace Server.Protocol
         private CancellationTokenSource _token;
         private ClientRegistry _registry;
 
-        public event Action OnUpdate;
-        public event Action<ClientWrapper, IPacket> OnHandlePacket; 
-        
+        public LobbiesController LobbiesController { get; }
         public ServerPacketBus HandlerBus { get; protected set; }
         
         public ServerListener(ClientRegistry registry, ServerPacketBus handlerBus)
@@ -33,6 +31,8 @@ namespace Server.Protocol
             
             var evt = new EventBasedNetListener();
             _net = new NetManager(evt);
+
+            LobbiesController = new LobbiesController(this);
 
             evt.ConnectionRequestEvent += HandleConnectionRequest;
             evt.PeerConnectedEvent += HandlePeerConnected;
@@ -52,8 +52,6 @@ namespace Server.Protocol
             {
                 HandlerBus.Update();
                 _net.PollEvents();
-
-                OnUpdate?.Invoke();
 
                 Thread.Sleep(15);
             }
@@ -114,7 +112,6 @@ namespace Server.Protocol
             }
 
             HandlerBus.HandlePacket(client, packet);
-            OnHandlePacket?.Invoke(client, packet);
         }
     }
 }

@@ -15,22 +15,10 @@ namespace Server.GameLogic
     {
         public Dictionary<ulong, Lobby> Lobbies { get; protected set; }
         public ServerListener Listener { get; protected set; }
-        public LobbiesServerPacketBus LobbiesServerPacketBus { get; protected set; }
         
-        public LobbiesController(ServerListener listener, LobbiesServerPacketBus lobbiesServerPacketBus)
+        public LobbiesController(ServerListener listener)
         {
-            Listener = listener;
-            
-            LobbiesServerPacketBus = lobbiesServerPacketBus;
-            LobbiesServerPacketBus.CreateCallbackDriver(300, new ServerCallbackDispatcher());
-
-            listener.OnHandlePacket += LobbiesServerPacketBus.HandlePacket;
-            listener.OnUpdate += UpdateLobbies;
-            
-            lobbiesServerPacketBus.OnCreateLobbyRequest += CreateLobbyOnRequestPacketHandler;
-            lobbiesServerPacketBus.OnJoinLobbyRequest += LobbyJoinPacketHandler;
-            lobbiesServerPacketBus.OnRequestAvailableLobbies += AvailableLobbiesPacketHandler;
-            
+            Listener = listener;       
             InitLobbies();
         }
         
@@ -40,10 +28,8 @@ namespace Server.GameLogic
             Lobbies = new Dictionary<ulong, Lobby> {{newLobby.Id, newLobby}};
         }
 
-        private void UpdateLobbies()
-        {
-            LobbiesServerPacketBus.Update();
-            
+        public void UpdateLobbies()
+        {   
             foreach(var lobby in Lobbies)
                 lobby.Value.Update(15);
         }

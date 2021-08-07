@@ -15,9 +15,6 @@ namespace Server
             var bus = new ServerPacketBus();
             var server = new ServerListener(registry, bus);
             
-            var lobbiesBus = new LobbiesServerPacketBus();
-            var lobbiesController = new LobbiesController(server, lobbiesBus);
-            
             server.Listen(9669);
         }
     }
