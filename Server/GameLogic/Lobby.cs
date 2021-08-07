@@ -66,7 +66,7 @@ namespace Server.GameLogic
             data.PlayersCount = ConnectedPlayerCount;
             data.PlayersData = new S2CPlayersRegularData.PlayerVolatileData[data.PlayersCount];
 
-            for(int i = 0; i < Environment.NetworkPlayers.Length; i++)
+            for(var i = 0; i < Environment.NetworkPlayers.Length; i++)
             {
                 data.PlayersData[i] = new S2CPlayersRegularData.PlayerVolatileData
                 {

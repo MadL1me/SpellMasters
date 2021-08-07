@@ -1,4 +1,6 @@
-﻿using Core.GameLogic;
+﻿using System.Collections.Generic;
+using Core.GameLogic;
+using Core.Protocol.Packets;
 using MagicCardGame.Assets.Scripts.Protocol;
 using MagicCardGame.Network;
 using UnityEngine;
@@ -16,18 +18,20 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
         /// Name of the scene to load when in-game
         /// </summary>
         private const string BattleSceneName = "Scenes/BattleScene";
-        
+
         /// <summary>
         /// Currently active environment, may be null if player is not in-game
         /// </summary>
         public static BattleEnvironmentClient Current { get; private set; }
 
         public static uint LobbyId;
-        
+
         public ServerConnection Server { get; private set; }
         public BattleEnvironment SharedEnvironment { get; private set; }
         public NetworkPlayerClient LocalPlayer { get; private set; }
-        
+
+        public List<NetworkPlayerClientView> Views { get; private set; } = new List<NetworkPlayerClientView>();
+
         /// <summary>
         /// Initializes clientside battle env from an environment object provided
         /// by the server
@@ -56,12 +60,14 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
 
                 if (isLocal)
                     LocalPlayer = clientPlayer;
-                
+
                 Addressables.InstantiateAsync("Assets/Prefabs/PlayerPrefab.prefab").Completed += handle =>
                 {
                     var view = handle.Result.GetComponent<NetworkPlayerClientView>();
                     view.NetworkPlayer = clientPlayer;
                     
+                    Views.Add(view);
+
                     if (isLocal)
                         view.MarkAsLocal();
                 };
@@ -77,8 +83,18 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
             clientEnv.SetAsCurrent();
 
             SceneManager.LoadScene(BattleSceneName);
-            
+
             clientEnv.CreateStartingEntities();
+        }
+
+        public void UpdatePlayersFromServer(S2CPlayersRegularData playersData)
+        {
+            for (var i = 0; i < playersData.PlayersCount; i++)
+            {
+                SharedEnvironment.NetworkPlayers[i].Energy = playersData.PlayersData[i].Energy;
+                SharedEnvironment.NetworkPlayers[i].Health = playersData.PlayersData[i].Health;
+                SharedEnvironment.NetworkPlayers[i].Position = playersData.PlayersData[i].Position;
+            }
         }
     }
 }
