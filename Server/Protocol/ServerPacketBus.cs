@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Cards;
 using Core.Protocol;
 using Core.Protocol.Packets;
 
@@ -34,6 +35,9 @@ namespace Server.Protocol
 
             RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SRequestAvailableLobbies>((client, packet) =>
                 client.Server.LobbiesController.AvailableLobbiesPacketHandler(client, packet)));
+            
+            RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SExecuteCard>((client, packet) =>
+                    client.SendPacket(new S2CGiveCardsFromDeck {Card = new ActionCard(0)})));
         }
     }
 }
