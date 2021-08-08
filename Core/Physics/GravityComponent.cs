@@ -18,7 +18,7 @@ namespace Core.Collision
         
         public void Update(float deltaTime)
         {
-            NetworkObject.Position += (NetworkObject.Position + Velocity) * deltaTime;
+            NetworkObject.Position += (Velocity) * deltaTime;
         }
     }
 }

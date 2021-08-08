@@ -11,7 +11,7 @@ namespace Core.Entities
         public BoxCollider Collider { get; }
         public GravityComponent GravityComp { get; }
         
-        public virtual NetVector2 Position
+        public override NetVector2 Position
         {
             get => Collider.Center;
             set => Collider.Center = value;
