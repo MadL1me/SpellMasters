@@ -25,6 +25,7 @@ namespace Core.Protocol
             RegisterPacketType<S2CAvailableLobbies>();             // 0x000E
             RegisterPacketType<C2SRequestAvailableLobbies>();      // 0x000F
             RegisterPacketType<S2CPlayersRegularData>();            // 0x0010
+            RegisterPacketType<C2SCastCard>();                      //0x0011
 
 
             RegisterPacketType<S2CErrorPacket>();                  // 0x00E0

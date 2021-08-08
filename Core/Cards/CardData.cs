@@ -18,11 +18,31 @@ namespace Core.Cards
             var storage = FlyweightStorage<CardData>.Instance;
 
             // 0: MoveCard
-            storage.RegisterData(new CardData
+            storage.RegisterData(new MoveCardData
             {
                 CardName = "moveRight",
-                CardDescription = "Move pipa",
-                EnergyCost = 3
+                CardDescription = "Move pipa right",
+                EnergyCost = 3,
+                Direction = new NetVector2(1, 0),
+                Distance = 5
+            });
+
+            storage.RegisterData(new MoveCardData
+            {
+                CardName = "moveLeft",
+                CardDescription = "Move pipa left",
+                EnergyCost = 3,
+                Direction = new NetVector2(-1, 0),
+                Distance = 5
+            });
+
+            storage.RegisterData(new MoveCardData
+            {
+                CardName = "moveUp",
+                CardDescription = "Move pipa up",
+                EnergyCost = 6,
+                Direction = new NetVector2(0, 1),
+                Distance = 5
             });
         }
     }

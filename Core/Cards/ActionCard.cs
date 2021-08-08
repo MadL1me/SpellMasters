@@ -20,6 +20,9 @@ namespace Core.Cards
         /// <summary>
         /// Called when the player is about to cast the card
         /// </summary>
+        public void ExecuteCastAs<Type>(BattleEnvironment battle, NetworkedPlayer player) where Type : CardBehaviour =>
+            GetCardBehaviourAs<Type>().ExecuteCast(battle, player, this);
+
         public void ExecuteCast(BattleEnvironment battle, NetworkedPlayer player) =>
             GetCardBehaviour().ExecuteCast(battle, player, this);
     }
