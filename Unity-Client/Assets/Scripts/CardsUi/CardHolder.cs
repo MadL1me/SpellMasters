@@ -65,7 +65,7 @@ namespace MagicCardGame
 
         public void CardWasClicked(CardElement clickedCard)
         {
-            var wasFound = false;
+            if(BattleEnvironmentClient.Current.LocalPlayer.CardsQueueController.NextDropCards.Count < 1) return;
             int cardIndex = -1;
 
             for (var i = 0; i < Slots.Length; i++)

@@ -24,8 +24,9 @@ namespace Server.GameLogic
 
         public void CastCardPacketHandler(ClientWrapper client, C2SCastCard packet)
         {
-            ActionCard actionCard = new ActionCard(packet.CardId);
+            var actionCard = new ActionCard(packet.CardId);
             actionCard.ExecuteCast(this, client.RelatedPlayer);
+            client.SendPacket(new S2CGiveCardsFromDeck {Card = new ActionCard(0)});
         }
 
     }
