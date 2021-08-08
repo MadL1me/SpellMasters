@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Cards;
 using Core.Protocol;
 using Core.Protocol.Packets;
 
