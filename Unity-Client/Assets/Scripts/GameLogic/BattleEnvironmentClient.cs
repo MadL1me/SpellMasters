@@ -80,6 +80,8 @@ namespace MagicCardGame.Assets.Scripts.GameLogic
         /// </summary>
         public static void CreateAndLoadScene(ServerConnection server, BattleEnvironment sharedEnv)
         {
+            new CardBehaviourClient(); // load static stuffs
+            
             var clientEnv = new BattleEnvironmentClient(server, sharedEnv);
             clientEnv.SetAsCurrent();
 
