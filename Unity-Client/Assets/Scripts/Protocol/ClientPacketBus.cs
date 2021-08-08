@@ -65,6 +65,10 @@ namespace MagicCardGame.Assets.Scripts.Protocol
 
                 BattleEnvironmentClient.CreateAndLoadScene(connection, packet.BattleEnvironment);
             }));
+            
+            RegisterHandler(new SimplePacketHandler<ServerConnection,S2CPlayersRegularData>((connection, packet) =>
+            {BattleEnvironmentClient.Current.UpdatePlayersFromServer(packet);
+            }));
 
             RegisterHandler(new SimplePacketHandler<ServerConnection, S2CAvailableLobbies>((connection, packet) =>
             {
