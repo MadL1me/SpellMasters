@@ -34,6 +34,9 @@ namespace Server.Protocol
 
             RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SRequestAvailableLobbies>((client, packet) =>
                 client.Server.LobbiesController.AvailableLobbiesPacketHandler(client, packet)));
+
+            RegisterHandler(new SimplePacketHandler<ClientWrapper, C2SCastCard>((client, packet) =>
+                client.RelatedLobby.Environment.CastCardPacketHandler(client, packet)));
         }
     }
 }

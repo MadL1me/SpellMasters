@@ -53,6 +53,9 @@ namespace Server.GameLogic
             //this must be done everytime a player is born anywhere across the code kindgom
             Environment.NetworkPlayers[ConnectedPlayerCount].BindToPhysicalEngine(Environment.PhysicsEngine);
 
+            client.RelatedPlayer = (NetworkPlayerServer)Environment.NetworkPlayers[ConnectedPlayerCount];
+            client.RelatedLobby = this;
+            
             ConnectedPlayerCount++;
             return true;
         }

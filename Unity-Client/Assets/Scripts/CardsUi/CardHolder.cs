@@ -85,7 +85,7 @@ namespace MagicCardGame
             BattleEnvironment environment = BattleEnvironmentClient.Current.SharedEnvironment;
 
             //UNCOMMENT THIS THEN CARD CASTING WILL WORK
-            //Slots[cardIndex].Card.CardType.ExecuteCast(environment, networkPlayer);
+            Slots[cardIndex].Card.CardType.ExecuteCast(environment, networkPlayer);
 
             NetworkProvider.Connection.SendPacket(new C2SExecuteCard
             {

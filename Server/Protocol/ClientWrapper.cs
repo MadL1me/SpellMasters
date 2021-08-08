@@ -3,6 +3,7 @@ using System.Linq;
 using Core.Protocol;
 using Core.Protocol.Packets;
 using LiteNetLib;
+using Server.GameLogic;
 
 namespace Server.Protocol
 {
@@ -22,6 +23,16 @@ namespace Server.Protocol
         
         private ClientRegistry _registry;
         private NetPeer _peer;
+
+        /// <summary>
+        /// This field is set up when the player joins the lobby
+        /// </summary>
+        public NetworkPlayerServer RelatedPlayer { get; set; }
+
+        /// <summary>
+        /// This field is set up when the player joins the lobby
+        /// </summary>
+        public Lobby RelatedLobby { get; set; }
 
         public ClientWrapper(int id, ServerListener net, ClientRegistry registry, NetPeer peer)
         {

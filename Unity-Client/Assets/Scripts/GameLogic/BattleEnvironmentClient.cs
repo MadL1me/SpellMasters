@@ -7,12 +7,13 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
+
 namespace MagicCardGame.Assets.Scripts.GameLogic
 {
     /// <summary>
     /// Represents a clientside battle environment
     /// </summary>
-    public class BattleEnvironmentClient : MonoBehaviour
+    public class BattleEnvironmentClient
     {
         /// <summary>
         /// Name of the scene to load when in-game
